@@ -5,7 +5,12 @@ description = "Control repository for Ash Archive dual-edition Morrowind modlist
 requires-python = ">=3.11"
 dependencies = [
   "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
   "pytest>=8.0",
+  "ruff>=0.4",
 ]
 
 [tool.pytest.ini_options]
