@@ -2,6 +2,20 @@
 
 `shared/sourced-mods.yaml` is an **intake desk** for candidates, not a list of accepted mods.
 
+
+## Canonical YAML schema
+
+`shared/sourced-mods.yaml` must use a **top-level `sourced_candidates:` list**.
+
+```yaml
+sourced_candidates:
+  - id: example-mod-id
+    thematic_bucket: dream-sixth-house
+    # ...remaining required candidate fields
+```
+
+Do not use bucket-grouped shapes like `buckets: -> candidates:` in this file.
+
 ## Candidate intake
 
 For each sourced candidate:
