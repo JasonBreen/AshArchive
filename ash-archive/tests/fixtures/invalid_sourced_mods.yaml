@@ -1,0 +1,20 @@
+sourced_candidates:
+  - id: Sample Candidate
+    name: Invalid Candidate
+    candidate_status: accepted
+    thematic_bucket: weather
+    intended_editions:
+      - both
+    engine_notes: "Invalid enum fixture"
+    source_type: unknown
+    source_url: ""
+    source_confidence: unverified
+    compatibility_status: unverified
+    evidence_notes: "Intentionally invalid fixture."
+    thematic_reason: "Fixture test"
+    risk_level: unknown
+    promotion_target: undecided
+    promotion_notes: ""
+    reviewed_by: []
+    last_reviewed: ""
+    related_manifest_ids: []

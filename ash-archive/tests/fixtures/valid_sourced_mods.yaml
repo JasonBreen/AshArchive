@@ -1,0 +1,22 @@
+sourced_candidates:
+  - id: sample-candidate
+    name: Sample Candidate
+    candidate_status: candidate
+    thematic_bucket: foundation
+    intended_editions:
+      - openmw
+    engine_notes: "Candidate-only note"
+    source_type: documentation
+    source_url: "https://example.invalid/docs"
+    source_confidence: likely
+    compatibility_status: unverified
+    evidence_notes: "Documented as candidate only; testing pending."
+    thematic_reason: "Supports foundation stability goals."
+    risk_level: low
+    promotion_target: openmw
+    promotion_notes: "Needs human review before promotion."
+    reviewed_by:
+      - Maintainer A
+    last_reviewed: "2026-04-25"
+    related_manifest_ids:
+      - sample-manifest-id

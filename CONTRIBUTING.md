@@ -94,6 +94,12 @@ When updating sourcing records:
 3. Do not invent URLs, archive names, or version identifiers.
 4. Do not mark mods accepted without review/testing notes.
 
+
+## Sourced-mod candidate workflow
+
+Use `ash-archive/shared/sourced-mod-workflow.md` when triaging or promoting sourced candidates.
+Treat `shared/sourced-mods.yaml` as candidate intake metadata, not an accepted-mod manifest.
+
 ## Documentation expectations
 
 1. Keep docs aligned with current repo state (planning/scaffold where applicable).
