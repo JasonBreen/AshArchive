@@ -1,84 +1,166 @@
-sourced_candidates:
-  - id: patch-for-purists
-    name: Patch for Purists
-    candidate_status: candidate
-    thematic_bucket: foundation
-    intended_editions:
-      - openmw
-      - mwse
-    engine_notes: "Core bug-fix baseline candidate for both editions; verify engine-specific edge cases before promotion."
-    source_type: unknown
-    source_url: ""
-    source_confidence: unverified
-    compatibility_status: unverified
-    evidence_notes: "Candidate carried from manual research notes; no linked source record in this file yet."
-    thematic_reason: "Supports stable baseline world-state before atmosphere and horror layering."
-    risk_level: low
-    promotion_target: both
-    promotion_notes: "Hold at candidate until evidence and compatibility notes are recorded."
-    reviewed_by: []
-    last_reviewed: ""
-    related_manifest_ids: []
+buckets:
+  - name: dream-sixth-house
+    candidates:
+      - id: the-dream-is-the-door
+        name: The Dream is the Door
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/47423
+        source_confidence: verified
+        thematic_bucket: dream-sixth-house
+        intended_editions: [openmw, mwse]
+        compatibility_status: needs-testing
+        promotion_target: both
+        risk_level: medium
+        thematic_reason: Cavern of the Incarnate entrance becomes visible only at twilight, aligning prophecy and spatial access.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes the Cavern of the Incarnate entrance becoming visible only at twilight.
+        engine_notes: Nexus page lists both OpenMW and MWSE tags.
+        promotion_notes: Verify quest progression behavior around Cavern of the Incarnate timing in both OpenMW and MWSE, and confirm no blockers for main-quest access.
 
-  - id: the-dream-is-the-door
-    name: The Dream is the Door
-    candidate_status: candidate
-    thematic_bucket: dream-sixth-house
-    intended_editions:
-      - openmw
-      - mwse
-    engine_notes: "Concept-defining candidate; implementation may diverge by edition."
-    source_type: unknown
-    source_url: ""
-    source_confidence: unverified
-    compatibility_status: unverified
-    evidence_notes: "Candidate carried from manual research notes; source and compatibility evidence pending."
-    thematic_reason: "Directly aligns with dream-horror and Sixth House thematic goals."
-    risk_level: medium
-    promotion_target: undecided
-    promotion_notes: "Needs human review for edition-specific viability and implementation approach."
-    reviewed_by: []
-    last_reviewed: ""
-    related_manifest_ids: []
+      - id: lucid-disturbing-dreams
+        name: Lucid Disturbing Dreams
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/55705
+        source_confidence: verified
+        thematic_bucket: dream-sixth-house
+        intended_editions: [openmw, mwse]
+        compatibility_status: needs-testing
+        promotion_target: both
+        risk_level: medium
+        thematic_reason: Converts Dagoth Ur’s four disturbing dream textboxes into voiced playable dream sequences.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page states the four disturbing dream textboxes are replaced with voiced playable dream sequences.
+        engine_notes: Nexus page includes OpenMW and MWSE tags.
+        promotion_notes: Test each main-quest dream trigger, subtitle/audio behavior, and ensure no quest-state softlocks in either edition.
 
-  - id: better-blight
-    name: Better Blight
-    candidate_status: candidate
-    thematic_bucket: blight-ash-weather
-    intended_editions:
-      - openmw
-      - mwse
-    engine_notes: "Weather/blight behavior may require edition-specific setup or alternatives."
-    source_type: unknown
-    source_url: ""
-    source_confidence: unverified
-    compatibility_status: unverified
-    evidence_notes: "Candidate carried from manual research notes; no documented compatibility evidence yet."
-    thematic_reason: "Strengthens ash/blight atmosphere pillar."
-    risk_level: medium
-    promotion_target: undecided
-    promotion_notes: "Needs evidence capture before under-review transition."
-    reviewed_by: []
-    last_reviewed: ""
-    related_manifest_ids: []
+      - id: beware-the-sixth-house
+        name: Beware the Sixth House
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/46036
+        source_confidence: verified
+        thematic_bucket: dream-sixth-house
+        intended_editions: [openmw, mwse]
+        compatibility_status: needs-testing
+        promotion_target: both
+        risk_level: high
+        thematic_reason: Makes Sixth House enemies significantly more dangerous; strong horror fit, but difficulty/pacing risk is high.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page presents this as an overhaul that makes Sixth House enemies more dangerous.
+        engine_notes: Nexus page has no explicit hard engine requirement beyond Morrowind.
+        promotion_notes: Run balance passes in early/mid/late Sixth House encounters for both editions and check for pacing spikes or unavoidable difficulty walls.
 
-  - id: creeping-blight
-    name: Creeping Blight
-    candidate_status: candidate
-    thematic_bucket: blight-ash-weather
-    intended_editions:
-      - openmw
-      - mwse
-    engine_notes: "Potential script dependency risk for Sleeper edition; verify OpenMW behavior separately."
-    source_type: unknown
-    source_url: ""
-    source_confidence: unverified
-    compatibility_status: unverified
-    evidence_notes: "Candidate carried from manual research notes; no linked source retained in current record."
-    thematic_reason: "Reinforces progressive environmental dread through blight presentation."
-    risk_level: high
-    promotion_target: undecided
-    promotion_notes: "Do not promote without evidence-backed compatibility review."
-    reviewed_by: []
-    last_reviewed: ""
-    related_manifest_ids: []
+      - id: kogoruhn-extinct-city-of-ash-and-sulfur
+        name: Kogoruhn - Extinct City of Ash and Sulfur
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/51615
+        source_confidence: verified
+        thematic_bucket: dream-sixth-house
+        intended_editions: [openmw, mwse]
+        compatibility_status: needs-testing
+        promotion_target: both
+        risk_level: high
+        thematic_reason: Turns Kogoruhn into a larger Sixth House horror/location centerpiece; likely central but requires compatibility testing.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes a major Kogoruhn location overhaul themed around ash and sulfur.
+        engine_notes: Nexus page does not clearly state OpenMW/MWSE-only requirements.
+        promotion_notes: Validate compatibility with quest routing, pathing, and major dungeon/location edits in both editions before promotion.
+
+  - name: blight-ash-weather
+    candidates:
+      - id: creeping-blight
+        name: Creeping Blight
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/47904
+        source_confidence: verified
+        thematic_bucket: blight-ash-weather
+        intended_editions: [openmw, mwse]
+        compatibility_status: needs-testing
+        promotion_target: both
+        risk_level: medium
+        thematic_reason: Blight weather expands with main quest progress and, in MWSE, elapsed time.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes blight weather expansion linked to main quest progress, with MWSE time-based expansion support.
+        engine_notes: Nexus page indicates support for OpenMW and MWSE behavior paths.
+        promotion_notes: Confirm weather progression logic and regional intensity in both editions, including MWSE elapsed-time behavior where applicable.
+
+      - id: it-beats-openmw
+        name: It Beats OpenMW
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/57396
+        source_confidence: verified
+        thematic_bucket: blight-ash-weather
+        intended_editions: [openmw]
+        compatibility_status: needs-testing
+        promotion_target: openmw
+        risk_level: medium
+        thematic_reason: Adds OpenMW Red Mountain heartbeat ambience.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes Red Mountain heartbeat ambience implementation for OpenMW.
+        engine_notes: Nexus page clearly identifies OpenMW-only target.
+        promotion_notes: Validate ambient trigger zones, volume balance, and interaction with weather/audio mods in OpenMW.
+
+      - id: heartthrum
+        name: Heartthrum
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/47178
+        source_confidence: verified
+        thematic_bucket: blight-ash-weather
+        intended_editions: [mwse]
+        compatibility_status: needs-testing
+        promotion_target: mwse
+        risk_level: medium
+        thematic_reason: MWSE/MGE XE Red Mountain heartbeat ambience.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes Red Mountain heartbeat ambience for MWSE/MGE XE setups.
+        engine_notes: Nexus page indicates MWSE and MGE XE requirements.
+        promotion_notes: Verify heartbeat ambience triggers and performance with MWSE-heavy stacks and regional weather/audio combinations.
+
+  - name: survival-body-horror
+    candidates:
+      - id: ashfall
+        name: Ashfall
+        source: nexus
+        source_type: nexus
+        source_url: https://www.nexusmods.com/morrowind/mods/49057
+        source_confidence: verified
+        thematic_bucket: survival-body-horror
+        intended_editions: [mwse]
+        compatibility_status: needs-testing
+        promotion_target: mwse
+        risk_level: high
+        thematic_reason: MWSE survival/camping/needs system; supports Sleeper Edition’s body/travel pressure if configured carefully.
+        candidate_status: candidate
+        reviewed_by: []
+        last_reviewed: ""
+        related_manifest_ids: []
+        evidence_notes: Nexus page describes survival mechanics including needs and camping systems.
+        engine_notes: Nexus page specifies MWSE dependency.
+        promotion_notes: Stress-test survival loop settings, UI flow, and compatibility with travel/economy mods in MWSE before any promotion.
