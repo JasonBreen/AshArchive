@@ -1,0 +1,13 @@
+buckets:
+  - name: archives-and-evidence
+    candidates:
+      - name: Patch for Purists
+        source: "manual-research"
+      - name: The Dream is the Door
+        source: "manual-research"
+  - name: ash-and-weather
+    candidates:
+      - name: Better Blight
+        source: "manual-research"
+      - name: Creeping Blight
+        source: "manual-research"

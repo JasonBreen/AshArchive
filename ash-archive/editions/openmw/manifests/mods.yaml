@@ -1,0 +1,610 @@
+mods:
+  - id: patch-for-purists
+    name: Patch for Purists
+    category: Engine and Foundation
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 1
+  - id: expansion-delay
+    name: Expansion Delay
+    category: Bug Fixes and Stability
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 2
+  - id: morrowind-optimization-patch
+    name: Morrowind Optimization Patch
+    category: Vanilla Preservation
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 3
+  - id: project-atlas
+    name: Project Atlas
+    category: Engine and Foundation
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 4
+  - id: tamriel-data
+    name: Tamriel Data
+    category: Engine and Foundation
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 5
+  - id: oaab-data
+    name: OAAB_Data
+    category: Architecture of Memory
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 6
+  - id: the-dream-is-the-door
+    name: The Dream is the Door
+    category: Travel, Pilgrimage, and Logistics
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 7
+  - id: lucid-disturbing-dreams
+    name: Lucid Disturbing Dreams
+    category: Sixth House and Dream Contamination
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 8
+  - id: beware-the-sixth-house
+    name: Beware the Sixth House
+    category: Sixth House and Dream Contamination
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 9
+  - id: divine-dagoths
+    name: Divine Dagoths
+    category: Archives, Evidence, and Retrospective Dread
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 10
+  - id: creeping-blight
+    name: Creeping Blight
+    category: Sixth House and Dream Contamination
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 11
+  - id: cave-drips
+    name: Cave Drips
+    category: Soundscape and Silence
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 12
+  - id: atmospheric-sound-effects-expanded
+    name: Atmospheric Sound Effects Expanded
+    category: Soundscape and Silence
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 13
+  - id: glow-in-the-dahrk
+    name: Glow in the Dahrk
+    category: Ash, Weather, and Distance
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 14
+  - id: ghastly-glowyfence
+    name: Ghastly Glowyfence
+    category: Sixth House and Dream Contamination
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 15
+  - id: dwemer-mesh-improvement
+    name: Dwemer Mesh Improvement
+    category: Dwemer Tonal Ruins
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 16
+  - id: oaab-dwemer-pavements
+    name: OAAB Dwemer Pavements
+    category: Dwemer Tonal Ruins
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 17
+  - id: parasol-particles
+    name: Parasol Particles
+    category: Ash, Weather, and Distance
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 18
+  - id: red-wisdom-an-ashlander-prophecy
+    name: Red Wisdom - An Ashlander Prophecy
+    category: Faith, Temple, and False Divinity
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 19
+  - id: caldera-mine-expanded
+    name: Caldera Mine Expanded
+    category: Architecture of Memory
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 20
+  - id: openmw
+    name: OpenMW
+    category: Engine and Foundation
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: testing
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 1
+  - id: it-beats-openmw
+    name: It Beats OpenMW
+    category: Bug Fixes and Stability
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 2
+  - id: true-nights-and-darkness
+    name: True Nights and Darkness
+    category: Ash, Weather, and Distance
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 3
+  - id: better-blight
+    name: Better Blight
+    category: Ash, Weather, and Distance
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 4
+  - id: openmw-dynamic-ambient-visual-effects
+    name: OpenMW Dynamic Ambient Visual Effects
+    category: Ash, Weather, and Distance
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 5
+  - id: kogoruhn-extinct-city-of-ash-and-sulfur
+    name: Kogoruhn - Extinct City of Ash and Sulfur
+    category: Architecture of Memory
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 6
+  - id: s3maphore
+    name: S3maphore
+    category: Travel, Pilgrimage, and Logistics
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 7
+  - id: muse-music-expansion-sixth-house
+    name: MUSE Music Expansion - Sixth House
+    category: Soundscape and Silence
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 8
+  - id: vanilla-style-hd-icons
+    name: Vanilla Style HD Icons
+    category: UI, Journals, and Player Perception
+    edition: openmw
+    cross_edition_status: openmw-only
+    status: planned
+    engine:
+      - openmw
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "Initial candidate placeholder entry."
+    priority: 9
