@@ -1,0 +1,21 @@
+mods:
+  - id: Bad_ID
+    name: Broken Entry
+    category: Bug Fixes and Stability
+    edition: openmw
+    cross_edition_status: not-valid
+    status: planned
+    engine: [openmw]
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "fixture"
+    priority: high
