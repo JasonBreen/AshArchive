@@ -15,3 +15,4 @@ def test_invalid_fixture_fails() -> None:
     assert "invalid id" in joined
     assert "invalid cross_edition_status" in joined
     assert "priority" in joined
+    assert "invalid category" in joined

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 from pathlib import Path
 
-from .manifest import load_mods
+from .manifest import load_mods, load_yaml
+from .paths import categories_path
 
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 CROSS = {
@@ -29,7 +31,16 @@ STR_FIELDS = [
 LIST_FIELDS = ["plugin_files", "requires", "conflicts", "load_after", "load_before"]
 
 
-def _validate_enum_fields(mod: dict, path: Path, mod_id: str, expected_edition: str) -> list[str]:
+@lru_cache(maxsize=1)
+def _allowed_categories() -> frozenset[str]:
+    data = load_yaml(categories_path())
+    cats = data.get("categories", [])
+    return frozenset(cats)
+
+
+def _validate_enum_fields(
+    mod: dict, path: Path, mod_id: str, expected_edition: str
+) -> list[str]:
     errors: list[str] = []
     if not isinstance(mod["id"], str) or not ID_RE.match(mod["id"]):
         errors.append(f"{path}: mod={mod_id} invalid id; expected lowercase kebab-case")
@@ -43,6 +54,12 @@ def _validate_enum_fields(mod: dict, path: Path, mod_id: str, expected_edition: 
         )
     if mod["status"] not in STATUS:
         errors.append(f"{path}: mod={mod_id} invalid status '{mod['status']}'")
+    allowed = _allowed_categories()
+    if allowed and mod["category"] not in allowed:
+        errors.append(
+            f"{path}: mod={mod_id} invalid category '{mod['category']}'; "
+            f"must be one of the categories in shared/categories.yaml"
+        )
     return errors
 
 

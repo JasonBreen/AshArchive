@@ -19,3 +19,23 @@ mods:
     testing_notes: "needs verification"
     decision_reason: "fixture"
     priority: high
+  - id: bad-category-mod
+    name: Bad Category Mod
+    category: Not A Real Category
+    edition: openmw
+    cross_edition_status: equivalent-needed
+    status: planned
+    engine: [openmw]
+    source: "tbd"
+    url: ""
+    archive_name: ""
+    version: ""
+    plugin_files: []
+    requires: []
+    conflicts: []
+    load_after: []
+    load_before: []
+    patch_notes: "needs verification"
+    testing_notes: "needs verification"
+    decision_reason: "fixture"
+    priority: 1

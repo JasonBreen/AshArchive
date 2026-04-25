@@ -64,7 +64,7 @@ mods:
     priority: 3
   - id: project-atlas
     name: Project Atlas
-    category: Ash, Weather, and Distance
+    category: Engine and Foundation
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -85,7 +85,7 @@ mods:
     priority: 4
   - id: tamriel-data
     name: Tamriel Data
-    category: Soundscape and Silence
+    category: Engine and Foundation
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -148,7 +148,7 @@ mods:
     priority: 7
   - id: lucid-disturbing-dreams
     name: Lucid Disturbing Dreams
-    category: Faith, Temple, and False Divinity
+    category: Sixth House and Dream Contamination
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -169,7 +169,7 @@ mods:
     priority: 8
   - id: beware-the-sixth-house
     name: Beware the Sixth House
-    category: Dwemer Tonal Ruins
+    category: Sixth House and Dream Contamination
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -232,7 +232,7 @@ mods:
     priority: 11
   - id: cave-drips
     name: Cave Drips
-    category: Corprus, Flesh, and Failed Apotheosis
+    category: Soundscape and Silence
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -253,7 +253,7 @@ mods:
     priority: 12
   - id: atmospheric-sound-effects-expanded
     name: Atmospheric Sound Effects Expanded
-    category: Nerevarine Identity Fracture
+    category: Soundscape and Silence
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -274,7 +274,7 @@ mods:
     priority: 13
   - id: glow-in-the-dahrk
     name: Glow in the Dahrk
-    category: Dagoth Ur Broadcast Layer
+    category: Ash, Weather, and Distance
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -295,7 +295,7 @@ mods:
     priority: 14
   - id: ghastly-glowyfence
     name: Ghastly Glowyfence
-    category: Engine and Foundation
+    category: Sixth House and Dream Contamination
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -316,7 +316,7 @@ mods:
     priority: 15
   - id: dwemer-mesh-improvement
     name: Dwemer Mesh Improvement
-    category: Bug Fixes and Stability
+    category: Dwemer Tonal Ruins
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -337,7 +337,7 @@ mods:
     priority: 16
   - id: oaab-dwemer-pavements
     name: OAAB Dwemer Pavements
-    category: Vanilla Preservation
+    category: Dwemer Tonal Ruins
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -379,7 +379,7 @@ mods:
     priority: 18
   - id: red-wisdom-an-ashlander-prophecy
     name: Red Wisdom - An Ashlander Prophecy
-    category: Soundscape and Silence
+    category: Faith, Temple, and False Divinity
     edition: openmw
     cross_edition_status: equivalent-needed
     status: planned
@@ -463,7 +463,7 @@ mods:
     priority: 2
   - id: true-nights-and-darkness
     name: True Nights and Darkness
-    category: Vanilla Preservation
+    category: Ash, Weather, and Distance
     edition: openmw
     cross_edition_status: openmw-only
     status: planned
@@ -505,7 +505,7 @@ mods:
     priority: 4
   - id: openmw-dynamic-ambient-visual-effects
     name: OpenMW Dynamic Ambient Visual Effects
-    category: Soundscape and Silence
+    category: Ash, Weather, and Distance
     edition: openmw
     cross_edition_status: openmw-only
     status: planned
@@ -568,7 +568,7 @@ mods:
     priority: 7
   - id: muse-music-expansion-sixth-house
     name: MUSE Music Expansion - Sixth House
-    category: Faith, Temple, and False Divinity
+    category: Soundscape and Silence
     edition: openmw
     cross_edition_status: openmw-only
     status: planned
@@ -589,7 +589,7 @@ mods:
     priority: 8
   - id: vanilla-style-hd-icons
     name: Vanilla Style HD Icons
-    category: Dwemer Tonal Ruins
+    category: UI, Journals, and Player Perception
     edition: openmw
     cross_edition_status: openmw-only
     status: planned
