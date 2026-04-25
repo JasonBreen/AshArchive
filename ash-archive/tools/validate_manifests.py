@@ -21,12 +21,13 @@ def main() -> int:
     for edition in editions:
         path = manifest_path(edition)
         errors.extend(validate_manifest(path, edition))
+
     if errors:
-        print("Manifest validation failed:")
         for err in errors:
-            print(f"- {err}")
+            print(err)
         return 1
-    print(f"Manifest validation passed for: {', '.join(editions)}")
+
+    print(f"[OK] Manifest validation passed for: {', '.join(editions)}")
     return 0
 
 
