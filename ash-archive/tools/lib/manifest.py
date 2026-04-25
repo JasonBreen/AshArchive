@@ -6,8 +6,14 @@ import yaml
 
 
 def load_yaml(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as handle:
-        data = yaml.safe_load(handle) or {}
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle) or {}
+    except FileNotFoundError as exc:
+        raise ValueError(f"Missing YAML file: {path}") from exc
+    except yaml.YAMLError as exc:
+        raise ValueError(f"Invalid YAML in {path}: {exc}") from exc
+
     if not isinstance(data, dict):
         raise ValueError(f"Top-level YAML must be a mapping: {path}")
     return data
