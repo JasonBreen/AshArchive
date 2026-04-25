@@ -23,12 +23,10 @@ These rules apply to AI assistants (Codex, Copilot, Claude, and similar agents) 
 ## Data integrity and evidence standards
 
 1. Do not invent URLs, versions, archive names, or test results.
-2. Do not invent mod URLs.
-3. Do not claim compatibility has been tested unless repository documentation already records that evidence.
-4. Do not mark mods as `accepted` without review notes and compatibility evidence.
-5. Do not delete reasoning from rejected-mod records.
-6. Avoid editing generated sections manually; use repository generation tools.
-7. Do not overwrite generated sections outside generation tooling.
+2. Do not claim compatibility has been tested unless repository documentation already records that evidence.
+3. Do not mark mods as `accepted` without review notes and compatibility evidence.
+4. Do not delete reasoning from rejected-mod records.
+5. Do not overwrite generated sections manually; use repository generation tools.
 
 ## Content boundaries
 
