@@ -82,7 +82,10 @@ def test_invalid_category_fails(tmp_path: Path) -> None:
     assert any("invalid category" in error for error in errors)
 
 
-@pytest.mark.parametrize("invalid_id", ["Patch For Purists", "patch_for_purists", "Patch-for-Purists", "patch for purists"])
+@pytest.mark.parametrize(
+    "invalid_id",
+    ["Patch For Purists", "patch_for_purists", "Patch-for-Purists", "patch for purists"],
+)
 def test_invalid_kebab_case_id_fails(tmp_path: Path, invalid_id: str) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["id"] = invalid_id

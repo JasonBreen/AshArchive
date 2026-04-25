@@ -31,7 +31,9 @@ def find_duplicates(mods: list[dict]) -> DuplicateReport:
     return DuplicateReport(duplicate_ids=dup_ids, duplicate_names_with_different_ids=dup_names)
 
 
-def find_cross_edition_name_mismatches(mods_by_edition: dict[str, list[dict]]) -> list[tuple[str, str, str]]:
+def find_cross_edition_name_mismatches(
+    mods_by_edition: dict[str, list[dict]],
+) -> list[tuple[str, str, str]]:
     name_to_edition_ids: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
     for edition, mods in mods_by_edition.items():
         for mod in mods:
@@ -82,12 +84,17 @@ def main() -> int:
 
     cross_warnings = find_cross_edition_name_mismatches(mods_by_edition)
     for scope, name, detail in cross_warnings:
-        print(f"[WARN] {scope} :: {name} :: duplicate name across editions with different ids ({detail})")
+        print(
+            f"[WARN] {scope} :: {name} :: duplicate name across editions with different ids ({detail})"
+        )
 
     if has_errors:
         return 1
 
-    if not cross_warnings and all(not find_duplicates(mods).duplicate_names_with_different_ids for mods in mods_by_edition.values()):
+    if not cross_warnings and all(
+        not find_duplicates(mods).duplicate_names_with_different_ids
+        for mods in mods_by_edition.values()
+    ):
         print("[OK] No duplicate IDs or likely accidental duplicate names found.")
     else:
         print("[OK] Duplicate scan completed with warnings only.")

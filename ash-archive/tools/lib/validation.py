@@ -59,7 +59,7 @@ LIST_FIELDS = ["plugin_files", "requires", "conflicts", "load_after", "load_befo
 
 
 def _format_error(path: Path, mod_ref: str, detail: str) -> str:
-    return f'[ERROR] {path} :: {mod_ref} :: {detail}'
+    return f"[ERROR] {path} :: {mod_ref} :: {detail}"
 
 
 @lru_cache(maxsize=1)
@@ -84,9 +84,7 @@ def _mod_ref(mod: dict) -> str:
     return "<missing-id>"
 
 
-def _validate_enum_fields(
-    mod: dict, path: Path, mod_ref: str, expected_edition: str
-) -> list[str]:
+def _validate_enum_fields(mod: dict, path: Path, mod_ref: str, expected_edition: str) -> list[str]:
     errors: list[str] = []
     mod_id = mod.get("id")
     if not isinstance(mod_id, str) or not ID_RE.fullmatch(mod_id):
@@ -94,8 +92,7 @@ def _validate_enum_fields(
             _format_error(
                 path,
                 mod_ref,
-                "invalid id "
-                f"{mod_id!r}; expected lowercase kebab-case like 'patch-for-purists'",
+                f"invalid id {mod_id!r}; expected lowercase kebab-case like 'patch-for-purists'",
             )
         )
     if mod["edition"] != expected_edition:
@@ -122,7 +119,7 @@ def _validate_enum_fields(
             _format_error(
                 path,
                 mod_ref,
-                f'invalid category {mod["category"]!r}; expected one of shared/categories.yaml',
+                f"invalid category {mod['category']!r}; expected one of shared/categories.yaml",
             )
         )
     return errors
