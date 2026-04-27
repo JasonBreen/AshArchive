@@ -44,6 +44,7 @@ python tools/validate_manifests.py
 python tools/generate_modlist_markdown.py
 python tools/compare_editions.py
 python tools/check_duplicate_mods.py
+python tools/check_wabbajack_readiness.py
 pytest
 ```
 
