@@ -55,6 +55,13 @@ Allowed status transitions:
 - Compatibility remains `unverified` until tested or backed by reliable documentation.
 - If compatibility is marked as tested-compatible (`openmw-compatible`, `mwse-compatible`, or `both-compatible`), include notes describing what was tested and how.
 
+## Source triage gate for unmanaged/unknown-origin entries
+
+- `shared/source-triage.yaml` tracks active `modlist.txt` entries with `Nexus_ID` of `0` or `-1`.
+- While `source_triage.triage_status` is `open`, listed entries are blocked from `.meta` promotion.
+- Keep listed entries in an `unverified` state until triage is closed and package identity + license/source questions are resolved.
+- Only after triage closure may entries move to normal `planned`/`candidate`/`rejected` flows for manifest promotion.
+
 ## Multi-package `.meta` convention
 
 Use `shared/source-package-meta.yaml` when a single source page (for example one Nexus ID) distributes multiple installable packages.

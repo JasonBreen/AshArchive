@@ -1,0 +1,179 @@
+source_triage:
+  generated_from: modlist.txt
+  generated_on: 2026-04-28
+  triage_status: open
+  meta_promotion_gate:
+    promote_meta: false
+    required_source_confidence: unverified
+    notes: Keep all listed entries unverified until triage_status is set to closed.
+  entries:
+    - mod_priority: "0000"
+      display_name: "Unmanaged: Siege at Firemoth"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Confirm exact plugin package identity (official Bethesda plugin copy vs repack)."
+        - "Confirm redistribution/license terms for the package actually shipped in the list."
+        - "Decide whether this should map to a vanilla/DLC content baseline instead of a community-mod track."
+    - mod_priority: "0001"
+      display_name: "Unmanaged: master_index"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Confirm exact package identity (official plugin filename/version expected by this list)."
+        - "Confirm legal acquisition source and whether redistribution is allowed."
+        - "Decide whether this should be represented as baseline game content rather than sourced mod metadata."
+    - mod_priority: "0002"
+      display_name: "Unmanaged: LeFemmArmor"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Verify exact archive/package identity (official plugin vs renamed/repacked variant)."
+        - "Verify acceptable distribution channel for reproducible installs."
+        - "Determine replacement candidate if a canonical distributable package cannot be pinned."
+    - mod_priority: "0003"
+      display_name: "Unmanaged: entertainers"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Confirm this maps to the official Bethesda plugin and not a local variant."
+        - "Verify source and license terms for packaged assets/scripts."
+        - "Decide if this should be tracked as baseline optional official content."
+    - mod_priority: "0004"
+      display_name: "Unmanaged: EBQ_Artifact"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "source unknown"
+      disposition: manual-only
+      blocking_questions:
+        - "Identify what exact project/package 'EBQ_Artifact' refers to."
+        - "Confirm origin URL and author permissions/license for distribution."
+        - "Determine a canonical replacement candidate if identity cannot be verified."
+    - mod_priority: "0005"
+      display_name: "Unmanaged: bcsounds"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Verify exact package identity and checksum for reproducibility."
+        - "Confirm legal source/redistribution status."
+        - "Determine whether this should be represented as official plugin baseline content."
+    - mod_priority: "0006"
+      display_name: "Unmanaged: AreaEffectArrows"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Confirm exact plugin identity and expected file names."
+        - "Confirm redistributable source channel for automation."
+        - "Evaluate replacement path if no canonical package can be pinned."
+    - mod_priority: "0007"
+      display_name: "Unmanaged: adamantiumarmor"
+      nexus_id: -1
+      mod_class: unmanaged
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Morrowind:Plugins"
+      disposition: manual-only
+      blocking_questions:
+        - "Confirm this entry corresponds to the official Adamantium Armor plugin package."
+        - "Confirm source/license constraints for packaging in an automated list."
+        - "Decide baseline-vs-mod metadata tracking policy for official plugins."
+    - mod_priority: "0008"
+      display_name: "DLC: Tribunal"
+      nexus_id: -1
+      mod_class: dlc
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Tribunal:Tribunal"
+      disposition: planned
+      blocking_questions:
+        - "Confirm edition baseline policy for mandatory DLC dependencies."
+        - "Confirm whether DLC should remain excluded from sourced-mod promotion flows entirely."
+        - "Verify package identity assumptions across Steam/GOG/Bethesda installs."
+    - mod_priority: "0009"
+      display_name: "DLC: Bloodmoon"
+      nexus_id: -1
+      mod_class: dlc
+      candidate_canonical_source_url: "https://en.uesp.net/wiki/Bloodmoon:Bloodmoon"
+      disposition: planned
+      blocking_questions:
+        - "Confirm edition baseline policy for mandatory DLC dependencies."
+        - "Confirm whether DLC should remain excluded from sourced-mod promotion flows entirely."
+        - "Verify package identity assumptions across Steam/GOG/Bethesda installs."
+    - mod_priority: "0020"
+      display_name: "lgnpc_tel_mora_"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://lgnpc.org/"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm exact release/package for the Tel Mora module (filename + version)."
+        - "Confirm license/permissions for redistribution in installer workflows."
+        - "Evaluate canonical mirror/replacement if original hosting is incomplete."
+    - mod_priority: "0021"
+      display_name: "lgnpc_hla_oad_"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://lgnpc.org/"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm exact release/package identity for Hla Oad module."
+        - "Confirm redistribution terms and whether installers may bundle or must link out."
+        - "Identify replacement candidate if source package is not reproducible."
+    - mod_priority: "0022"
+      display_name: "lgnpc_aldruhn_"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://lgnpc.org/"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm exact Ald'ruhn module package identity and version."
+        - "Confirm license terms for current maintained distribution channel."
+        - "Determine fallback candidate if package lineage cannot be verified."
+    - mod_priority: "0023"
+      display_name: "lgnpc_ald_velothi_"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://lgnpc.org/"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm exact Ald Velothi module package identity and expected files."
+        - "Confirm valid canonical hosting URL and redistribution terms."
+        - "Determine replacement candidate if canonical package is unavailable."
+    - mod_priority: "0038"
+      display_name: "Dagoth Creatures Replacer"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "source unknown"
+      disposition: manual-only
+      blocking_questions:
+        - "Identify original release page and author for this exact package."
+        - "Confirm license and permissions for installer use."
+        - "Find a maintained replacement candidate if source cannot be verified."
+    - mod_priority: "0139"
+      display_name: "Dynamic Music - Sixth House"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://www.nexusmods.com/morrowind/mods/53568"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm whether this is an official optional file from Dynamic Music or a local patch."
+        - "Pin exact package identity (archive name/version/hash)."
+        - "Confirm license compatibility for redistribution or dependency linking."
+    - mod_priority: "0154"
+      display_name: "Animated_Morrowind"
+      nexus_id: 0
+      mod_class: community-mod
+      candidate_canonical_source_url: "https://modding-openmw.com/mods/animated-morrowind/"
+      disposition: candidate
+      blocking_questions:
+        - "Confirm exact package variant used in this list (base mod vs merged custom package)."
+        - "Confirm canonical upstream URL and redistribution terms for chosen package."
+        - "Determine replacement candidate if merged local package cannot be reproduced."
