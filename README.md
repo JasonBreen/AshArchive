@@ -1,6 +1,6 @@
 # Ash Archive
 
-**The Dream Is The Door** is a dual-edition Morrowind Wabbajack modlist built around psychological horror native to Vvardenfell. The project is contained in the [`ash-archive`](ash-archive/) sub-directory and ships as two sibling editions that share aesthetic pillars and narrative logic while using engine-specific techniques.
+**Assh Archive** is a dual-edition Morrowind Wabbajack modlist built around psychological horror native to Vvardenfell. The project is contained in the [`ash-archive`](ash-archive/) sub-directory and ships as two sibling editions that share aesthetic pillars and narrative logic while using engine-specific techniques.
 
 ---
 
