@@ -1,0 +1,192 @@
+multi_package_sources:
+  - nexus_id: 52567
+    ".meta":
+      source_type: nexus
+      nexus_id: 52567
+      nexus_url: https://www.nexusmods.com/morrowind/mods/52567
+      base_version: 1.0.0.0
+      provenance: Imported from modlist.txt (rows 0161-0164, snapshot date 2026-04-28).
+    packages:
+      - id: sixth-house-robe-normal-mapped
+        ".meta":
+          variant_name: 6th House Robe Normal Mapped
+          install_artifact: 6th House Robe Normal Mapped-52567-1-0-1681179314.7z
+          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          plugin_list: []
+      - id: sixth-house-glowing-things-normal-mapped
+        ".meta":
+          variant_name: 6th House - Glowing Things Normal Mapped
+          install_artifact: 6th House - Glowing Things Normal Mapped-52567-1-0-1680228098.7z
+          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          plugin_list: []
+      - id: a-strange-plant-normal-mapped
+        ".meta":
+          variant_name: A Strange Plant Normal Mapped
+          install_artifact: A Strange Plant Normal Mapped-52567-1-0-1682446048.7z
+          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          plugin_list: []
+      - id: aatl-data-normal-mapped
+        ".meta":
+          variant_name: AATL Data - An Addendum to Tamrielic Lore Data Normal Mapped
+          install_artifact: AATL Data - An Addendum to Tamrielic Lore Data Normal Mapped-52567-1-0-1680228146.7z
+          edition_notes: Texture-only package layered on AATL assets.
+          plugin_list: []
+
+  - nexus_id: 46854
+    ".meta":
+      source_type: nexus
+      nexus_id: 46854
+      nexus_url: https://www.nexusmods.com/morrowind/mods/46854
+      base_version: d2025.3.28.0
+      provenance: Imported from modlist.txt (rows 0010-0011 and 0096, snapshot date 2026-04-28).
+    packages:
+      - id: truetype-fonts-for-openmw
+        ".meta":
+          variant_name: TrueType fonts for OpenMW
+          install_artifact: C:/Users/New/Desktop/Fonts-46854-1-0-1559397215.zip
+          edition_notes: OpenMW-focused font packaging.
+          plugin_list: []
+          package_version: d2025.3.25.0
+      - id: hd-texture-buttons-english
+        ".meta":
+          variant_name: HD texture buttons (English)
+          install_artifact: C:/Users/New/Desktop/HD texture buttons (English)-46854-1-0-1573580373.zip
+          edition_notes: UI texture variant for English button labels.
+          plugin_list: []
+          package_version: d2025.3.25.0
+      - id: fonts
+        ".meta":
+          variant_name: Fonts
+          install_artifact: C:/Users/New/Desktop/Fonts-46854-1-0-1559397215.zip
+          edition_notes: Generic font package alias in current list.
+          plugin_list: []
+
+  - nexus_id: 47068
+    ".meta":
+      source_type: nexus
+      nexus_id: 47068
+      nexus_url: https://www.nexusmods.com/morrowind/mods/47068
+      base_version: 1.2.0.0
+      provenance: Imported from modlist.txt (rows 0057-0059, snapshot date 2026-04-28).
+    packages:
+      - id: adamantium-ore-fix
+        ".meta":
+          variant_name: Adamantium Ore Fix
+          install_artifact: Adamantium Ore Fix-47068-1-0-1610557719.zip
+          edition_notes: Standalone fix module.
+          plugin_list: []
+          package_version: 1.0.0.0
+      - id: descriptive-npc-classes
+        ".meta":
+          variant_name: Descriptive NPC Classes
+          install_artifact: Descriptive NPC Classes-47068-1-1-1582214441.7z
+          edition_notes: Optional companion module from same Nexus page.
+          plugin_list: []
+          package_version: 1.1.0.0
+      - id: services-restored
+        ".meta":
+          variant_name: Services Restored
+          install_artifact: Services Restored-47068-1-2-1592673984.7z
+          edition_notes: Optional companion module from same Nexus page.
+          plugin_list: []
+
+  - nexus_id: 46221
+    ".meta":
+      source_type: nexus
+      nexus_id: 46221
+      nexus_url: https://www.nexusmods.com/morrowind/mods/46221
+      base_version: 1.2.0.0
+      provenance: Imported from modlist.txt (rows 0132-0134, snapshot date 2026-04-28).
+    packages:
+      - id: met-interface-and-main-menu
+        ".meta":
+          variant_name: Morrowind Enhanced Textures - Interface and main menu
+          install_artifact: Interface and main menu-46221-1-2-1728984294.7z
+          edition_notes: Interface/main-menu asset pack.
+          plugin_list: []
+      - id: met-6-atlas-textures
+        ".meta":
+          variant_name: MET 6 Atlas textures
+          install_artifact: MET 6 Atlas textures-46221-6-1697968149.zip
+          edition_notes: Atlas texture package with independent major-version numbering.
+          plugin_list: []
+          package_version: 6.0.0.0
+      - id: met-meshes
+        ".meta":
+          variant_name: MET Meshes
+          install_artifact: MET Meshes-46221-1-2-1653845915.zip
+          edition_notes: Mesh package paired with MET textures.
+          plugin_list: []
+
+  - nexus_id: 49045
+    ".meta":
+      source_type: nexus
+      nexus_id: 49045
+      nexus_url: https://www.nexusmods.com/morrowind/mods/49045
+      base_version: 1.3.0.0
+      provenance: Imported from modlist.txt (rows 0166-0168, snapshot date 2026-04-28).
+    packages:
+      - id: oaab-classes
+        ".meta":
+          variant_name: OAAB Classes
+          install_artifact: OAAB Classes-49045-1-0-1744051984.7z
+          edition_notes: OAAB companion module.
+          plugin_list: []
+          package_version: 1.0.0.0
+      - id: oaab-creature-loot
+        ".meta":
+          variant_name: OAAB Creature Loot
+          install_artifact: OAAB Creature Loot-49045-1-3-1678246154.7z
+          edition_notes: OAAB companion module.
+          plugin_list: []
+      - id: oaab-dark-temptations
+        ".meta":
+          variant_name: OAAB Dark Temptations
+          install_artifact: OAAB Dark Temptations-49045-1-1-1621806163.7z
+          edition_notes: OAAB companion module.
+          plugin_list: []
+          package_version: 1.1.0.0
+
+  - nexus_id: 49231
+    ".meta":
+      source_type: nexus
+      nexus_id: 49231
+      nexus_url: https://www.nexusmods.com/morrowind/mods/49231
+      base_version: 3.2.4.0
+      provenance: Imported from modlist.txt (rows 0055-0056, snapshot date 2026-04-28).
+    packages:
+      - id: bcom-core
+        ".meta":
+          variant_name: Beautiful Cities of Morrowind - BCOM Core
+          install_artifact: Beautiful Cities of Morrowind - BCOM Core-49231-3-2-4-1740865886.7z
+          edition_notes: Core package.
+          plugin_list: []
+      - id: bcom-patches
+        ".meta":
+          variant_name: Beautiful Cities of Morrowind - Patches
+          install_artifact: Beautiful Cities of Morrowind - Patches-49231-3-2-3-1737483907.7z
+          edition_notes: Optional patch bundle that may lag core release.
+          plugin_list: []
+          package_version: 3.2.2.0
+
+  - nexus_id: 50181
+    ".meta":
+      source_type: nexus
+      nexus_id: 50181
+      nexus_url: https://www.nexusmods.com/morrowind/mods/50181
+      base_version: 1.6.0.0
+      provenance: Imported from modlist.txt (rows 0146-0147, snapshot date 2026-04-28).
+    packages:
+      - id: library-of-vivec-enhanced
+        ".meta":
+          variant_name: Library of Vivec Enhanced
+          install_artifact: Library of Vivec Enhanced-50181-1-9-1690869379.zip
+          edition_notes: Main package.
+          plugin_list: []
+      - id: yet-another-guard-diversity-regular-patch
+        ".meta":
+          variant_name: Yet Another Guard Diversity - Regular Patch
+          install_artifact: Yet Another Guard Diversity - Regular Patch-50181-1-0-1699783538.rar
+          edition_notes: Optional compatibility patch distributed on same Nexus page.
+          plugin_list: []
+          package_version: 1.0.0.0
