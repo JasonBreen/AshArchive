@@ -1,0 +1,7 @@
+#Mod_Priority,#Mod_Status,#Mod_Name,#Note,#Primary_Category,#Nexus_ID,#Mod_Nexus_URL,#Mod_Version,#Install_Date,#Download_File_Name
+"0000","+","Unmanaged: master_index","","",-1,"","","2026/01/13 23:38:37",""
+"0001","+","DLC: Tribunal","","",-1,"","","2026/01/13 23:38:37",""
+"0002","+","Local Patch","","Bug Fixes",0,"","1.0.0.0","2026/01/14 00:00:00","LocalPatch.7z"
+"0003","-","A Mod","","Immersion",12345,"https://www.nexusmods.com/morrowind/mods/12345","1.0.0.0","2026/01/14 00:00:00","AMod.7z"
+"0004","+","A Mod - Patch","","Immersion",12345,"https://www.nexusmods.com/morrowind/mods/12345","1.1.0.0","2026/01/14 00:01:00","AModPatch.7z"
+"0005","-","Offline Local","","",,"","","2026/01/14 00:02:00",""

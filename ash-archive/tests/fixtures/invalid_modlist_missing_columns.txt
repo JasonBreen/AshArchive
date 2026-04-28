@@ -1,0 +1,2 @@
+#Mod_Priority,#Mod_Status,#Mod_Name,#Note,#Primary_Category,#Nexus_ID,#Mod_Nexus_URL,#Mod_Version,#Download_File_Name
+"0000","+","Some Mod","","Immersion",12345,"https://www.nexusmods.com/morrowind/mods/12345","1.0.0.0","SomeMod.7z"

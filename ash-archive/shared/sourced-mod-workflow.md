@@ -85,3 +85,10 @@ Use `shared/source-package-meta.yaml` when a single source page (for example one
 3. When both are present, child `.meta.package_version` is authoritative for that package.
 4. Do not mutate parent `base_version` to match a one-off child package; keep parent version as the shared default for the source page.
 5. If many packages diverge and no stable default exists, set parent `base_version` to the most current shared baseline and keep explicit child overrides for all divergences.
+
+## Raw `modlist.txt` source artifacts
+
+- `shared/source-inputs/modlist.txt` is imported source evidence only, not an accepted manifest.
+- Deterministic intake path: `raw modlist.txt -> audit report -> .meta candidates -> sourced candidates -> edition manifests`.
+- Preserve disabled source rows so rejection/defer reasoning can reference original state.
+- Repeated positive Nexus IDs should map through parent/child metadata (`source-package-meta.yaml`) instead of collapsing packages.
