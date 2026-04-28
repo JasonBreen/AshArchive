@@ -1,11 +1,11 @@
 # Sourced Mod Workflow (Candidate Intake Desk)
 
-`shared/sourced-mods.meta` is an **intake desk** for candidates, not a list of accepted mods.
+`shared/sourced-mods.control.meta` is an **intake desk** for candidates, not a list of accepted mods. It is internal control metadata and **not** an MO2 download sidecar `.meta` file.
 
 
 ## Canonical YAML schema
 
-`shared/sourced-mods.meta` must use a **top-level `sourced_candidates:` list**.
+`shared/sourced-mods.control.meta` must use a **top-level `sourced_candidates:` list**.
 
 ```yaml
 sourced_candidates:
@@ -57,21 +57,21 @@ Allowed status transitions:
 
 ## Source triage gate for unmanaged/unknown-origin entries
 
-- `shared/source-triage.meta` tracks active `modlist.txt` entries with `Nexus_ID` of `0` or `-1`.
-- While `source_triage.triage_status` is `open`, listed entries are blocked from `.meta` promotion.
+- `shared/source-triage.control.meta` tracks active `modlist.txt` entries with `Nexus_ID` of `0` or `-1`.
+- While `source_triage.triage_status` is `open`, listed entries are blocked from `.control.meta` promotion.
 - Keep listed entries in an `unverified` state until triage is closed and package identity + license/source questions are resolved.
 - Only after triage closure may entries move to normal `planned`/`candidate`/`rejected` flows for manifest promotion.
 
-## Multi-package `.meta` convention
+## Multi-package control metadata convention
 
-Use `shared/source-package-meta.meta` when a single source page (for example one Nexus ID) distributes multiple installable packages.
+Use `shared/source-package-meta.control.meta` when a single source page (for example one Nexus ID) distributes multiple installable packages.
 
-- Parent-level `.meta` records shared source metadata once:
+- Parent-level control records shared source metadata once:
   - `nexus_id`
   - `nexus_url`
   - `base_version`
   - `provenance`
-- Child/package-level `.meta` records package-specific metadata:
+- Child/package-level control records package-specific metadata:
   - `variant_name`
   - `install_artifact`
   - `edition_notes`
@@ -80,8 +80,8 @@ Use `shared/source-package-meta.meta` when a single source page (for example one
 
 ### Version override rules
 
-1. Treat parent `.meta.base_version` as the default version for all packages under that source.
-2. If a package has a different version than the parent, set child `.meta.package_version` explicitly.
-3. When both are present, child `.meta.package_version` is authoritative for that package.
+1. Treat parent control `base_version` as the default version for all packages under that source.
+2. If a package has a different version than the parent, set child `package_version` explicitly.
+3. When both are present, child `package_version` is authoritative for that package.
 4. Do not mutate parent `base_version` to match a one-off child package; keep parent version as the shared default for the source page.
 5. If many packages diverge and no stable default exists, set parent `base_version` to the most current shared baseline and keep explicit child overrides for all divergences.

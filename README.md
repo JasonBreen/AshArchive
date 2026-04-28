@@ -75,6 +75,8 @@ AshArchive/
 └── README.md
 ```
 
+Internal control metadata lives in YAML `.control.meta` files used by project tooling and is **not** the same as MO2 download sidecar `.meta` files. See `ash-archive/shared/mo2-download-meta-sidecars.md` for the distinction.
+
 ---
 
 ## Tooling quick start

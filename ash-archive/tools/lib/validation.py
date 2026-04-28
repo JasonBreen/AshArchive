@@ -119,7 +119,7 @@ def _validate_enum_fields(mod: dict, path: Path, mod_ref: str, expected_edition:
             _format_error(
                 path,
                 mod_ref,
-                f"invalid category {mod['category']!r}; expected one of shared/categories.meta",
+                f"invalid category {mod['category']!r}; expected one of shared/categories.control.meta",
             )
         )
     return errors
