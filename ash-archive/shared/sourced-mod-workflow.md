@@ -1,11 +1,11 @@
 # Sourced Mod Workflow (Candidate Intake Desk)
 
-`shared/sourced-mods.yaml` is an **intake desk** for candidates, not a list of accepted mods.
+`shared/sourced-mods.meta` is an **intake desk** for candidates, not a list of accepted mods.
 
 
 ## Canonical YAML schema
 
-`shared/sourced-mods.yaml` must use a **top-level `sourced_candidates:` list**.
+`shared/sourced-mods.meta` must use a **top-level `sourced_candidates:` list**.
 
 ```yaml
 sourced_candidates:
@@ -57,14 +57,14 @@ Allowed status transitions:
 
 ## Source triage gate for unmanaged/unknown-origin entries
 
-- `shared/source-triage.yaml` tracks active `modlist.txt` entries with `Nexus_ID` of `0` or `-1`.
+- `shared/source-triage.meta` tracks active `modlist.txt` entries with `Nexus_ID` of `0` or `-1`.
 - While `source_triage.triage_status` is `open`, listed entries are blocked from `.meta` promotion.
 - Keep listed entries in an `unverified` state until triage is closed and package identity + license/source questions are resolved.
 - Only after triage closure may entries move to normal `planned`/`candidate`/`rejected` flows for manifest promotion.
 
 ## Multi-package `.meta` convention
 
-Use `shared/source-package-meta.yaml` when a single source page (for example one Nexus ID) distributes multiple installable packages.
+Use `shared/source-package-meta.meta` when a single source page (for example one Nexus ID) distributes multiple installable packages.
 
 - Parent-level `.meta` records shared source metadata once:
   - `nexus_id`
