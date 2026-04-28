@@ -35,14 +35,14 @@ def _write_sourced(path: Path, entries: list[dict]) -> None:
 
 
 def test_valid_sourced_fixture_passes() -> None:
-    _, errors = validate_sourced_mods(Path("tests/fixtures/valid_sourced_mods.meta"))
+    _, errors = validate_sourced_mods(Path("tests/fixtures/valid_sourced_mods.control.meta"))
     assert errors == []
 
 
 def test_missing_required_field_fails(tmp_path: Path) -> None:
     candidate = dict(FIXTURE_REQUIRED_FIELDS)
     candidate.pop("source_type")
-    fixture = tmp_path / "sourced-mods.meta"
+    fixture = tmp_path / "sourced-mods.control.meta"
     _write_sourced(fixture, [candidate])
 
     _, errors = validate_sourced_mods(fixture)
@@ -53,7 +53,7 @@ def test_missing_required_field_fails(tmp_path: Path) -> None:
 def test_invalid_candidate_status_fails(tmp_path: Path) -> None:
     candidate = dict(FIXTURE_REQUIRED_FIELDS)
     candidate["candidate_status"] = "accepted"
-    fixture = tmp_path / "sourced-mods.meta"
+    fixture = tmp_path / "sourced-mods.control.meta"
     _write_sourced(fixture, [candidate])
 
     _, errors = validate_sourced_mods(fixture)
@@ -64,7 +64,7 @@ def test_invalid_candidate_status_fails(tmp_path: Path) -> None:
 def test_invalid_thematic_bucket_fails(tmp_path: Path) -> None:
     candidate = dict(FIXTURE_REQUIRED_FIELDS)
     candidate["thematic_bucket"] = "weather"
-    fixture = tmp_path / "sourced-mods.meta"
+    fixture = tmp_path / "sourced-mods.control.meta"
     _write_sourced(fixture, [candidate])
 
     _, errors = validate_sourced_mods(fixture)
@@ -75,7 +75,7 @@ def test_invalid_thematic_bucket_fails(tmp_path: Path) -> None:
 def test_invalid_intended_editions_fails(tmp_path: Path) -> None:
     candidate = dict(FIXTURE_REQUIRED_FIELDS)
     candidate["intended_editions"] = ["both"]
-    fixture = tmp_path / "sourced-mods.meta"
+    fixture = tmp_path / "sourced-mods.control.meta"
     _write_sourced(fixture, [candidate])
 
     _, errors = validate_sourced_mods(fixture)
@@ -84,7 +84,7 @@ def test_invalid_intended_editions_fails(tmp_path: Path) -> None:
 
 
 def test_invalid_fixture_fails_for_multiple_reasons() -> None:
-    _, errors = validate_sourced_mods(Path("tests/fixtures/invalid_sourced_mods.meta"))
+    _, errors = validate_sourced_mods(Path("tests/fixtures/invalid_sourced_mods.control.meta"))
     assert errors
     joined = "\n".join(errors)
     assert "invalid id" in joined
@@ -96,7 +96,7 @@ def test_invalid_fixture_fails_for_multiple_reasons() -> None:
 def test_invalid_kebab_case_id_fails(tmp_path: Path) -> None:
     candidate = dict(FIXTURE_REQUIRED_FIELDS)
     candidate["id"] = "Sample Candidate"
-    fixture = tmp_path / "sourced-mods.meta"
+    fixture = tmp_path / "sourced-mods.control.meta"
     _write_sourced(fixture, [candidate])
 
     _, errors = validate_sourced_mods(fixture)
@@ -110,7 +110,7 @@ def test_summary_tool_returns_nonzero_for_invalid_fixture() -> None:
             "python",
             "tools/summarize_sourced_mods.py",
             "--file",
-            "tests/fixtures/invalid_sourced_mods.meta",
+            "tests/fixtures/invalid_sourced_mods.control.meta",
         ],
         cwd=Path(__file__).resolve().parents[1],
         check=False,

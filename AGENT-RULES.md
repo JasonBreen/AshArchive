@@ -27,6 +27,7 @@ These rules apply to AI assistants (Codex, Copilot, Claude, and similar agents) 
 3. Do not mark mods as `accepted` without review notes and compatibility evidence.
 4. Do not delete reasoning from rejected-mod records.
 5. Do not overwrite generated sections manually; use repository generation tools.
+6. Treat YAML `.control.meta` files as internal control metadata; they are not MO2 download sidecar `.meta` files and must not be synthesized.
 
 ## Content boundaries
 

@@ -1,25 +1,25 @@
-# `.meta` File Schema for `modlist.txt` Conversion
+# `.control.meta` File Schema for `modlist.txt` Conversion
 
 This document defines the canonical schema for per-mod metadata files in this repository.
 
 ## Purpose
 
-`.meta` files provide deterministic, machine-readable metadata converted from `modlist.txt` rows and augmented with project triage fields.
+Internal control metadata `.control.meta` files provide deterministic, machine-readable metadata converted from `modlist.txt` rows and augmented with project triage fields. These internal control records are **not MO2 download sidecars** and must not be treated as native MO2/Wabbajack download metadata.
 
 ## File format and naming
 
 - Format: YAML
-- Extension: `.meta`
-- Naming pattern: `<slug>-<source_id>.meta`
+- Extension: `.control.meta`
+- Naming pattern: `<slug>-<source_id>.control.meta`
   - For Nexus-backed rows, `source_id` is the numeric `nexus_id`.
   - For non-Nexus rows (`Unmanaged:*`, `DLC:*`, and rows without a Nexus ID), use `local`.
 
 Examples:
 
-- `the-dream-is-the-door-47423.meta`
-- `beware-the-sixth-house-46036.meta`
-- `unmanaged-siege-at-firemoth-local.meta`
-- `dlc-tribunal-local.meta`
+- `the-dream-is-the-door-47423.control.meta`
+- `beware-the-sixth-house-46036.control.meta`
+- `unmanaged-siege-at-firemoth-local.control.meta`
+- `dlc-tribunal-local.control.meta`
 
 ## Slug normalization rules
 
@@ -84,9 +84,9 @@ For `nexus` rows:
 - `source.nexus_id` must be the numeric ID from `modlist.txt`.
 - `source.nexus_url` should be the direct Nexus mod URL from `modlist.txt`.
 
-## Field mapping table (`modlist.txt` -> `.meta`)
+## Field mapping table (`modlist.txt` -> `.control.meta`)
 
-| `modlist.txt` column | `.meta` target | Mapping rule |
+| `modlist.txt` column | `.control.meta` target | Mapping rule |
 |---|---|---|
 | `#Mod_Name` | `source.mod_name` | Copy as-is. |
 | `#Nexus_ID` | `source.nexus_id` | If value > 0, copy integer; otherwise `null`. |

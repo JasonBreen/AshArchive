@@ -29,7 +29,7 @@ def main() -> int:
     args = parser.parse_args()
     editions = [args.edition] if args.edition else list(EDITIONS)
     for edition in editions:
-        mods = load_mods(ROOT / "editions" / edition / "manifests" / "mods.meta")
+        mods = load_mods(ROOT / "editions" / edition / "manifests" / "mods.control.meta")
         body = render_mod_sections(mods)
         modlist_path = ROOT / "editions" / edition / "MODLIST.md"
         update_modlist(modlist_path, body)
