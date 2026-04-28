@@ -35,12 +35,12 @@ def _write_manifest(path: Path, mods: list[dict]) -> None:
 
 
 def test_valid_fixture_passes() -> None:
-    errors = validate_manifest(Path("tests/fixtures/valid_mods.yaml"), "openmw")
+    errors = validate_manifest(Path("tests/fixtures/valid_mods.meta"), "openmw")
     assert errors == []
 
 
 def test_invalid_fixture_fails() -> None:
-    errors = validate_manifest(Path("tests/fixtures/invalid_mods.yaml"), "openmw")
+    errors = validate_manifest(Path("tests/fixtures/invalid_mods.meta"), "openmw")
     assert errors
     joined = "\n".join(errors)
     assert "invalid id" in joined
@@ -52,7 +52,7 @@ def test_invalid_fixture_fails() -> None:
 def test_missing_required_field_fails(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod.pop("url")
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -63,7 +63,7 @@ def test_missing_required_field_fails(tmp_path: Path) -> None:
 def test_invalid_enum_fails(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["status"] = "not-valid"
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -74,7 +74,7 @@ def test_invalid_enum_fails(tmp_path: Path) -> None:
 def test_invalid_category_fails(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["category"] = "Bugfixes"
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -89,7 +89,7 @@ def test_invalid_category_fails(tmp_path: Path) -> None:
 def test_invalid_kebab_case_id_fails(tmp_path: Path, invalid_id: str) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["id"] = invalid_id
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -100,7 +100,7 @@ def test_invalid_kebab_case_id_fails(tmp_path: Path, invalid_id: str) -> None:
 def test_edition_mismatch_fails(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["edition"] = "mwse"
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -111,7 +111,7 @@ def test_edition_mismatch_fails(tmp_path: Path) -> None:
 def test_openmw_manifest_rejects_mwse_engine_value(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["engine"] = ["mwse"]
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
@@ -122,7 +122,7 @@ def test_openmw_manifest_rejects_mwse_engine_value(tmp_path: Path) -> None:
 def test_engine_unknown_cannot_be_combined(tmp_path: Path) -> None:
     mod = dict(FIXTURE_REQUIRED_FIELDS)
     mod["engine"] = ["unknown", "openmw"]
-    fixture = tmp_path / "mods.yaml"
+    fixture = tmp_path / "mods.meta"
     _write_manifest(fixture, [mod])
 
     errors = validate_manifest(fixture, "openmw")
