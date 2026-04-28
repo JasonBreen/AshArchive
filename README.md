@@ -38,19 +38,41 @@ See [ROADMAP.md](ash-archive/ROADMAP.md) for the phased plan and [CHANGELOG.md](
 
 ---
 
+## Prerequisites
+
+- **Python 3.11+**
+- **PyYAML** (runtime dependency)
+- **pytest** and **ruff** (development/testing)
+
+---
+
+## Setup
+
+From inside `ash-archive/`:
+
+```bash
+# Install runtime and development dependencies
+pip install -e ".[dev]"
+```
+
+---
+
 ## Repository structure
 
 ```
-TheDreamIsTheDoor/
-└── ash-archive/              # Main project root
-    ├── editions/
-    │   ├── openmw/           # Pilgrim Edition manifests and docs
-    │   └── mwse/             # Sleeper Edition manifests and docs
-    ├── shared/               # Categories, design rules, evaluation rubric
-    ├── tools/                # Python validation and generation scripts
-    ├── PROJECT-BIBLE.md      # Full design philosophy and horror translation notes
-    ├── ROADMAP.md
-    └── CHANGELOG.md
+AshArchive/
+├── ash-archive/              # Main project root
+│   ├── editions/
+│   │   ├── openmw/           # Pilgrim Edition manifests and docs
+│   │   └── mwse/             # Sleeper Edition manifests and docs
+│   ├── shared/               # Categories, design rules, evaluation rubric
+│   ├── tools/                # Python validation and generation scripts
+│   ├── tests/                # Python tests for tooling and schema checks
+│   ├── PROJECT-BIBLE.md      # Full design philosophy and horror translation notes
+│   ├── ROADMAP.md
+│   └── CHANGELOG.md
+├── CONTRIBUTING.md
+└── README.md
 ```
 
 ---
@@ -68,6 +90,15 @@ python tools/generate_modlist_markdown.py
 
 # Compare editions
 python tools/compare_editions.py
+
+# Check for duplicate mods across editions
+python tools/check_duplicate_mods.py
+
+# Summarise sourced-mod candidates
+python tools/summarize_sourced_mods.py
+
+# Run the test suite
+pytest
 ```
 
 ---
@@ -79,6 +110,12 @@ python tools/compare_editions.py
 - [Pilgrim Edition](ash-archive/editions/openmw/README.md) — OpenMW edition identity and scope
 - [Sleeper Edition](ash-archive/editions/mwse/README.md) — MWSE edition identity and scope
 - [Changelog](ash-archive/CHANGELOG.md)
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming conventions, commit style, PR expectations, validation commands, and guidelines for manifest and mod-sourcing changes.
 
 ---
 
