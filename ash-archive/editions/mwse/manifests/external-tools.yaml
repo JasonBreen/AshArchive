@@ -1,1 +1,8 @@
-tools: []
+tools:
+  - id: mod-organizer-2
+    name: Mod Organizer 2
+    status: planned
+    source: github
+    url: https://github.com/ModOrganizer2/modorganizer
+    version: ""
+    notes: "Scaffold entry; clone upstream repo for toolchain builds when needed."
