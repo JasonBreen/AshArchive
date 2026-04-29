@@ -4,7 +4,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from .manifest import load_mods, load_yaml
+from .manifest import load_mods, load_meta_document
 from .paths import categories_path
 
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -64,7 +64,7 @@ def _format_error(path: Path, mod_ref: str, detail: str) -> str:
 
 @lru_cache(maxsize=1)
 def _allowed_categories() -> frozenset[str]:
-    data = load_yaml(categories_path())
+    data = load_meta_document(categories_path())
     cats = data.get("categories", [])
     if not isinstance(cats, list):
         raise ValueError(f"Top-level key 'categories' must be a list: {categories_path()}")
