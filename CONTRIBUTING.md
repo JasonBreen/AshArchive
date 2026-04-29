@@ -77,7 +77,7 @@ Use a subset only when truly scope-limited; state what was run.
 
 ## Manifest change expectations
 
-Internal control metadata uses YAML `.control.meta` files for project tooling. These are separate from MO2 download sidecar `.meta` files and must not be represented as native sidecars.
+Internal control metadata files use the `.meta` extension (commonly `.control.meta`) and remain YAML-structured for project tooling. These are separate from MO2 download sidecar `.meta` files and must not be represented as native sidecars.
 
 When editing manifests:
 
