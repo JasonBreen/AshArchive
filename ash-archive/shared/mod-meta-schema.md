@@ -8,8 +8,8 @@ Internal control metadata `.control.meta` files provide deterministic, machine-r
 
 ## File format and naming
 
-- Format: YAML
-- Extension: `.control.meta`
+- Content format: YAML-structured metadata documents.
+- File-extension convention in this repository: `.meta` (this schema specifically uses `.control.meta`).
 - Naming pattern: `<slug>-<source_id>.control.meta`
   - For Nexus-backed rows, `source_id` is the numeric `nexus_id`.
   - For non-Nexus rows (`Unmanaged:*`, `DLC:*`, and rows without a Nexus ID), use `local`.
