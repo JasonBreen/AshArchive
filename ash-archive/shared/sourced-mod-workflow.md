@@ -3,9 +3,9 @@
 `shared/sourced-mods.control.meta` is an **intake desk** for candidates, not a list of accepted mods. It is internal control metadata and **not** an MO2 download sidecar `.meta` file.
 
 
-## Canonical YAML content schema (`.meta` extension convention)
+## Canonical metadata format (`.meta` extension, YAML-structured content)
 
-In this repository, `.meta` is the file-extension convention for metadata documents (including `.control.meta` variants). The file content remains YAML-structured.
+In this repository, metadata files use the `.meta` extension (including `.control.meta` variants). Content remains YAML-structured.
 
 `shared/sourced-mods.control.meta` must use a **top-level `sourced_candidates:` list**.
 
