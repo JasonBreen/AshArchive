@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from .manifest import load_yaml
+from .manifest import load_meta_document
 
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -154,7 +154,7 @@ def validate_candidate(candidate: dict, path: Path) -> list[str]:
 
 
 def load_sourced_candidates(path: Path) -> list[dict]:
-    data = load_yaml(path)
+    data = load_meta_document(path)
     candidates = data.get("sourced_candidates")
     if not isinstance(candidates, list):
         raise ValueError(f"Top-level key 'sourced_candidates' must be a list: {path}")

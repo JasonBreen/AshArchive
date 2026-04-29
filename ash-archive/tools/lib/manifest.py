@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 
 
-def load_yaml(path: Path) -> dict:
+def load_meta_document(path: Path) -> dict:
     try:
         with path.open("r", encoding="utf-8") as handle:
             data = yaml.safe_load(handle) or {}
@@ -20,7 +20,7 @@ def load_yaml(path: Path) -> dict:
 
 
 def load_mods(path: Path) -> list[dict]:
-    data = load_yaml(path)
+    data = load_meta_document(path)
     mods = data.get("mods", [])
     if not isinstance(mods, list):
         raise ValueError(f"'mods' must be a list: {path}")
