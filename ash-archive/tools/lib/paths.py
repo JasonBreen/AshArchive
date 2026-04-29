@@ -5,8 +5,8 @@ EDITIONS = ("openmw", "mwse")
 
 
 def manifest_path(edition: str) -> Path:
-    return ROOT / "editions" / edition / "manifests" / "mods.meta"
+    return ROOT / "editions" / edition / "manifests" / "mods.control.meta"
 
 
 def categories_path() -> Path:
-    return ROOT / "shared" / "categories.meta"
+    return ROOT / "shared" / "categories.control.meta"
