@@ -23,8 +23,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--file",
         type=Path,
-        default=ROOT / "shared" / "sourced-mods.yaml",
-        help="Path to sourced-mods yaml file (default: shared/sourced-mods.yaml)",
+        default=ROOT / "shared" / "sourced-mods.meta",
+        help="Path to sourced-mods meta file (default: shared/sourced-mods.meta)",
     )
     return parser.parse_args()
 

@@ -9,17 +9,17 @@ This document defines the canonical schema for per-mod metadata files in this re
 ## File format and naming
 
 - Format: YAML
-- Extension: `.meta.yaml`
-- Naming pattern: `<slug>-<source_id>.meta.yaml`
+- Extension: `.meta`
+- Naming pattern: `<slug>-<source_id>.meta`
   - For Nexus-backed rows, `source_id` is the numeric `nexus_id`.
   - For non-Nexus rows (`Unmanaged:*`, `DLC:*`, and rows without a Nexus ID), use `local`.
 
 Examples:
 
-- `the-dream-is-the-door-47423.meta.yaml`
-- `beware-the-sixth-house-46036.meta.yaml`
-- `unmanaged-siege-at-firemoth-local.meta.yaml`
-- `dlc-tribunal-local.meta.yaml`
+- `the-dream-is-the-door-47423.meta`
+- `beware-the-sixth-house-46036.meta`
+- `unmanaged-siege-at-firemoth-local.meta`
+- `dlc-tribunal-local.meta`
 
 ## Slug normalization rules
 
@@ -84,9 +84,9 @@ For `nexus` rows:
 - `source.nexus_id` must be the numeric ID from `modlist.txt`.
 - `source.nexus_url` should be the direct Nexus mod URL from `modlist.txt`.
 
-## Field mapping table (`modlist.txt` -> `.meta.yaml`)
+## Field mapping table (`modlist.txt` -> `.meta`)
 
-| `modlist.txt` column | `.meta.yaml` target | Mapping rule |
+| `modlist.txt` column | `.meta` target | Mapping rule |
 |---|---|---|
 | `#Mod_Name` | `source.mod_name` | Copy as-is. |
 | `#Nexus_ID` | `source.nexus_id` | If value > 0, copy integer; otherwise `null`. |

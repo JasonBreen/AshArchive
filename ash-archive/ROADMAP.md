@@ -16,8 +16,8 @@ Completed outcomes:
 **Goal:** build trustworthy candidate pools with traceable provenance.
 
 In-scope work:
-- Expand `shared/sourced-mods.yaml` with verified metadata and source links.
-- Keep triage and package metadata synchronized (`shared/source-triage.yaml`, `shared/source-package-meta.yaml`).
+- Expand `shared/sourced-mods.meta` with verified metadata and source links.
+- Keep triage and package metadata synchronized (`shared/source-triage.meta`, `shared/source-package-meta.meta`).
 - Track rejected options with retained reasoning.
 
 Exit criteria:

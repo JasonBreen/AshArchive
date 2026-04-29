@@ -80,7 +80,7 @@ Use a subset only when truly scope-limited; state what was run.
 When editing manifests:
 
 1. Keep OpenMW and MWSE as sibling implementations, not forced parity.
-2. Preserve category integrity against `shared/categories.yaml`.
+2. Preserve category integrity against `shared/categories.meta`.
 3. Preserve cross-edition status intent and explicit rationale.
 4. Avoid speculative metadata.
 5. Do not mark compatibility as tested without documented evidence.
@@ -98,7 +98,7 @@ When updating sourcing records:
 ## Sourced-mod candidate workflow
 
 Use `ash-archive/shared/sourced-mod-workflow.md` when triaging or promoting sourced candidates.
-Treat `shared/sourced-mods.yaml` as candidate intake metadata, not an accepted-mod manifest.
+Treat `shared/sourced-mods.meta` as candidate intake metadata, not an accepted-mod manifest.
 
 ## Documentation expectations
 
