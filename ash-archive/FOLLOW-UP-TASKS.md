@@ -31,9 +31,9 @@ Phase 1 is complete when candidate pools are sufficiently populated across major
 
 ### Phase 2 evaluation preparation
 
-- [ ] Define the first evaluation batches by category and test route.
-- [ ] Start with high-impact horror candidates: Sixth House/dream, blight/ambience, and MWSE survival/body-pressure candidates.
-- [ ] Prepare evaluation notes for compatibility, conflicts, mitigation paths, and edition-specific behavior.
+- [x] Define the first evaluation batches by category and test route.
+- [x] Start with high-impact horror candidates: Sixth House/dream, blight/ambience, and MWSE survival/body-pressure candidates.
+- [x] Prepare evaluation notes for compatibility, conflicts, mitigation paths, and edition-specific behavior.
 - [ ] Do not promote candidates into edition manifests until human review confirms the evaluation evidence.
 - [ ] Preserve intentional OpenMW/MWSE differences rather than forcing feature parity.
 
@@ -51,4 +51,3 @@ Phase 1 is complete when candidate pools are sufficiently populated across major
 - [ ] Run `python tools/compare_editions.py` after cross-edition status changes.
 - [ ] Run `python tools/check_duplicate_mods.py` after adding or renaming candidates.
 - [ ] Run `pytest` before opening milestone-completion PRs.
-

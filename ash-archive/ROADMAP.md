@@ -33,6 +33,11 @@ In-scope work:
 - Record compatibility notes, conflicts, and mitigation paths.
 - Promote tested entries into edition manifests; document rejections with rationale.
 
+Kickoff status (June 2026):
+- Initial evaluation batches are now defined in `shared/evaluation-batches.control.meta`.
+- Route definitions for first-pass testing are now in `shared/test-routes.md`.
+- Evaluation note requirements are now defined in `shared/mod-evaluation-rubric.md`.
+
 Exit criteria:
 - Core categories have evaluated coverage for both editions.
 - Major conflicts are either resolved or explicitly deferred with notes.

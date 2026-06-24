@@ -1,0 +1,47 @@
+phase2_evaluation_batches:
+  - id: batch-01-sixth-house-dream-pressure
+    category: dream-sixth-house
+    test_route: route-a-sixth-house-dream-pressure
+    priority: high
+    target_editions: [openmw, mwse]
+    candidates:
+      - the-dream-is-the-door
+      - lucid-disturbing-dreams
+      - beware-the-sixth-house
+      - kogoruhn-extinct-city-of-ash-and-sulfur
+    evidence_focus:
+      - quest progression stability
+      - dream trigger reliability
+      - encounter pacing and difficulty spikes
+      - location/pathing conflicts
+    promotion_gate: human-review-required
+
+  - id: batch-02-blight-ash-atmosphere
+    category: blight-ash-weather
+    test_route: route-b-blight-red-mountain-atmosphere
+    priority: high
+    target_editions: [openmw, mwse]
+    candidates:
+      - creeping-blight
+      - it-beats-openmw
+      - heartthrum
+    evidence_focus:
+      - weather progression behavior
+      - ambience trigger zone consistency
+      - cross-mod audio layering conflicts
+      - region performance under ash conditions
+    promotion_gate: human-review-required
+
+  - id: batch-03-mwse-survival-body-pressure
+    category: survival-body-horror
+    test_route: route-c-mwse-survival-pressure
+    priority: high
+    target_editions: [mwse]
+    candidates:
+      - ashfall
+    evidence_focus:
+      - survival loop usability and friction
+      - UI flow clarity under pressure
+      - long-session script stability
+      - economy/travel balance interaction
+    promotion_gate: human-review-required
