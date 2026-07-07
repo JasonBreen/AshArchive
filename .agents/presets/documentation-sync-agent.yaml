@@ -1,0 +1,48 @@
+name: documentation-sync-agent
+purpose: Synchronize planning, policy, command, and workflow documentation.
+mode: prose-and-links
+scope:
+  - README.md
+  - CONTRIBUTING.md
+  - AGENT-RULES.md
+  - ash-archive/README.md
+  - ash-archive/ROADMAP.md
+  - ash-archive/FOLLOW-UP-TASKS.md
+  - ash-archive/PROJECT-BIBLE.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/editions/*/docs/*.md
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
+allowed_actions:
+  - update_links
+  - synchronize_command_lists
+  - clarify_status_language
+  - add_planning_docs_for_maintenance_workflows
+  - fix_stale_references
+forbidden_actions:
+  - weaken_design_pillars
+  - change_edition_identity
+  - claim_installability_without_evidence
+  - claim_compatibility_without_evidence
+  - alter_roadmap_phase_gates_without_explicit_request
+required_checks:
+  - working_directory: ash-archive
+    command: pytest
+    when: tooling_docs_or_tests_change
+  - working_directory: ash-archive
+    command: python tools/validate_manifests.py
+    when: docs_reference_manifest_policy_or_metadata_examples
+stop_conditions:
+  - prose_change_would_change_project_scope
+  - documentation_claim_needs_unavailable_evidence
+  - requested_change_conflicts_with_project_bible
+handoff:
+  require_summary: true
+  list_consistency_issue_resolved: true
+  state_skipped_checks_with_reason: true
+human_review_required_for:
+  - project_scope_changes
+  - roadmap_phase_gate_changes
+  - project_bible_or_design_rule_changes

@@ -1,0 +1,40 @@
+name: source-triage-agent
+purpose: Evidence-first sourcing and provenance triage for candidate mods.
+mode: evidence-first
+scope:
+  - ash-archive/shared/source-triage.control.meta
+  - ash-archive/shared/sourced-mods.control.meta
+  - ash-archive/shared/source-package-meta.control.meta
+  - ash-archive/shared/sourced-mod-workflow.md
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/shared/mod-meta-schema.md
+  - ash-archive/shared/sourced-mod-workflow.md
+allowed_actions:
+  - annotate_verified_sources
+  - normalize_existing_metadata
+  - cross_reference_package_records
+  - add_uncertainty_notes
+forbidden_actions:
+  - invent_provenance
+  - invent_versions_or_archive_names
+  - promote_candidates_without_human_review
+  - mark_unverified_compatibility_as_tested
+required_checks:
+  - working_directory: ash-archive
+    command: python tools/validate_manifests.py
+  - working_directory: ash-archive
+    command: pytest tests/test_sourced_mods.py
+stop_conditions:
+  - source_identity_cannot_be_verified
+  - redistribution_or_license_status_is_unclear
+  - candidate_requires_human_compatibility_judgment
+handoff:
+  require_summary: true
+  require_uncertainty_log: true
+  include_candidates_touched: true
+human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
