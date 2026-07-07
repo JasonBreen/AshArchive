@@ -9,6 +9,7 @@ These rules apply to AI assistants (Codex, Copilot, Claude, and similar agents) 
 3. Limit scope to the requested task; do not bundle unrelated feature work.
 4. When uncertain, document uncertainty explicitly instead of guessing.
 5. Run relevant validation commands before opening or updating a PR.
+6. Use `ash-archive/LOCAL-AGENT-PRESETS.md` when configuring or running local agents for recurring automated tasks.
 
 ## Repository direction and design constraints
 
