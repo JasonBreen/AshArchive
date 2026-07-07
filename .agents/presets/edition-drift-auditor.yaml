@@ -1,0 +1,41 @@
+name: edition-drift-auditor
+purpose: Audit whether OpenMW and MWSE edition differences are intentional, unresolved, or mechanical drift.
+mode: audit-first
+scope:
+  - ash-archive/editions/openmw/**
+  - ash-archive/editions/mwse/**
+  - ash-archive/tools/compare_editions.py
+  - ash-archive/tools/check_duplicate_mods.py
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
+  - ash-archive/shared/design-rules.md
+  - ash-archive/editions/openmw/README.md
+  - ash-archive/editions/mwse/README.md
+allowed_actions:
+  - run_cross_edition_comparison
+  - classify_drift_as_intentional_needs_review_or_mechanical
+  - add_notes_for_unexplained_drift
+  - apply_clear_mechanical_fixes
+forbidden_actions:
+  - force_feature_parity_between_editions
+  - remove_engine_specific_differences
+  - promote_or_remove_mods_to_balance_counts
+required_checks:
+  - working_directory: ash-archive
+    command: python tools/compare_editions.py
+  - working_directory: ash-archive
+    command: python tools/check_duplicate_mods.py
+stop_conditions:
+  - drift_requires_design_judgment
+  - correct_fix_depends_on_engine_testing
+  - difference_is_documented_as_intentional
+handoff:
+  require_summary: true
+  classify_each_finding: true
+  preserve_edition_specific_rationale: true
+human_review_required_for:
+  - parity_decisions
+  - engine_specific_behavior_claims
+  - load_order_or_patch_strategy_changes

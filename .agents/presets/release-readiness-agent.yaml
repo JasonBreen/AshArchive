@@ -1,0 +1,46 @@
+name: release-readiness-agent
+purpose: Prepare advisory release-readiness and blocker summaries for Wabbajack packaging.
+mode: advisory-only
+scope:
+  - ash-archive/editions/openmw/wabbajack/*.md
+  - ash-archive/editions/mwse/wabbajack/*.md
+  - ash-archive/editions/openmw/docs/*.md
+  - ash-archive/editions/mwse/docs/*.md
+  - ash-archive/editions/openmw/manifests/*.control.meta
+  - ash-archive/editions/mwse/manifests/*.control.meta
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/ROADMAP.md
+  - ash-archive/editions/openmw/wabbajack/release-checklist.md
+  - ash-archive/editions/mwse/wabbajack/release-checklist.md
+allowed_actions:
+  - mark_checklist_items_as_blocked_pending_or_evidence_needed
+  - prepare_release_gap_summaries
+  - run_required_validation_commands
+  - summarize_readiness_by_edition
+forbidden_actions:
+  - mark_release_ready_without_human_review
+  - imply_installable_build_before_phase_4_criteria
+  - invent_end_to_end_install_test_results
+  - hide_blockers_to_simplify_release_notes
+required_checks:
+  - working_directory: ash-archive
+    command: python tools/validate_manifests.py
+  - working_directory: ash-archive
+    command: python tools/generate_modlist_markdown.py
+  - working_directory: ash-archive
+    command: pytest
+stop_conditions:
+  - checklist_item_requires_missing_end_to_end_install_evidence
+  - release_note_would_claim_unsupported_readiness
+  - blocker_severity_requires_human_triage
+handoff:
+  require_summary: true
+  summarize_by_edition: true
+  list_blockers_by_severity: true
+  include_exact_validation_commands: true
+human_review_required_for:
+  - release_readiness_decisions
+  - end_to_end_install_claims
+  - final_wabbajack_packaging

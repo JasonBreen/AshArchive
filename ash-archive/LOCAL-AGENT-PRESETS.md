@@ -181,7 +181,20 @@ handoff:
   require_uncertainty_log: true
 ```
 
-Preset files should live outside generated content. If committed later, prefer a dedicated configuration directory such as `.agents/presets/` with one preset per file and a README that points back to this plan.
+Preset files live outside generated content in `.agents/presets/`, with one runner-neutral YAML file per preset and a README that points back to this plan. Keep those files synchronized whenever this plan changes.
+
+## Committed preset files
+
+The repository currently includes runner-neutral YAML presets under `.agents/presets/`:
+
+- `.agents/presets/source-triage-agent.yaml`
+- `.agents/presets/manifest-lint-agent.yaml`
+- `.agents/presets/modlist-regenerator.yaml`
+- `.agents/presets/edition-drift-auditor.yaml`
+- `.agents/presets/documentation-sync-agent.yaml`
+- `.agents/presets/release-readiness-agent.yaml`
+
+Use `.agents/presets/README.md` as the local index for maintenance presets and this document as the policy source for guardrails and review gates.
 
 ## Automation rollout plan
 
