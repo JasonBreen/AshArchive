@@ -6,6 +6,22 @@ from lib.paths import manifest_path
 from lib.validation import validate_manifest
 
 
+def find_cross_status_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -> list[str]:
+    shared = set(openmw) & set(mwse)
+    return sorted(
+        mod_id
+        for mod_id in shared
+        if openmw[mod_id].get("cross_edition_status") != mwse[mod_id].get("cross_edition_status")
+    )
+
+
+def find_cross_name_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -> list[str]:
+    shared = set(openmw) & set(mwse)
+    return sorted(
+        mod_id for mod_id in shared if openmw[mod_id].get("name") != mwse[mod_id].get("name")
+    )
+
+
 def main() -> int:
     errs = []
     errs.extend(validate_manifest(manifest_path("openmw"), "openmw"))
@@ -33,11 +49,8 @@ def main() -> int:
         for mod_id, mod in {**openmw, **mwse}.items()
         if mod.get("cross_edition_status") == "different-implementation"
     )
-    mismatched = sorted(
-        mod_id
-        for mod_id in shared
-        if openmw[mod_id].get("cross_edition_status") != mwse[mod_id].get("cross_edition_status")
-    )
+    mismatched = find_cross_status_mismatches(openmw, mwse)
+    name_mismatched = find_cross_name_mismatches(openmw, mwse)
 
     print("Shared IDs:", ", ".join(shared) or "(none)")
     print("OpenMW-only IDs:", ", ".join(open_only) or "(none)")
@@ -45,6 +58,13 @@ def main() -> int:
     print("IDs marked equivalent-needed:", ", ".join(equiv) or "(none)")
     print("IDs marked different-implementation:", ", ".join(diff_impl) or "(none)")
     print("Mismatched cross_edition_status:", ", ".join(mismatched) or "(none)")
+    print("Mismatched shared-ID names:", ", ".join(name_mismatched) or "(none)")
+    if mismatched or name_mismatched:
+        if mismatched:
+            print("[ERROR] Shared manifest IDs must use the same cross_edition_status.")
+        if name_mismatched:
+            print("[ERROR] Shared manifest IDs must represent the same named identity.")
+        return 1
     return 0
 
 

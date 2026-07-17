@@ -1,7 +1,10 @@
-name: Pre-merge archive integrity
+name: Archive integrity
 
 on:
   pull_request:
+    branches:
+      - main
+  push:
     branches:
       - main
   workflow_dispatch:
@@ -24,7 +27,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out the pull request
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -40,9 +43,7 @@ jobs:
         run: python tools/validate_manifests.py
 
       - name: Verify generated modlists are current
-        run: |
-          python tools/generate_modlist_markdown.py
-          git diff --exit-code -- editions/openmw/MODLIST.md editions/mwse/MODLIST.md
+        run: python tools/generate_modlist_markdown.py --check
 
       - name: Review edition drift
         run: python tools/compare_editions.py

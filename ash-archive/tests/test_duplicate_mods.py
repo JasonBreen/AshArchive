@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from tools.check_duplicate_mods import (
     DuplicateReport,
+    _load_mods_for_path,
     find_cross_edition_name_mismatches,
     find_duplicates,
 )
@@ -33,3 +36,10 @@ def test_cross_edition_duplicate_names_with_different_ids_warn() -> None:
             "mwse: patch-for-purists-mwse; openmw: patch-for-purists-openmw",
         )
     ]
+
+
+def test_load_failure_is_reported_to_caller(tmp_path: Path) -> None:
+    mods, load_failed = _load_mods_for_path(tmp_path / "missing.control.meta")
+
+    assert mods == []
+    assert load_failed is True

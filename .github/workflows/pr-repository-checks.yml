@@ -1,7 +1,10 @@
-name: Pre-merge repository checks
+name: Repository checks
 
 on:
   pull_request:
+    branches:
+      - main
+  push:
     branches:
       - main
   workflow_dispatch:
@@ -24,7 +27,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out the pull request
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -45,7 +48,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out the pull request
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6

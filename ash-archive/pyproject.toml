@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ash-archive-control"
 version = "0.1.0"
@@ -17,6 +21,10 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+[tool.setuptools]
+packages = ["tools", "tools.lib"]
+py-modules = []
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
@@ -26,6 +34,3 @@ select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
 
 [tool.black]
 line-length = 100
-
-[tool.setuptools]
-py-modules = []
