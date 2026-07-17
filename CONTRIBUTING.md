@@ -1,27 +1,45 @@
-# Contributing to TheDreamIsTheDoor / Ash Archive
+# Contributing to Ash Archive
 
-Thank you for contributing.
+Ash Archive is a planning and control repository for two sibling Morrowind Wabbajack editions:
 
-This repository is a planning/control repo for **Ash Archive**, organized under `ash-archive/`, with two sibling editions:
+- **Pilgrim Edition** — OpenMW
+- **Sleeper Edition** — classic Morrowind with MCP, MGE XE, and MWSE
 
-- **Pilgrim Edition** (OpenMW)
-- **Sleeper Edition** (classic Morrowind + MCP + MGE XE + MWSE)
+The project is in Phase 1 sourcing. Keep compatibility, installability, and release claims evidence-based; neither edition is currently a playable release.
 
-The project is scaffold/planning-first. Do not present unverified compatibility claims as tested facts.
+## Required reading
+
+Before editing:
+
+1. Read [AGENT-RULES.md](AGENT-RULES.md) if an AI assistant is involved.
+2. Read [ash-archive/PROJECT-BIBLE.md](ash-archive/PROJECT-BIBLE.md) for design constraints.
+3. Read the relevant edition or shared-subsystem documentation.
+4. For recurring automated work, select the narrowest preset in [ash-archive/LOCAL-AGENT-PRESETS.md](ash-archive/LOCAL-AGENT-PRESETS.md).
+
+## Developer setup
+
+Use Python 3.11 or newer. From `ash-archive/`:
+
+```bash
+python -m pip install --editable ".[dev]"
+```
 
 ## Repository layout
 
-- `ash-archive/editions/openmw/` — Pilgrim edition docs and manifests
-- `ash-archive/editions/mwse/` — Sleeper edition docs and manifests
-- `ash-archive/shared/` — shared categories, design rules, sourcing metadata
-- `ash-archive/tools/` — validation and markdown generation tooling
-- `ash-archive/tests/` — Python tests for tooling and schema checks
-- `ash-archive/PROJECT-BIBLE.md` — core project thesis and non-negotiable design constraints
+- `ash-archive/editions/openmw/` — Pilgrim Edition manifests, generated preview, and docs
+- `ash-archive/editions/mwse/` — Sleeper Edition manifests, generated preview, MO2 planning, and docs
+- `ash-archive/shared/` — categories, sourcing metadata, provenance, and shared policy
+- `ash-archive/tools/` — validation, generation, comparison, and lint tooling
+- `ash-archive/tests/` — schema, tooling, agent, skill, and convention tests
+- `.agents/presets/` — canonical runner-neutral automation policy
+- `.codex/agents/` — project-scoped Codex translations
+- `.agents/skills/` — reusable repository workflows
 
-## Branch naming conventions
+## Branch and commit conventions
 
-Use focused branches with one of these prefixes:
+Use a focused branch with one of these prefixes:
 
+- `agent/`
 - `codex/`
 - `copilot/`
 - `docs/`
@@ -31,35 +49,29 @@ Use focused branches with one of these prefixes:
 - `ci/`
 
 Examples:
-- `docs/update-openmw-install-assumptions`
-- `tooling/manifest-error-improvements`
-- `manifests/mwse-status-transition-notes`
 
-## Commit message style
+- `docs/sync-phase-one-status`
+- `tooling/improve-manifest-errors`
+- `manifests/mwse-evaluation-notes`
 
-Use concise prefix-based commit messages:
-
-- `docs:`
-- `tools:`
-- `manifests:`
-- `shared:`
-- `openmw:`
-- `mwse:`
-- `tests:`
-- `ci:`
-
-Examples:
-- `docs: add governance guidance for PR scope`
-- `tools: improve duplicate detection messaging`
-- `shared: add sourced-mod verification fields`
+Use a concise, descriptive commit message. Prefixes such as `docs:`, `tools:`, `manifests:`, `shared:`, `openmw:`, `mwse:`, `tests:`, and `ci:` are encouraged.
 
 ## Pull request expectations
 
-1. Keep PRs small and reviewable.
-2. Explain **what changed**, **why**, and **what did not change**.
-3. Include edition impact (Shared/OpenMW/MWSE/Tooling/Docs-only).
-4. Include validation results or a clear reason for any skipped checks.
-5. Do not mix unrelated changes in one PR.
+1. Keep the PR focused and reviewable.
+2. Explain what changed, why it changed, and what was deliberately left unchanged.
+3. Identify edition impact: shared, Pilgrim, Sleeper, tooling, automation, or docs-only.
+4. Separate recorded facts from recommendations and unresolved assumptions.
+5. Include exact validation results and explain skipped checks.
+6. Update the appropriate changelog when the change is meaningful to maintainers or future release notes.
+7. Do not combine content promotion, tooling refactors, and unrelated documentation cleanup in one PR.
+
+Pull requests to `main` run two automated workflows:
+
+- Repository checks install development dependencies, lint repository configuration, and run the test suite.
+- Archive-integrity checks validate manifests, verify generated modlists, compare editions, and scan for duplicates.
+
+These checks protect repository consistency; they do not prove game compatibility or release readiness.
 
 ## Validation commands
 
@@ -71,66 +83,43 @@ python tools/validate_manifests.py
 python tools/generate_modlist_markdown.py
 python tools/compare_editions.py
 python tools/check_duplicate_mods.py
+python tools/summarize_sourced_mods.py
 pytest
 ```
 
-Use a subset only when truly scope-limited; state what was run.
+After generating modlists, inspect the diff and confirm that only expected generated sections changed.
 
-## Manifest change expectations
+## Manifest and generated-file rules
 
-Internal control metadata files use the `.meta` extension (commonly `.control.meta`) and remain YAML-structured for project tooling. These are separate from MO2 download sidecar `.meta` files and must not be represented as native sidecars.
+Internal control metadata uses YAML-formatted `.control.meta` files. These are not Mod Organizer 2 download sidecars and must not be represented as native sidecars.
 
 When editing manifests:
 
-1. Keep OpenMW and MWSE as sibling implementations, not forced parity.
+1. Preserve Pilgrim and Sleeper as sibling implementations, not forced copies.
 2. Preserve category integrity against `shared/categories.control.meta`.
-3. Preserve cross-edition status intent and explicit rationale.
-4. Avoid speculative metadata.
-5. Do not mark compatibility as tested without documented evidence.
+3. Preserve explicit cross-edition status and rationale.
+4. Do not invent source, version, archive, hash, requirement, or compatibility data.
+5. Do not mark compatibility as tested without recorded evidence.
+6. Regenerate `MODLIST.md` through the generator; never hand-edit generated sections.
 
-## Mod sourcing expectations
+## Sourced-mod workflow
 
-When updating sourcing records:
+Use [ash-archive/shared/sourced-mod-workflow.md](ash-archive/shared/sourced-mod-workflow.md) when triaging or promoting candidates. Treat `shared/sourced-mods.control.meta` as intake metadata, not an accepted-mod manifest.
 
-1. Record evidence and confidence explicitly.
-2. Distinguish candidate vs accepted status clearly.
-3. Do not invent URLs, archive names, or version identifiers.
-4. Do not mark mods accepted without review/testing notes.
+- Record evidence and confidence explicitly.
+- Distinguish candidate, accepted, rejected, and deferred states.
+- Preserve rejected records and their reasoning.
+- Do not promote a candidate without review and compatibility evidence.
+- Keep multi-package source records synchronized when child archives differ from the parent source version.
 
+## Documentation rules
 
-## Sourced-mod candidate workflow
+- Keep the README, roadmap, follow-up checklist, edition docs, and changelogs aligned.
+- State the current planning phase and avoid implying an installer exists before Phase 4 criteria are met.
+- Label unknown information as `unverified`, `needs-testing`, `planned`, `blocked`, or `TBD` as appropriate.
+- Explain what evidence or test would resolve an uncertainty.
+- Preserve Morrowind-native psychological horror, evidence-before-explanation, and the two-edition model.
 
-Use `ash-archive/shared/sourced-mod-workflow.md` when triaging or promoting sourced candidates.
-Treat `shared/sourced-mods.control.meta` as candidate intake metadata, not an accepted-mod manifest.
+## Design-bible exceptions
 
-## Documentation expectations
-
-1. Keep docs aligned with current repo state (planning/scaffold where applicable).
-2. Avoid language that implies release-ready installer state unless true.
-3. Preserve project horror direction: Morrowind-native, evidence-first, no crossover IP content.
-
-## Documenting uncertainty
-
-When facts are incomplete:
-
-- Use explicit uncertainty wording (for example: "unverified", "needs confirmation", "TBD").
-- Add what evidence is missing and what test/check would confirm it.
-- Never replace unknowns with invented details.
-
-## Handling OpenMW vs MWSE differences
-
-1. Prefer edition-appropriate solutions over artificial parity.
-2. Explain when behavior intentionally differs between editions.
-3. Do not collapse both editions into a shared load order.
-
-## Proposing design-bible exceptions
-
-If a change appears to conflict with `ash-archive/PROJECT-BIBLE.md`:
-
-1. Open a PR with a clearly labeled **Design-Bible Exception Request** section.
-2. Explain the exact rule affected, rationale, alternatives considered, and risk.
-3. Do not merge exception-like changes without human maintainer review.
-
-## Additional agent guidance
-
-AI agents should also follow `AGENT-RULES.md`.
+If a proposal conflicts with `ash-archive/PROJECT-BIBLE.md`, add a clearly labeled **Design-Bible Exception Request** to the PR. Identify the affected rule, rationale, alternatives, and risk. Human maintainer approval is required before merge.
