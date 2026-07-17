@@ -24,6 +24,8 @@ SKILL_PRESETS = {
     "ash-archive-audit-edition-drift": "edition-drift-auditor.yaml",
     "ash-archive-sync-docs": "documentation-sync-agent.yaml",
     "ash-archive-assess-release": "release-readiness-agent.yaml",
+    "ash-archive-plan-wabbajack-list": "wabbajack-list-planner.yaml",
+    "ash-archive-write-wabbajack-copy": "wabbajack-list-writer.yaml",
 }
 
 

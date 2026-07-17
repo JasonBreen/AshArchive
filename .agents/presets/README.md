@@ -17,6 +17,8 @@ forbidden actions, checks, and human review gates.
 | [`edition-drift-auditor.yaml`](edition-drift-auditor.yaml) | Audit OpenMW/MWSE divergence and duplicate risks. |
 | [`documentation-sync-agent.yaml`](documentation-sync-agent.yaml) | Synchronize planning, policy, and workflow documentation. |
 | [`release-readiness-agent.yaml`](release-readiness-agent.yaml) | Prepare advisory release-readiness and blocker summaries. |
+| [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare nonbinding, evidence-backed dual-edition list plans. |
+| [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft evidence-backed, edition-specific Wabbajack prose. |
 
 ## Runner expectations
 
