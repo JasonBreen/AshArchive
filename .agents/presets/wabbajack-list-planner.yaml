@@ -2,7 +2,6 @@ name: wabbajack-list-planner
 purpose: Prepare taste-aligned, evidence-backed plans for the two Ash Archive lists.
 mode: advisory-planning
 scope:
-  - ash-archive/PROJECT-BIBLE.md
   - ash-archive/ROADMAP.md
   - ash-archive/FOLLOW-UP-TASKS.md
   - ash-archive/shared/*.control.meta

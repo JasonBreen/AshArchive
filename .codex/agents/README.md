@@ -14,6 +14,8 @@ Available agents:
 - `modlist-regenerator`
 - `edition-drift-auditor`
 - `documentation-sync-agent`
+- `wabbajack-list-planner`
+- `wabbajack-list-writer`
 - `release-readiness-agent`
 - `wabbajack-list-planner`
 - `wabbajack-list-writer`
