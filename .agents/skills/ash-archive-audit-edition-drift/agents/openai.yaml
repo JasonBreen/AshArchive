@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Edition Drift Audit"
+  short_description: "Cross-edition drift classification"
+  default_prompt: "Use $ash-archive-audit-edition-drift to classify differences between the OpenMW and MWSE editions."

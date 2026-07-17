@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Modlist Regeneration"
+  short_description: "Safe generated modlist regeneration"
+  default_prompt: "Use $ash-archive-regenerate-modlists to refresh generated edition modlists from their manifests."
