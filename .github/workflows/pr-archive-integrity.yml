@@ -1,0 +1,51 @@
+name: Pre-merge archive integrity
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: archive-integrity-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: ash-archive
+
+jobs:
+  archive-integrity:
+    name: Review manifests and edition integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: ash-archive/pyproject.toml
+
+      - name: Install project dependencies
+        run: python -m pip install --editable .
+
+      - name: Validate manifests
+        run: python tools/validate_manifests.py
+
+      - name: Verify generated modlists are current
+        run: |
+          python tools/generate_modlist_markdown.py
+          git diff --exit-code -- editions/openmw/MODLIST.md editions/mwse/MODLIST.md
+
+      - name: Review edition drift
+        run: python tools/compare_editions.py
+
+      - name: Check for duplicate mods
+        run: python tools/check_duplicate_mods.py
