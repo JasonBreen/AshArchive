@@ -106,17 +106,25 @@ def validate_candidate(candidate: dict, path: Path) -> list[str]:
 
     if candidate["candidate_status"] not in CANDIDATE_STATUS:
         errors.append(
-            _format_error(path, mod_ref, f"invalid candidate_status {candidate['candidate_status']!r}")
+            _format_error(
+                path, mod_ref, f"invalid candidate_status {candidate['candidate_status']!r}"
+            )
         )
     if candidate["thematic_bucket"] not in THEMATIC_BUCKETS:
         errors.append(
-            _format_error(path, mod_ref, f"invalid thematic_bucket {candidate['thematic_bucket']!r}")
+            _format_error(
+                path, mod_ref, f"invalid thematic_bucket {candidate['thematic_bucket']!r}"
+            )
         )
     if candidate["source_type"] not in SOURCE_TYPES:
-        errors.append(_format_error(path, mod_ref, f"invalid source_type {candidate['source_type']!r}"))
+        errors.append(
+            _format_error(path, mod_ref, f"invalid source_type {candidate['source_type']!r}")
+        )
     if candidate["source_confidence"] not in SOURCE_CONFIDENCE:
         errors.append(
-            _format_error(path, mod_ref, f"invalid source_confidence {candidate['source_confidence']!r}")
+            _format_error(
+                path, mod_ref, f"invalid source_confidence {candidate['source_confidence']!r}"
+            )
         )
     if candidate["compatibility_status"] not in COMPATIBILITY_STATUS:
         errors.append(
@@ -127,22 +135,32 @@ def validate_candidate(candidate: dict, path: Path) -> list[str]:
             )
         )
     if candidate["risk_level"] not in RISK_LEVELS:
-        errors.append(_format_error(path, mod_ref, f"invalid risk_level {candidate['risk_level']!r}"))
+        errors.append(
+            _format_error(path, mod_ref, f"invalid risk_level {candidate['risk_level']!r}")
+        )
     if candidate["promotion_target"] not in PROMOTION_TARGETS:
         errors.append(
-            _format_error(path, mod_ref, f"invalid promotion_target {candidate['promotion_target']!r}")
+            _format_error(
+                path, mod_ref, f"invalid promotion_target {candidate['promotion_target']!r}"
+            )
         )
 
     intended_editions = candidate["intended_editions"]
     if not isinstance(intended_editions, list) or not intended_editions:
-        errors.append(_format_error(path, mod_ref, "field 'intended_editions' must be a non-empty list"))
+        errors.append(
+            _format_error(path, mod_ref, "field 'intended_editions' must be a non-empty list")
+        )
     elif any(not isinstance(edition, str) for edition in intended_editions):
         errors.append(_format_error(path, mod_ref, "field 'intended_editions' must be list[str]"))
     else:
-        invalid_editions = [edition for edition in intended_editions if edition not in INTENDED_EDITIONS]
+        invalid_editions = [
+            edition for edition in intended_editions if edition not in INTENDED_EDITIONS
+        ]
         if invalid_editions:
             errors.append(
-                _format_error(path, mod_ref, f"invalid intended_editions values {invalid_editions!r}")
+                _format_error(
+                    path, mod_ref, f"invalid intended_editions values {invalid_editions!r}"
+                )
             )
 
     for field_name in ("reviewed_by", "related_manifest_ids"):

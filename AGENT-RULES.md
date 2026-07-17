@@ -42,6 +42,7 @@ These rules apply to AI assistants (Codex, Copilot, Claude, and similar agents) 
 From `ash-archive/`:
 
 ```bash
+python tools/lint_repo.py
 python tools/validate_manifests.py
 python tools/generate_modlist_markdown.py
 python tools/compare_editions.py

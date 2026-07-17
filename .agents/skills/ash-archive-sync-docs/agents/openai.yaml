@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Documentation Sync"
+  short_description: "Policy-safe documentation synchronization"
+  default_prompt: "Use $ash-archive-sync-docs to reconcile stale Ash Archive documentation while preserving project policy."

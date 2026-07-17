@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
 import yaml
 
 from tools.lib.sourced_mods import validate_sourced_mods
-
 
 FIXTURE_REQUIRED_FIELDS = {
     "id": "sample-candidate",
@@ -31,7 +30,9 @@ FIXTURE_REQUIRED_FIELDS = {
 
 
 def _write_sourced(path: Path, entries: list[dict]) -> None:
-    path.write_text(yaml.safe_dump({"sourced_candidates": entries}, sort_keys=False), encoding="utf-8")
+    path.write_text(
+        yaml.safe_dump({"sourced_candidates": entries}, sort_keys=False), encoding="utf-8"
+    )
 
 
 def test_valid_sourced_fixture_passes() -> None:

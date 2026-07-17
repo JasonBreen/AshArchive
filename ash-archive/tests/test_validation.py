@@ -5,7 +5,6 @@ import yaml
 
 from tools.lib.validation import validate_manifest
 
-
 FIXTURE_REQUIRED_FIELDS = {
     "id": "sample-mod",
     "name": "Sample Mod",

@@ -23,6 +23,7 @@ Describe what changed and why.
 
 ```bash
 cd ash-archive
+python tools/lint_repo.py
 python tools/validate_manifests.py
 python tools/generate_modlist_markdown.py
 python tools/compare_editions.py

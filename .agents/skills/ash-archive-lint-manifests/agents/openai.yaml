@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Manifest Lint"
+  short_description: "Mechanical manifest repair and validation"
+  default_prompt: "Use $ash-archive-lint-manifests to reproduce and mechanically fix Ash Archive manifest validation failures."

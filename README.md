@@ -42,7 +42,7 @@ See [ROADMAP.md](ash-archive/ROADMAP.md) for the phased plan and [CHANGELOG.md](
 
 - **Python 3.11+**
 - **PyYAML** (runtime dependency)
-- **pytest** and **ruff** (development/testing)
+- **pytest**, **ruff**, and **yamllint** (development/testing)
 
 ---
 
@@ -61,6 +61,8 @@ pip install -e ".[dev]"
 
 ```
 AshArchive/
+├── .agents/skills/            # Repo-scoped reusable Codex workflows
+├── .codex/agents/             # Repo-scoped Codex agent configurations
 ├── ash-archive/              # Main project root
 │   ├── editions/
 │   │   ├── openmw/           # Pilgrim Edition manifests and docs
@@ -84,6 +86,9 @@ Internal control metadata lives in YAML `.control.meta` files used by project to
 All commands are run from inside `ash-archive/`.
 
 ```bash
+# Lint Python, YAML, agent TOML, and repo skills
+python tools/lint_repo.py
+
 # Validate manifests
 python tools/validate_manifests.py
 
@@ -112,7 +117,7 @@ pytest
 - [Pilgrim Edition](ash-archive/editions/openmw/README.md) — OpenMW edition identity and scope
 - [Sleeper Edition](ash-archive/editions/mwse/README.md) — MWSE edition identity and scope
 - [Changelog](ash-archive/CHANGELOG.md)
-- [Local Agent Presets](ash-archive/LOCAL-AGENT-PRESETS.md) — planned presets for safe automated maintenance tasks
+- [Local Agent Presets](ash-archive/LOCAL-AGENT-PRESETS.md) — repo-scoped agents and skills for safe maintenance tasks
 
 ---
 

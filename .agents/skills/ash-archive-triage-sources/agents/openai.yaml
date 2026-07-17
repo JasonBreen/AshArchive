@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Source Triage"
+  short_description: "Evidence-first mod source triage"
+  default_prompt: "Use $ash-archive-triage-sources to investigate and document an Ash Archive mod source without inventing provenance."

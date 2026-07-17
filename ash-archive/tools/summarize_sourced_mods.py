@@ -8,7 +8,6 @@ from pathlib import Path
 from lib.paths import ROOT
 from lib.sourced_mods import validate_sourced_mods
 
-
 SUMMARY_FIELDS = [
     "candidate_status",
     "intended_editions",
@@ -19,7 +18,9 @@ SUMMARY_FIELDS = [
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Summarize sourced-mod candidates by thematic bucket.")
+    parser = argparse.ArgumentParser(
+        description="Summarize sourced-mod candidates by thematic bucket."
+    )
     parser.add_argument(
         "--file",
         type=Path,
@@ -48,8 +49,12 @@ def main() -> int:
 
     for bucket in sorted(grouped):
         print(f"[{bucket}]")
-        print("id | name | candidate_status | intended_editions | compatibility_status | risk_level | source_confidence")
-        print("-- | ---- | ---------------- | ----------------- | -------------------- | ---------- | -----------------")
+        print(
+            "id | name | candidate_status | intended_editions | compatibility_status | risk_level | source_confidence"
+        )
+        print(
+            "-- | ---- | ---------------- | ----------------- | -------------------- | ---------- | -----------------"
+        )
         for candidate in sorted(grouped[bucket], key=lambda item: item["id"]):
             row = [candidate["id"], candidate["name"]]
             for field in SUMMARY_FIELDS:

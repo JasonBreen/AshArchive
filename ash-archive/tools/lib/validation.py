@@ -4,7 +4,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from .manifest import load_mods, load_meta_document
+from .manifest import load_meta_document, load_mods
 from .paths import categories_path
 
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
