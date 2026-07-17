@@ -112,7 +112,11 @@ pytest
 - [Pilgrim Edition](ash-archive/editions/openmw/README.md) — OpenMW edition identity and scope
 - [Sleeper Edition](ash-archive/editions/mwse/README.md) — MWSE edition identity and scope
 - [Changelog](ash-archive/CHANGELOG.md)
+<<<<<<< ours
+- [Local Agent Presets](ash-archive/LOCAL-AGENT-PRESETS.md) — repo-scoped agents for safe automated maintenance tasks
+=======
 - [Local Agent Presets](ash-archive/LOCAL-AGENT-PRESETS.md) — planned presets for safe automated maintenance tasks
+>>>>>>> theirs
 
 ---
 

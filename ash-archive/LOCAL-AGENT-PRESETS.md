@@ -1,6 +1,10 @@
 # Local Agent Presets
 
+<<<<<<< ours
+This document defines reusable local agent presets for routine Ash Archive maintenance. The presets are intentionally conservative: agents may prepare evidence, apply mechanical updates, and run validation, but they must not invent provenance, compatibility evidence, or release readiness.
+=======
 This document plans reusable local agent presets for routine Ash Archive maintenance. The presets are intentionally conservative: agents may prepare evidence, apply mechanical updates, and run validation, but they must not invent provenance, compatibility evidence, or release readiness.
+>>>>>>> theirs
 
 ## Shared operating rules
 
@@ -181,7 +185,11 @@ handoff:
   require_uncertainty_log: true
 ```
 
+<<<<<<< ours
+Preset files live outside generated content in `.agents/presets/`, with one runner-neutral YAML file per preset and a README that points back to this plan. Runnable project-scoped Codex translations live in `.codex/agents/`, with one TOML file per preset. Keep both layers synchronized whenever this policy changes.
+=======
 Preset files live outside generated content in `.agents/presets/`, with one runner-neutral YAML file per preset and a README that points back to this plan. Keep those files synchronized whenever this plan changes.
+>>>>>>> theirs
 
 ## Committed preset files
 
@@ -196,6 +204,27 @@ The repository currently includes runner-neutral YAML presets under `.agents/pre
 
 Use `.agents/presets/README.md` as the local index for maintenance presets and this document as the policy source for guardrails and review gates.
 
+<<<<<<< ours
+## Runnable Codex agents
+
+The repository includes project-scoped Codex agents under `.codex/agents/`. Codex loads
+these agents when the repository is trusted, and the root `AGENTS.md` directs sessions to
+the repository-wide rules. The TOML files are runner-specific translations; the YAML
+presets above remain canonical.
+
+`tests/test_repo_agents.py` verifies that every canonical preset has a matching Codex
+agent and that required reading, forbidden action identifiers, and validation commands are
+preserved in its instructions.
+
+## Automation rollout plan
+
+1. **Document-first pass** - keep this plan as the canonical description of safe agent behavior. **Complete.**
+2. **Repo-agent configuration** - maintain runner-neutral YAML presets and project-scoped Codex TOML translations with automated consistency checks. **Complete.**
+3. **Dry-run prompts** - test each preset against a copied branch and require read-only summaries before allowing edits.
+4. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
+5. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
+6. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
+=======
 ## Automation rollout plan
 
 1. **Document-first pass** - keep this plan as the canonical description of safe agent behavior.
@@ -203,6 +232,7 @@ Use `.agents/presets/README.md` as the local index for maintenance presets and t
 3. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
 4. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
 5. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
+>>>>>>> theirs
 
 ## Human review gates
 
