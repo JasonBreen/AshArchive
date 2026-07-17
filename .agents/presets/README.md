@@ -19,6 +19,8 @@ forbidden actions, checks, and human review gates.
 | [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare taste-aligned, evidence-backed plans for both editions. |
 | [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft restrained, lore-native Wabbajack prose from verified evidence. |
 | [`release-readiness-agent.yaml`](release-readiness-agent.yaml) | Prepare advisory release-readiness and blocker summaries. |
+| [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare nonbinding, evidence-backed dual-edition list plans. |
+| [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft evidence-backed, edition-specific Wabbajack prose. |
 
 ## Runner expectations
 

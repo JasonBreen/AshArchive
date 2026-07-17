@@ -26,6 +26,8 @@ Every preset must follow these baseline constraints before doing specialized wor
 | `wabbajack-list-planner` | Prepare taste-aligned, evidence-backed list plans for both editions. | Project bible, roadmap, candidate metadata, edition manifests, Wabbajack docs | Advisory planning only; never accept mods, promote candidates, or finalize load order. | Manifest validation when inventory is used; edition and duplicate checks when relevant. |
 | `wabbajack-list-writer` | Draft restrained, lore-native Wabbajack and installer-facing prose. | Edition READMEs, Wabbajack docs, install docs, known issues, changelogs | May draft from recorded evidence; final public copy remains a human decision. | Manifest validation when copy makes content claims; `pytest` when tooling-backed docs change. |
 | `release-readiness-agent` | Prepare Wabbajack release checklist status summaries. | `editions/*/wabbajack/*.md`, `editions/*/docs/*.md`, manifests | Checklist and gap reporting only until human release review. | `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py`, `pytest` |
+| `wabbajack-list-planner` | Prepare evidence-backed direction for the Pilgrim and Sleeper lists. | `PROJECT-BIBLE.md`, shared and edition manifests, edition Wabbajack docs | Advisory planning only; do not accept, promote, place, or order mods. | `python tools/validate_manifests.py`, `python tools/compare_editions.py`, `python tools/check_duplicate_mods.py` when relevant |
+| `wabbajack-list-writer` | Draft restrained, edition-specific Wabbajack prose. | Root and edition README files, changelogs, Wabbajack and installation docs | Draft copy only; material claims and final public wording require evidence and human review. | `python tools/validate_manifests.py` for inventory claims, `pytest` for tooling-backed docs or tests |
 
 ## Preset definitions
 
@@ -214,6 +216,48 @@ Use this preset only for pre-release evidence gathering and checklist preparatio
 - List blockers by severity.
 - Include exact validation commands and results.
 
+### `wabbajack-list-planner`
+
+Use this preset for nonbinding, evidence-backed planning across the Pilgrim and Sleeper lists.
+
+**Inputs**
+- The project bible, roadmap, follow-up tasks, and shared sourcing records.
+- Both edition manifests, README files, and Wabbajack planning documents.
+
+**Allowed actions**
+- Analyze category coverage and propose evaluation batches.
+- Recommend edition-specific direction while preserving engine-specific differences.
+- Identify sourcing, compatibility, and decision gaps without promoting candidates.
+
+**Stop conditions**
+- Candidate fit depends on unrecorded provenance or compatibility evidence.
+- Edition placement, final load order, or a design preference requires human judgment.
+
+**Completion report**
+- Separate recorded facts, interpretations, recommendations, and evidence gaps.
+- Report Pilgrim and Sleeper plans independently, with exact checks and skipped-check reasons.
+
+### `wabbajack-list-writer`
+
+Use this preset to draft Wabbajack, installation, known-issue, and release prose from recorded evidence.
+
+**Inputs**
+- Root and edition README files, changelogs, and Wabbajack documents.
+- Edition installation, post-install, and known-issues documentation.
+
+**Allowed actions**
+- Draft edition descriptions, verified feature copy, installer guidance, and release notes.
+- Preserve distinct Pilgrim and Sleeper voices while keeping instructions and warnings plain.
+- Label unsupported language as a draft gap instead of presenting it as fact.
+
+**Stop conditions**
+- A material claim lacks repository evidence or would imply unsupported readiness.
+- Final public voice, support boundaries, or project direction require human judgment.
+
+**Completion report**
+- Identify the repository source for material claims and flag claims needing review.
+- Distinguish edition-specific copy and report exact checks and skipped-check reasons.
+
 ## Recommended local preset format
 
 Local agent runners can encode each preset as YAML, JSON, or TOML. Keep the structure simple and auditable:
@@ -252,6 +296,8 @@ The repository currently includes runner-neutral YAML presets under `.agents/pre
 - `.agents/presets/wabbajack-list-planner.yaml`
 - `.agents/presets/wabbajack-list-writer.yaml`
 - `.agents/presets/release-readiness-agent.yaml`
+- `.agents/presets/wabbajack-list-planner.yaml`
+- `.agents/presets/wabbajack-list-writer.yaml`
 
 Use `.agents/presets/README.md` as the local index for maintenance presets and this document as the policy source for guardrails and review gates.
 
@@ -280,6 +326,8 @@ Reusable workflows live under `.agents/skills/` and are available throughout the
 | `ash-archive-plan-wabbajack-list` | `wabbajack-list-planner.yaml` |
 | `ash-archive-write-wabbajack-copy` | `wabbajack-list-writer.yaml` |
 | `ash-archive-assess-release` | `release-readiness-agent.yaml` |
+| `ash-archive-plan-wabbajack-list` | `wabbajack-list-planner.yaml` |
+| `ash-archive-write-wabbajack-copy` | `wabbajack-list-writer.yaml` |
 
 Each skill contains concise procedural guidance and generated UI metadata. The preset remains
 the policy source; a skill cannot relax its stop conditions or human review gates.

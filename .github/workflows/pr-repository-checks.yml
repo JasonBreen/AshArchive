@@ -1,0 +1,61 @@
+name: Pre-merge repository checks
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: ash-archive
+
+jobs:
+  lint:
+    name: Lint repository configuration
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: ash-archive/pyproject.toml
+
+      - name: Install development dependencies
+        run: python -m pip install --editable ".[dev]"
+
+      - name: Run repository lint
+        run: python tools/lint_repo.py
+
+  tests:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: ash-archive/pyproject.toml
+
+      - name: Install development dependencies
+        run: python -m pip install --editable ".[dev]"
+
+      - name: Run tests
+        run: pytest
