@@ -16,6 +16,8 @@ forbidden actions, checks, and human review gates.
 | [`modlist-regenerator.yaml`](modlist-regenerator.yaml) | Regenerate derived modlist markdown after manifest changes. |
 | [`edition-drift-auditor.yaml`](edition-drift-auditor.yaml) | Audit OpenMW/MWSE divergence and duplicate risks. |
 | [`documentation-sync-agent.yaml`](documentation-sync-agent.yaml) | Synchronize planning, policy, and workflow documentation. |
+| [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare taste-aligned, evidence-backed plans for both editions. |
+| [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft restrained, lore-native Wabbajack prose from verified evidence. |
 | [`release-readiness-agent.yaml`](release-readiness-agent.yaml) | Prepare advisory release-readiness and blocker summaries. |
 | [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare nonbinding, evidence-backed dual-edition list plans. |
 | [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft evidence-backed, edition-specific Wabbajack prose. |

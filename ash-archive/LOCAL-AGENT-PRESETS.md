@@ -23,6 +23,8 @@ Every preset must follow these baseline constraints before doing specialized wor
 | `modlist-regenerator` | Regenerate derived modlist markdown after manifest edits. | `editions/*/MODLIST.md`, manifest files when needed for context | Generated output only; do not hand-edit generated sections. | `python tools/generate_modlist_markdown.py`, `python tools/validate_manifests.py` |
 | `edition-drift-auditor` | Identify unintended divergence between OpenMW and MWSE editions. | `editions/openmw/**`, `editions/mwse/**`, `tools/compare_editions.py` | Report or annotate; do not force parity when divergence is intentional. | `python tools/compare_editions.py`, `python tools/check_duplicate_mods.py` |
 | `documentation-sync-agent` | Keep README, roadmap, checklist, and policy references synchronized. | `README.md`, `ROADMAP.md`, `FOLLOW-UP-TASKS.md`, `editions/*/docs/*.md` | May edit prose and links; must not change project scope without explicit request. | `pytest` when tooling docs change; otherwise markdown review only. |
+| `wabbajack-list-planner` | Prepare taste-aligned, evidence-backed list plans for both editions. | Project bible, roadmap, candidate metadata, edition manifests, Wabbajack docs | Advisory planning only; never accept mods, promote candidates, or finalize load order. | Manifest validation when inventory is used; edition and duplicate checks when relevant. |
+| `wabbajack-list-writer` | Draft restrained, lore-native Wabbajack and installer-facing prose. | Edition READMEs, Wabbajack docs, install docs, known issues, changelogs | May draft from recorded evidence; final public copy remains a human decision. | Manifest validation when copy makes content claims; `pytest` when tooling-backed docs change. |
 | `release-readiness-agent` | Prepare Wabbajack release checklist status summaries. | `editions/*/wabbajack/*.md`, `editions/*/docs/*.md`, manifests | Checklist and gap reporting only until human release review. | `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py`, `pytest` |
 | `wabbajack-list-planner` | Prepare evidence-backed direction for the Pilgrim and Sleeper lists. | `PROJECT-BIBLE.md`, shared and edition manifests, edition Wabbajack docs | Advisory planning only; do not accept, promote, place, or order mods. | `python tools/validate_manifests.py`, `python tools/compare_editions.py`, `python tools/check_duplicate_mods.py` when relevant |
 | `wabbajack-list-writer` | Draft restrained, edition-specific Wabbajack prose. | Root and edition README files, changelogs, Wabbajack and installation docs | Draft copy only; material claims and final public wording require evidence and human review. | `python tools/validate_manifests.py` for inventory claims, `pytest` for tooling-backed docs or tests |
@@ -136,6 +138,61 @@ Use this preset for keeping planning documents consistent.
 - List changed docs and the consistency issue each change resolves.
 - Confirm no installability, compatibility, or release-readiness claim was added unless already evidenced.
 
+### `wabbajack-list-planner`
+
+Use this preset to turn the recorded Ash Archive taste profile and repository evidence into
+nonbinding, edition-specific list plans.
+
+**Inputs**
+- `PROJECT-BIBLE.md` as the authoritative source for Morrowind and media preferences.
+- The roadmap, sourcing workflow, candidate metadata, and current edition manifests.
+- The Pilgrim and Sleeper README and Wabbajack documentation.
+
+**Allowed actions**
+- Analyze category coverage, sequence evaluation batches, and identify evidence gaps.
+- Recommend edition-specific direction while preserving shared pillars and engine-native
+  differences.
+- Translate the project bible's media lenses into Morrowind-native design without imitation
+  or crossover content.
+
+**Stop conditions**
+- Candidate fit requires missing provenance, compatibility evidence, or testing.
+- Edition placement, final load order, acceptance, or promotion requires human judgment.
+- A needed personal preference is not recorded in the project bible.
+
+**Completion report**
+- Separate facts, interpretations, recommendations, evidence gaps, and human decisions.
+- Report Pilgrim and Sleeper plans separately.
+- Include exact validation commands and explain skipped checks.
+
+### `wabbajack-list-writer`
+
+Use this preset to draft public, installer-facing, and release prose from verified repository
+evidence while preserving distinct edition voices.
+
+**Inputs**
+- `PROJECT-BIBLE.md` as the authoritative source for taste and atmosphere.
+- Edition READMEs, Wabbajack documentation, installation and post-install guidance, known
+  issues, and recorded changes.
+- Manifests and other repository evidence needed to substantiate material claims.
+
+**Allowed actions**
+- Draft list descriptions, verified feature copy, installer guidance, and release notes.
+- Use restrained archival prose and evidence before explanation.
+- Emphasize distance, weather, documents, tombs, and retrospective dread for Pilgrim;
+  emphasize dreams, doubles, identity fracture, intimate horror, and ritual repetition for
+  Sleeper.
+
+**Stop conditions**
+- A feature, status, compatibility, installation, or support claim lacks repository evidence.
+- Prose would hide a requirement, warning, known issue, or support boundary.
+- Final public voice requires a personal preference not recorded in the project bible.
+
+**Completion report**
+- Identify repository sources for material claims and flag unsupported draft language.
+- Keep Pilgrim and Sleeper copy distinct.
+- Include exact validation commands and explain skipped checks.
+
 ### `release-readiness-agent`
 
 Use this preset only for pre-release evidence gathering and checklist preparation.
@@ -236,6 +293,8 @@ The repository currently includes runner-neutral YAML presets under `.agents/pre
 - `.agents/presets/modlist-regenerator.yaml`
 - `.agents/presets/edition-drift-auditor.yaml`
 - `.agents/presets/documentation-sync-agent.yaml`
+- `.agents/presets/wabbajack-list-planner.yaml`
+- `.agents/presets/wabbajack-list-writer.yaml`
 - `.agents/presets/release-readiness-agent.yaml`
 - `.agents/presets/wabbajack-list-planner.yaml`
 - `.agents/presets/wabbajack-list-writer.yaml`
@@ -264,6 +323,8 @@ Reusable workflows live under `.agents/skills/` and are available throughout the
 | `ash-archive-regenerate-modlists` | `modlist-regenerator.yaml` |
 | `ash-archive-audit-edition-drift` | `edition-drift-auditor.yaml` |
 | `ash-archive-sync-docs` | `documentation-sync-agent.yaml` |
+| `ash-archive-plan-wabbajack-list` | `wabbajack-list-planner.yaml` |
+| `ash-archive-write-wabbajack-copy` | `wabbajack-list-writer.yaml` |
 | `ash-archive-assess-release` | `release-readiness-agent.yaml` |
 | `ash-archive-plan-wabbajack-list` | `wabbajack-list-planner.yaml` |
 | `ash-archive-write-wabbajack-copy` | `wabbajack-list-writer.yaml` |
@@ -291,5 +352,6 @@ Human review remains required for:
 - Accepting or rejecting mods.
 - Promoting candidates into edition manifests.
 - Compatibility claims based on playtesting.
+- Final public-facing Wabbajack copy and changes to the recorded taste or voice profile.
 - Wabbajack release readiness.
 - Any change that weakens the project bible, evidence standards, or edition distinction.
