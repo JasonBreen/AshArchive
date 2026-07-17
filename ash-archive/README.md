@@ -12,9 +12,15 @@ This repository is **planning and scaffold only**. It is not yet a final Wabbaja
 ## Tooling quick start
 From `ash-archive/`:
 
+- Lint Python and repository configuration:
+  - `python tools/lint_repo.py`
 - Validate manifests:
   - `python tools/validate_manifests.py`
 - Generate modlist markdown:
   - `python tools/generate_modlist_markdown.py`
 - Compare editions:
   - `python tools/compare_editions.py`
+- Check for duplicate mods:
+  - `python tools/check_duplicate_mods.py`
+- Run tests:
+  - `pytest`

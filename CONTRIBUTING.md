@@ -66,6 +66,7 @@ Examples:
 Run relevant checks from `ash-archive/`:
 
 ```bash
+python tools/lint_repo.py
 python tools/validate_manifests.py
 python tools/generate_modlist_markdown.py
 python tools/compare_editions.py

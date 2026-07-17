@@ -1,10 +1,6 @@
 # Local Agent Presets
 
-<<<<<<< ours
 This document defines reusable local agent presets for routine Ash Archive maintenance. The presets are intentionally conservative: agents may prepare evidence, apply mechanical updates, and run validation, but they must not invent provenance, compatibility evidence, or release readiness.
-=======
-This document plans reusable local agent presets for routine Ash Archive maintenance. The presets are intentionally conservative: agents may prepare evidence, apply mechanical updates, and run validation, but they must not invent provenance, compatibility evidence, or release readiness.
->>>>>>> theirs
 
 ## Shared operating rules
 
@@ -185,11 +181,7 @@ handoff:
   require_uncertainty_log: true
 ```
 
-<<<<<<< ours
 Preset files live outside generated content in `.agents/presets/`, with one runner-neutral YAML file per preset and a README that points back to this plan. Runnable project-scoped Codex translations live in `.codex/agents/`, with one TOML file per preset. Keep both layers synchronized whenever this policy changes.
-=======
-Preset files live outside generated content in `.agents/presets/`, with one runner-neutral YAML file per preset and a README that points back to this plan. Keep those files synchronized whenever this plan changes.
->>>>>>> theirs
 
 ## Committed preset files
 
@@ -204,7 +196,6 @@ The repository currently includes runner-neutral YAML presets under `.agents/pre
 
 Use `.agents/presets/README.md` as the local index for maintenance presets and this document as the policy source for guardrails and review gates.
 
-<<<<<<< ours
 ## Runnable Codex agents
 
 The repository includes project-scoped Codex agents under `.codex/agents/`. Codex loads
@@ -216,23 +207,34 @@ presets above remain canonical.
 agent and that required reading, forbidden action identifiers, and validation commands are
 preserved in its instructions.
 
+## Repo-scoped skills
+
+Reusable workflows live under `.agents/skills/` and are available throughout the repository:
+
+| Skill | Canonical preset |
+|---|---|
+| `ash-archive-triage-sources` | `source-triage-agent.yaml` |
+| `ash-archive-lint-manifests` | `manifest-lint-agent.yaml` |
+| `ash-archive-regenerate-modlists` | `modlist-regenerator.yaml` |
+| `ash-archive-audit-edition-drift` | `edition-drift-auditor.yaml` |
+| `ash-archive-sync-docs` | `documentation-sync-agent.yaml` |
+| `ash-archive-assess-release` | `release-readiness-agent.yaml` |
+
+Each skill contains concise procedural guidance and generated UI metadata. The preset remains
+the policy source; a skill cannot relax its stop conditions or human review gates.
+
+Run `python tools/lint_repo.py` to lint Python, YAML control metadata, agent TOML, and skill
+metadata. `tests/test_repo_skills.py` also keeps the checked-in skill set under test.
+
 ## Automation rollout plan
 
 1. **Document-first pass** - keep this plan as the canonical description of safe agent behavior. **Complete.**
 2. **Repo-agent configuration** - maintain runner-neutral YAML presets and project-scoped Codex TOML translations with automated consistency checks. **Complete.**
-3. **Dry-run prompts** - test each preset against a copied branch and require read-only summaries before allowing edits.
-4. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
-5. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
-6. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
-=======
-## Automation rollout plan
-
-1. **Document-first pass** - keep this plan as the canonical description of safe agent behavior.
-2. **Dry-run prompts** - test each preset against a copied branch and require read-only summaries before allowing edits.
-3. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
-4. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
-5. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
->>>>>>> theirs
+3. **Repo-skill configuration** - maintain discoverable repo workflows and lint them against their canonical presets. **Complete.**
+4. **Dry-run prompts** - test each preset against a copied branch and require read-only summaries before allowing edits.
+5. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
+6. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
+7. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
 
 ## Human review gates
 

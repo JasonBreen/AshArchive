@@ -1,8 +1,7 @@
-from pathlib import Path
 import tomllib
+from pathlib import Path
 
 import yaml
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PRESET_DIR = REPO_ROOT / ".agents" / "presets"

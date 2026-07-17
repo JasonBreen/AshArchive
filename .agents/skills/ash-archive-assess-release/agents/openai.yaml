@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Release Assessment"
+  short_description: "Advisory release evidence assessment"
+  default_prompt: "Use $ash-archive-assess-release to prepare an evidence-backed release gap assessment for both editions."

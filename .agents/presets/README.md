@@ -2,13 +2,10 @@
 
 This directory contains auditable local agent preset definitions for recurring Ash Archive maintenance tasks. The canonical policy and rationale live in [`ash-archive/LOCAL-AGENT-PRESETS.md`](../../ash-archive/LOCAL-AGENT-PRESETS.md).
 
-<<<<<<< ours
 These files are intentionally descriptive and runner-neutral. Runnable project-scoped
-Codex translations live in [`.codex/agents/`](../../.codex/agents/). Translated presets
-must preserve the same guardrails, forbidden actions, checks, and human review gates.
-=======
-These files are intentionally descriptive and runner-neutral. Local tooling may translate them into a specific agent format, but translated presets must preserve the same guardrails, forbidden actions, checks, and human review gates.
->>>>>>> theirs
+Codex translations live in [`.codex/agents/`](../../.codex/agents/), and reusable workflows
+live in [`.agents/skills/`](../skills/). Translations must preserve the same guardrails,
+forbidden actions, checks, and human review gates.
 
 ## Presets
 
@@ -27,12 +24,10 @@ These files are intentionally descriptive and runner-neutral. Local tooling may 
 - Treat `forbidden_actions` and `human_review_required_for` as hard stops.
 - Record skipped checks with a reason.
 - Do not use these presets to claim compatibility, installability, or release readiness without repository evidence.
-<<<<<<< ours
 
 ## Codex translations
 
-Each YAML preset has a TOML agent with the same stem in `.codex/agents/`. The YAML file
-remains the canonical policy source. `ash-archive/tests/test_repo_agents.py` checks that the
-runnable agent set and its required guardrails stay synchronized with these presets.
-=======
->>>>>>> theirs
+Each YAML preset has a TOML agent with the same stem in `.codex/agents/` and an associated
+workflow under `.agents/skills/`. The YAML file remains the canonical policy source.
+`ash-archive/tests/test_repo_agents.py` and `ash-archive/tests/test_repo_skills.py` keep the
+runnable layers synchronized with these presets.
