@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Wabbajack Planning"
+  short_description: "Evidence-first dual-edition list planning"
+  default_prompt: "Use $ash-archive-plan-wabbajack-list to prepare a taste-aligned, evidence-backed plan for the Pilgrim and Sleeper editions."
