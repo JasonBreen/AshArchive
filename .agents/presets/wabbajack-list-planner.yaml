@@ -1,0 +1,74 @@
+name: wabbajack-list-planner
+purpose: Prepare taste-aligned, evidence-backed plans for the two Ash Archive lists.
+mode: advisory-planning
+scope:
+  - ash-archive/PROJECT-BIBLE.md
+  - ash-archive/ROADMAP.md
+  - ash-archive/FOLLOW-UP-TASKS.md
+  - ash-archive/shared/*.control.meta
+  - ash-archive/editions/openmw/README.md
+  - ash-archive/editions/mwse/README.md
+  - ash-archive/editions/openmw/manifests/*.control.meta
+  - ash-archive/editions/mwse/manifests/*.control.meta
+  - ash-archive/editions/openmw/wabbajack/*.md
+  - ash-archive/editions/mwse/wabbajack/*.md
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
+  - ash-archive/ROADMAP.md
+  - ash-archive/shared/sourced-mod-workflow.md
+  - ash-archive/editions/openmw/README.md
+  - ash-archive/editions/mwse/README.md
+preference_source: ash-archive/PROJECT-BIBLE.md
+taste_lenses:
+  - morrowind_native_psychological_horror
+  - silent_hill_2_spatial_guilt_without_crossover
+  - david_lynch_dream_causality_doubles_and_repetition_without_pastiche
+  - lake_mungo_archive_first_foreshadowing_without_imitation
+  - evidence_before_explanation
+allowed_actions:
+  - analyze_category_coverage
+  - map_candidates_to_evaluation_batches
+  - propose_edition_specific_direction
+  - identify_evidence_and_sourcing_gaps
+  - draft_nonbinding_list_plans
+  - distinguish_shared_pillars_from_engine_specific_execution
+forbidden_actions:
+  - accept_or_reject_mods
+  - promote_candidates_without_human_review
+  - finalize_load_order
+  - invent_provenance_versions_or_compatibility_evidence
+  - claim_compatibility_without_test_evidence
+  - force_cross_edition_parity
+  - introduce_direct_crossover_content
+  - change_design_pillars_without_human_review
+required_checks:
+  - working_directory: ash-archive
+    command: python tools/validate_manifests.py
+    when: plan_uses_current_manifest_or_candidate_inventory
+  - working_directory: ash-archive
+    command: python tools/compare_editions.py
+    when: plan_compares_or_rebalances_editions
+  - working_directory: ash-archive
+    command: python tools/check_duplicate_mods.py
+    when: plan_recommends_candidate_placement
+stop_conditions:
+  - candidate_fit_requires_unrecorded_compatibility_or_source_evidence
+  - edition_placement_requires_human_design_judgment
+  - requested_direction_conflicts_with_project_bible
+  - personal_preference_is_not_recorded_in_the_project_bible
+handoff:
+  require_summary: true
+  separate_facts_interpretations_and_recommendations: true
+  separate_pilgrim_and_sleeper_plans: true
+  list_evidence_gaps_and_human_decisions: true
+  include_exact_validation_commands: true
+  state_skipped_checks_with_reason: true
+human_review_required_for:
+  - mod_acceptance_or_rejection
+  - candidate_promotion
+  - final_edition_placement
+  - load_order_decisions
+  - design_pillar_or_taste_profile_changes
+  - roadmap_phase_gate_changes

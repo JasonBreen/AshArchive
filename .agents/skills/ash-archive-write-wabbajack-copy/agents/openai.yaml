@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Wabbajack Writing"
+  short_description: "Lore-native Wabbajack copy drafting"
+  default_prompt: "Use $ash-archive-write-wabbajack-copy to draft evidence-backed, lore-native Wabbajack copy for the requested edition."
