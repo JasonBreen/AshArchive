@@ -1,132 +1,130 @@
 # Ash Archive
 
-**Ash Archive** is a dual-edition Morrowind Wabbajack modlist built around psychological horror native to Vvardenfell. The project is contained in the [`ash-archive`](ash-archive/) sub-directory and ships as two sibling editions that share aesthetic pillars and narrative logic while using engine-specific techniques.
-
----
+**Ash Archive** is a planning and control repository for a dual-edition Morrowind
+Wabbajack project built around psychological horror native to Vvardenfell. The project
+lives under [`ash-archive/`](ash-archive/) and is designed as two sibling editions that
+share aesthetic pillars while using engine-specific implementations.
 
 ## Editions
 
-| Edition | Engine | Tagline |
+| Edition | Engine target | Design emphasis |
 |---|---|---|
-| **Ash Archive: Pilgrim Edition** | OpenMW | *The island remembers.* |
-| **Ash Archive: Sleeper Edition** | Classic Morrowind + MCP + MGE XE + MWSE | *The dream notices you.* |
+| **Ash Archive: Pilgrim Edition** | OpenMW | Long-play stability, distance, documents, tomb architecture, and environmental pressure. |
+| **Ash Archive: Sleeper Edition** | Classic Morrowind + MCP + MGE XE + MWSE | Reactive dream contamination, identity fracture, and configurable scripted dread. |
 
-**Pilgrim Edition** is stable, atmospheric, and long-play-focused. It emphasises weather, distance, documents, tomb architecture, and retrospective dread through environmental pressure.
-
-**Sleeper Edition** is script-heavy and reactive. It uses MWSE to deliver dream contamination, identity fracture, and sleep-state horror through event timing and ritual repetition.
-
----
-
-## Design pillars
-
-- **The Island Remembers** — Vvardenfell is already haunted by prophecy, reincarnation, and suppressed history.
-- **The Dream is Geological** — dread accumulates in strata, not moments.
-- **Reincarnation is Body Horror** — the Nerevarine arc treated as violation, not triumph.
-- **Dagoth Ur is Intimate, Not Loud** — the antagonist as contamination, not spectacle.
-- **The Tribunal Are the Beautiful Crime Scene** — divinity as cover-up.
-- **Evidence Before Explanation** — logs, notes, shrines, and rumours foreshadow; nothing is explained twice.
-
-Horror emerges from Morrowind's own systems and lore. No horror-franchise crossover content, no generic jump scares, no Skyrimification.
-
----
+The editions are not interchangeable load orders. Shared candidate provenance does not
+imply identical inclusion, behavior, patches, or acceptance in both editions.
 
 ## Current status
 
-> **Planning and scaffold only.** The list is not yet installable, not yet playable, and does not define a final load order.
+> **Planning and scaffold only.** Neither edition is installable or playable, no final
+> load order exists, and the repository contains no completed end-to-end install test.
 
-See [ROADMAP.md](ash-archive/ROADMAP.md) for the phased plan and [CHANGELOG.md](ash-archive/CHANGELOG.md) for version history.
+The descriptions above are design targets, not compatibility or stability claims. See the
+[`ROADMAP.md`](ash-archive/ROADMAP.md) for phase gates and
+[`FOLLOW-UP-TASKS.md`](ash-archive/FOLLOW-UP-TASKS.md) for unresolved work.
 
----
+## Design direction
 
-## Prerequisites
+The project treats Vvardenfell as haunted by prophecy, reincarnation, and suppressed
+history. Its core rule is **evidence before explanation**: documents, spaces, rumors, and
+repetition should foreshadow dread before explicit revelation. Horror must emerge from
+Morrowind's own systems and lore; direct franchise crossovers, generic jump scares,
+Skyrimification, and convenience changes that erase pilgrimage friction are out of scope.
 
-- **Python 3.11+**
-- **PyYAML** (runtime dependency)
-- **pytest**, **ruff**, and **yamllint** (development/testing)
-
----
-
-## Setup
-
-From inside `ash-archive/`:
-
-```bash
-# Install runtime and development dependencies
-pip install -e ".[dev]"
-```
-
----
+The complete, non-negotiable constraints live in the
+[`PROJECT-BIBLE.md`](ash-archive/PROJECT-BIBLE.md).
 
 ## Repository structure
 
-```
+```text
 AshArchive/
-├── .agents/skills/            # Repo-scoped reusable Codex workflows
-├── .codex/agents/             # Repo-scoped Codex agent configurations
-├── ash-archive/              # Main project root
-│   ├── editions/
-│   │   ├── openmw/           # Pilgrim Edition manifests and docs
-│   │   └── mwse/             # Sleeper Edition manifests and docs
-│   ├── shared/               # Categories, design rules, evaluation rubric
-│   ├── tools/                # Python validation and generation scripts
-│   ├── tests/                # Python tests for tooling and schema checks
-│   ├── PROJECT-BIBLE.md      # Full design philosophy and horror translation notes
-│   ├── ROADMAP.md
-│   └── CHANGELOG.md
+├── .agents/presets/           # Canonical runner-neutral local-agent presets
+├── .agents/skills/            # Repo-scoped reusable workflows
+├── .codex/agents/             # Runnable Codex translations of the presets
+├── .github/workflows/         # Continuous integration
+├── ash-archive/               # Python project and Ash Archive control data
+│   ├── editions/openmw/       # Pilgrim manifests, generated modlist, and docs
+│   ├── editions/mwse/         # Sleeper manifests, generated modlist, and docs
+│   ├── shared/                # Canonical sourcing data and shared policies
+│   ├── tools/                 # Validation, comparison, and generation scripts
+│   └── tests/                 # Tooling and policy regression tests
+├── modlist.txt                # Imported source inventory snapshot
 ├── CONTRIBUTING.md
 └── README.md
 ```
 
-Internal control metadata lives in YAML `.control.meta` files used by project tooling and is **not** the same as MO2 download sidecar `.meta` files. See `ash-archive/shared/mo2-download-meta-sidecars.md` for the distinction.
+YAML `.control.meta` files are internal project metadata. They are not native Mod
+Organizer 2 download sidecar `.meta` files and must not be synthesized as such. See
+[`MO2 Download Sidecars vs Internal Metadata`](ash-archive/shared/mo2-download-meta-sidecars.md).
 
----
+## Metadata flow
 
-## Tooling quick start
+[`shared/sourced-mods.control.meta`](ash-archive/shared/sourced-mods.control.meta) is the
+canonical provenance layer for candidate source type, source URL, and source evidence. An
+edition entry may use `source_reference` to point to one of those candidate IDs.
 
-All commands are run from inside `ash-archive/`.
+That link is provenance-only. It does **not** promote the candidate, accept the mod, prove
+compatibility, or copy unknown versions and archive names into an edition manifest. Edition
+manifests continue to own engine behavior, plugins, requirements, conflicts, patches,
+testing notes, and load-order relationships. The full lifecycle and its two independent
+status systems are documented in the
+[`Sourced Mod Workflow`](ash-archive/shared/sourced-mod-workflow.md).
+
+## Setup and local checks
+
+Python 3.11 or newer is required. From `ash-archive/`:
 
 ```bash
-# Lint Python, YAML, agent TOML, and repo skills
+python -m pip install -e ".[dev]"
+
 python tools/lint_repo.py
-
-# Validate manifests
 python tools/validate_manifests.py
-
-# Generate modlist markdown
-python tools/generate_modlist_markdown.py
-
-# Compare editions
-python tools/compare_editions.py
-
-# Check for duplicate mods across editions
 python tools/check_duplicate_mods.py
-
-# Summarise sourced-mod candidates
-python tools/summarize_sourced_mods.py
-
-# Run the test suite
+python tools/compare_editions.py
+python tools/generate_modlist_markdown.py --check
 pytest
 ```
 
----
+`python tools/summarize_sourced_mods.py` is an optional read-only candidate report; it is
+not a release or compatibility check.
+
+To intentionally refresh generated modlists after a manifest change, run
+`python tools/generate_modlist_markdown.py`, review both diffs, and then rerun with
+`--check`. Only the content between `GENERATED-CONTENT` markers in
+`editions/*/MODLIST.md` is generated; do not edit those sections by hand.
+
+## Continuous integration
+
+The [`Repository checks`](.github/workflows/pr-repository-checks.yml) and
+[`Archive integrity`](.github/workflows/pr-archive-integrity.yml) workflows run on pull
+requests and pushes to `main`. They use Python 3.11 to run repository lint, manifest and
+source-reference validation, duplicate scanning, edition comparison, the read-only
+generated-file check, and the test suite. Passing CI validates repository structure and
+consistency only; it is not evidence of an installable list or in-game compatibility.
 
 ## Documentation
 
-- [Project Bible](ash-archive/PROJECT-BIBLE.md) — thesis, dual-edition philosophy, horror translation notes, and core atmosphere rules
-- [Roadmap](ash-archive/ROADMAP.md) — development phases from scaffold to Wabbajack release
-- [Pilgrim Edition](ash-archive/editions/openmw/README.md) — OpenMW edition identity and scope
-- [Sleeper Edition](ash-archive/editions/mwse/README.md) — MWSE edition identity and scope
-- [Changelog](ash-archive/CHANGELOG.md)
-- [Local Agent Presets](ash-archive/LOCAL-AGENT-PRESETS.md) — repo-scoped agents and skills for safe maintenance tasks
+- [`ash-archive/README.md`](ash-archive/README.md) — control-data model, automation boundaries, and contributor navigation
+- [`Project Bible`](ash-archive/PROJECT-BIBLE.md) — project thesis and design constraints
+- [`Roadmap`](ash-archive/ROADMAP.md) — development phases and release gates
+- [`Sourced Mod Workflow`](ash-archive/shared/sourced-mod-workflow.md) — candidate intake, source links, evaluation, and promotion
+- [`Control Metadata Schema`](ash-archive/shared/mod-meta-schema.md) — field ownership and validation rules
+- [`Pilgrim Edition`](ash-archive/editions/openmw/README.md) — OpenMW scope and documentation
+- [`Sleeper Edition`](ash-archive/editions/mwse/README.md) — MWSE scope and documentation
+- [`Local Agent Presets`](ash-archive/LOCAL-AGENT-PRESETS.md) — conservative maintenance agents and review gates
 
----
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) before changing manifests, tools, or planning
+documents.
 
-## Contributing
+## Security
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming conventions, commit style, PR expectations, validation commands, and guidelines for manifest and mod-sourcing changes.
+The project has no released installer or supported runtime version. Repository-tooling
+security guidance is in [`SECURITY.md`](SECURITY.md).
 
----
+## License status
 
-## License
-
-See [LICENSE.md](ash-archive/LICENSE.md).
+Licensing requires maintainer review. The repository-root [`LICENSE`](LICENSE) contains
+CC0 1.0 text, while [`ash-archive/LICENSE.md`](ash-archive/LICENSE.md) contains incomplete,
+conflicting MIT text. This documentation does not choose between them; do not treat the
+nested file as an authoritative grant until the conflict is resolved.

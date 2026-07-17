@@ -1,54 +1,83 @@
 # Follow-up Tasks
 
-This task list tracks the immediate work needed to finish **Phase 1 - Sourcing** and prepare the project for **Phase 2 - Evaluation**.
+This list tracks remaining work for **Phase 1 - Sourcing** and preparation for
+**Phase 2 - Evaluation**. Repository hardening does not clear source, compatibility, or
+in-game testing blockers.
 
-## Milestone target: Phase 1 sourcing exit
+## Source triage gate
 
-Phase 1 is complete when candidate pools are sufficiently populated across major categories for both editions, validation passes cleanly, and all active candidates have provenance plus decision notes.
+- [ ] Resolve every blocking question in `shared/source-triage.control.meta`.
+- [ ] Decide whether official plugins and DLC are baseline requirements, manual-only
+  prerequisites, or source-tracked candidates.
+- [ ] Identify canonical sources, package identities, and distribution constraints for
+  `source unknown`, Nexus ID `0`, and unmanaged entries.
+- [ ] Keep blocked entries unverified until identity, source, and licensing questions are resolved.
+- [ ] Close `source_triage.triage_status` only after every promotion-gate blocker is resolved.
 
-### Source triage gate
+## Candidate intake expansion
 
-- [ ] Resolve every open blocking question in `shared/source-triage.control.meta`.
-- [ ] Decide whether official plugins and DLC entries are baseline requirements, manual-only prerequisites, or source-tracked candidates.
-- [ ] Identify canonical sources, package identities, and distribution constraints for `source unknown` and Nexus ID `0` entries.
-- [ ] Keep blocked entries `unverified` until package identity, source, and licensing questions are resolved.
-- [ ] Close `source_triage.triage_status` only after all promotion-gate blockers are resolved.
+- [ ] Expand `shared/sourced-mods.control.meta` beyond the current dream, blight, and survival groups.
+- [ ] Add candidates for foundation, preservation, architecture, soundscape, UI/journal,
+  faith/Temple, and other underrepresented categories.
+- [ ] Record stable IDs, primary source URLs, evidence notes, source confidence,
+  compatibility status, thematic bucket, promotion target, risk, and engine uncertainty.
+- [ ] Keep compatibility `unverified` or `needs-testing` unless reliable documentation or
+  recorded test evidence supports a stronger value.
+- [ ] Retain rejected and superseded candidates with explicit reasoning.
 
-### Candidate intake expansion
+## Source-to-manifest links
 
-- [ ] Expand `shared/sourced-mods.control.meta` beyond the current dream, blight, and survival buckets.
-- [ ] Add candidates for underrepresented major categories in both editions, especially foundation, preservation, architecture, soundscape, UI/journal, and faith/Temple themes.
-- [ ] Record stable kebab-case IDs, source URLs, evidence notes, source confidence, compatibility status, thematic bucket, promotion target, risk level, and engine notes for each new candidate.
-- [ ] Leave compatibility as `unverified` or `needs-testing` unless there is documented test evidence or reliable upstream documentation.
-- [ ] Retain rejected candidates with explicit rejection reasoning instead of deleting them.
+- [ ] Add `source_reference` only where an edition entry and canonical candidate represent
+  the same mod identity and intended edition.
+- [ ] Keep `related_manifest_ids` synchronized with manifest links.
+- [ ] Do not interpret a source link as candidate promotion, edition acceptance, or testing.
+- [ ] Leave edition-specific version, archive, plugin, patch, conflict, and load-order facts
+  blank or explicitly unknown until evidence exists.
+- [ ] Resolve any remaining manifest candidates that have trustworthy repository-recorded
+  provenance but no canonical source record.
 
-### Multi-package source metadata
+## Multi-package source metadata
 
-- [ ] Audit `shared/source-package-meta.control.meta` for multi-package sources that need child package records.
-- [ ] Confirm each package has an install artifact, variant name, edition notes, and plugin list.
-- [ ] Add child `package_version` values when a package differs from the parent `base_version`.
-- [ ] Keep parent source metadata stable when only one child package version diverges.
+- [ ] Audit `shared/source-package-meta.control.meta` for source pages with multiple installable packages.
+- [ ] Confirm each package's identity, variant, artifact evidence, edition notes, and plugin list.
+- [ ] Use child `package_version` only when it differs from the verified parent `base_version`.
+- [ ] Distinguish imported local-path evidence from a portable, verified archive identity.
 
-### Phase 2 evaluation preparation
+## Phase 2 evaluation preparation
 
-- [ ] Define the first evaluation batches by category and test route.
-- [ ] Start with high-impact horror candidates: Sixth House/dream, blight/ambience, and MWSE survival/body-pressure candidates.
-- [ ] Prepare evaluation notes for compatibility, conflicts, mitigation paths, and edition-specific behavior.
-- [ ] Do not promote candidates into edition manifests until human review confirms the evaluation evidence.
+- [ ] Define the first evaluation batches by category and route.
+- [ ] Start with high-impact Sixth House/dream, blight/ambience, and MWSE body-pressure candidates.
+- [ ] Expand `shared/mod-evaluation-rubric.md` with maintainer-approved weighting or decision thresholds if needed.
+- [ ] Record compatibility, conflicts, mitigations, performance, and edition-specific behavior.
+- [ ] Keep candidate promotion and edition status advancement as separate human-review decisions.
 - [ ] Preserve intentional OpenMW/MWSE differences rather than forcing feature parity.
 
-### Placeholder manifest cleanup
+## Edition evidence and documentation
 
-- [ ] Replace `source: "tbd"` and empty source/version/archive fields only when verified provenance exists.
-- [ ] Update patch notes, testing notes, requirements, conflicts, and load-order notes as evaluation evidence becomes available.
-- [ ] Keep placeholder entries marked `planned` until they have enough evidence to advance.
-- [ ] Regenerate modlist markdown after manifest updates.
+- [ ] Build the first reproducible Pilgrim installation before replacing its blocked installation/post-install pages.
+- [ ] Build the first reproducible Sleeper installation before replacing its blocked installation/post-install pages.
+- [ ] Define and execute edition-specific load-order, performance, and test-route evidence.
+- [ ] Populate known issues from observed builds; an empty issue list is not evidence of zero issues.
+- [ ] Record compiler inputs and clean-install results before checking any release-readiness item.
 
-### Validation checklist
+## Maintainer decisions
 
-- [ ] Run `python tools/validate_manifests.py` after each metadata batch.
-- [ ] Run `python tools/generate_modlist_markdown.py` after manifest changes.
-- [ ] Run `python tools/compare_editions.py` after cross-edition status changes.
-- [ ] Run `python tools/check_duplicate_mods.py` after adding or renaming candidates.
-- [ ] Run `pytest` before opening milestone-completion PRs.
+- [ ] Resolve the conflict between the root CC0 `LICENSE` and the incomplete nested MIT `LICENSE.md`.
+- [ ] Confirm a private security-reporting channel and update `SECURITY.md` with it.
+- [ ] Approve any candidate promotion, compatibility conclusion, edition acceptance, final
+  load order, design-bible exception, or release-readiness decision.
 
+## Validation checklist
+
+Run from `ash-archive/` after each applicable batch:
+
+- [ ] `python tools/lint_repo.py`
+- [ ] `python tools/validate_manifests.py`
+- [ ] `python tools/check_duplicate_mods.py` after adding or renaming manifest entries
+- [ ] `python tools/compare_editions.py` after cross-edition changes
+- [ ] `python tools/generate_modlist_markdown.py` after manifest changes, followed by diff review
+- [ ] `python tools/generate_modlist_markdown.py --check`
+- [ ] `pytest` before opening or updating a pull request
+
+Use `python tools/summarize_sourced_mods.py` as a read-only intake report when reviewing
+candidate coverage; it is not a compatibility check.

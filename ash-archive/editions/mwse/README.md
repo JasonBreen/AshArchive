@@ -2,20 +2,32 @@
 
 **Engine target:** Classic Morrowind + MCP + MGE XE + MWSE
 
-**Tagline:** The dream notices you.
+**Tagline:** *The dream notices you.*
 
-## Edition identity
-Script-heavy, reactive, psychologically invasive dream horror.
+## Planned identity
+
+Sleeper targets reactive, configurable dream contamination and identity-fracture horror
+using MWSE-capable systems. This is a design target, not evidence that a script stack or
+working build exists.
 
 ## Current status
-Planning/scaffold only. Not installable yet. No final load order is defined.
 
-## What belongs in this edition
-- Mods and tools that reinforce this edition's engine strengths.
-- Atmosphere and systems aligned to Ash Archive design pillars.
-- Entries that are documented with notes and explicit verification status.
+Planning/control scaffold only. There is no installable build, verified engine/tool version
+set, final load order, completed test route, or end-to-end install result.
 
-## What does not belong in this edition
-- Direct crossover content from unrelated horror franchises.
-- Mods that undermine travel design, lore tone, or project stability.
-- Undocumented additions with unknown source or unclear behavior.
+## Edition boundary
+
+Sleeper may use MCP, MGE XE, and MWSE behavior that cannot or should not be forced into
+Pilgrim. A shared `source_reference` connects candidate provenance only; Sleeper-specific
+plugins, scripts, configuration, patches, performance, and testing remain separate.
+
+## Documentation
+
+- [`MODLIST.md`](MODLIST.md) — generated planning view, not an accepted list
+- [`docs/installation.md`](docs/installation.md) — installation blocker and planned MO2 boundary
+- [`docs/load-order-policy.md`](docs/load-order-policy.md) — load-order evidence needed
+- [`docs/testing-checklist.md`](docs/testing-checklist.md) — planned test gates
+- [`docs/known-issues.md`](docs/known-issues.md) — issue-recording policy
+- [`wabbajack/release-checklist.md`](wabbajack/release-checklist.md) — unchecked release gates
+
+Shared design constraints remain authoritative in the [`Project Bible`](../../PROJECT-BIBLE.md).

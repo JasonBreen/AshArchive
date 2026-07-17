@@ -1,65 +1,99 @@
 # Roadmap
 
-## Current state (April 2026)
-- Repository foundation is in place: dual-edition structure, schema-backed manifests, baseline docs, and validation/generation tooling.
-- Project remains **planning/scaffold**, not yet an installable or fully playable Wabbajack list.
+## Current state
 
-## Phase 0 - Scaffold (completed)
+- The dual-edition directory and manifest structure is established.
+- Pull requests and pushes to `main` are checked with Python 3.11 repository lint,
+  manifest/source-reference validation, duplicate scanning, edition comparison,
+  deterministic generated-modlist checking, and tests.
+- Shared sourced candidates can be linked to edition planning entries without duplicating
+  canonical provenance or implying promotion.
+- Most installer, load-order, performance, post-install, and in-game test documentation is
+  still blocked on real builds and recorded evidence.
+- The project remains a planning/control scaffold, not an installable or playable Wabbajack list.
+
+## Phase 0 - Repository foundation (completed)
+
 **Goal:** establish guardrails before content scaling.
 
 Completed outcomes:
-- Shared and per-edition manifest layout defined.
-- Validation and consistency tooling established.
-- Baseline documentation created for setup, policy, and testing flow.
+
+- Shared and per-edition control-data layouts exist.
+- Structural validation, deterministic generation checks, and CI are in place.
+- Agent and contribution guardrails preserve evidence standards and edition separation.
+- Documentation shells identify missing install, test, and release evidence without claiming it exists.
+
+Phase 0 completion means the planning repository is maintainable; it does not mean either
+edition has been assembled or tested.
 
 ## Phase 1 - Sourcing (active)
+
 **Goal:** build trustworthy candidate pools with traceable provenance.
 
 In-scope work:
-- Expand `shared/sourced-mods.control.meta` (.meta extension, YAML-structured content) with verified metadata and source links.
-- Keep triage and package metadata synchronized (`shared/source-triage.control.meta`, `shared/source-package-meta.control.meta`).
-- Track rejected options with retained reasoning.
+
+- Expand `shared/sourced-mods.control.meta` across underrepresented categories.
+- Resolve blockers in `shared/source-triage.control.meta` and maintain package relationships
+  in `shared/source-package-meta.control.meta`.
+- Link matching edition planning entries with optional `source_reference` values while
+  leaving unknown edition-specific fields unknown.
+- Retain rejected and superseded records with their reasoning.
 
 Exit criteria:
+
 - Candidate pools are sufficiently populated across major categories for both editions.
-- Validation passes with no structural issues.
+- Validation passes with no structural or source-reference issues.
 - Source provenance and decision notes are present for all active candidates.
+- Blocking identity, package, and distribution questions are either resolved or explicitly deferred.
 
 ## Phase 2 - Evaluation
-**Goal:** convert sourced candidates into evidence-based accept/reject decisions.
+
+**Goal:** turn sourced candidates into evidence-based, human-reviewed edition decisions.
 
 In-scope work:
-- Evaluate by category and test route using the shared rubric.
-- Record compatibility notes, conflicts, and mitigation paths.
-- Promote tested entries into edition manifests; document rejections with rationale.
+
+- Move candidate records through `candidate` and `under-review` using the shared rubric.
+- Test edition behavior by category and repeatable route.
+- Record conflicts, mitigation paths, and edition-specific behavior.
+- Promote candidates and advance edition status only when each action's separate evidence
+  and human-review requirements are met.
 
 Exit criteria:
+
 - Core categories have evaluated coverage for both editions.
-- Major conflicts are either resolved or explicitly deferred with notes.
-- Accepted entries include compatibility evidence.
+- Major conflicts are resolved or explicitly deferred with notes.
+- Promoted candidates and accepted edition entries have the required review and compatibility evidence.
 
 ## Phase 3 - Edition hardening
-**Goal:** stabilize each edition as a coherent, testable package.
+
+**Goal:** stabilize each edition as an independent, coherent, testable package.
 
 In-scope work:
-- Lock edition-level load-order policy enforcement.
-- Finalize patch strategy and external tool requirements.
-- Run repeated validation and checklist cycles for regression control.
+
+- Establish and test edition-specific load-order policy.
+- Finalize patch strategy, external tools, and reproducible setup requirements.
+- Run repeated install, performance, and test-route cycles and record regressions.
 
 Exit criteria:
+
 - Both editions have internally consistent manifests and patch plans.
-- Known issues are documented with severity and workarounds.
-- Release checklists are actionable and reproducible.
+- Known issues are documented with severity, evidence, and workarounds where available.
+- Installation, post-install, performance, and testing instructions are reproducible.
+- Release checklists describe verified evidence rather than placeholder intent.
 
 ## Phase 4 - Wabbajack release preparation
-**Goal:** ship installable builds with clear support boundaries.
+
+**Goal:** prepare installable builds with explicit support boundaries.
 
 In-scope work:
-- Freeze manifests for release candidates.
-- Produce final modlist exports and installer-facing documentation.
-- Perform end-to-end install tests and capture support notes.
+
+- Freeze human-approved release-candidate manifests.
+- Produce installer-facing documentation and release artifacts.
+- Perform clean end-to-end install tests for each edition.
+- Resolve or explicitly document licensing, distribution, and support boundaries.
 
 Exit criteria:
-- Install flow succeeds for each edition using documented steps.
-- Release notes and known issues are published.
-- Versioned release artifacts are ready for distribution.
+
+- The documented install flow succeeds independently for each edition.
+- Release notes, known issues, support boundaries, and checksums/artifacts are published.
+- A human reviewer approves release readiness for each edition.
