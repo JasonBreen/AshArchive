@@ -1,21 +1,24 @@
 # Security Policy
 
-## Supported Versions
+## Supported versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Ash Archive has no released Wabbajack installer and no supported playable version. The
+repository is a planning/control scaffold. Security fixes for the Python tooling, continuous
+integration, and repository configuration are made on the current `main` branch; this is not
+a promise of modlist runtime support.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Reporting a vulnerability
 
-## Reporting a Vulnerability
+Do not publish secrets, personal data, or working exploit details in a public issue.
 
-Use this section to tell people how to report a vulnerability.
+If GitHub displays a **Report a vulnerability** option on this repository's Security page,
+use that private channel. If it is not available, contact the maintainer through their GitHub
+profile to request a private channel before sharing sensitive details. The repository does
+not currently document a response-time commitment, so this policy does not invent one.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Non-sensitive defects in validation, generation, CI, or repository configuration may be
+reported through the repository's public issue tracker.
+
+Mod compatibility problems, load-order conflicts, and incomplete planning records are not
+security vulnerabilities unless they also create a concrete security impact in repository
+tooling or distributed artifacts.

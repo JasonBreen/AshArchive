@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tomllib
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 
 import yaml
 from yamllint import linter as yaml_linter
@@ -16,6 +17,15 @@ PRESET_ROOT = REPO_ROOT / ".agents" / "presets"
 SKILL_ROOT = REPO_ROOT / ".agents" / "skills"
 AGENT_ROOT = REPO_ROOT / ".codex" / "agents"
 SKILL_NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+MARKDOWN_LINK_PATTERN = re.compile(r"\[[^\]]+\]\((<[^>]+>|[^)\s]+)")
+IGNORED_DIRECTORY_NAMES = {
+    ".git",
+    ".pytest_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+}
 
 SKILL_PRESETS = {
     "ash-archive-triage-sources": "source-triage-agent.yaml",
@@ -31,6 +41,15 @@ SKILL_PRESETS = {
 
 def _relative(path: Path) -> str:
     return path.relative_to(REPO_ROOT).as_posix()
+
+
+def _is_ignored_repo_path(path: Path) -> bool:
+    return any(
+        part in IGNORED_DIRECTORY_NAMES
+        or part.startswith(".codex-pytest-")
+        or part.endswith(".egg-info")
+        for part in path.parts
+    )
 
 
 def _load_skill(path: Path) -> tuple[dict, str]:
@@ -50,23 +69,68 @@ def _load_skill(path: Path) -> tuple[dict, str]:
     return metadata, "\n".join(lines[closing_index + 1 :])
 
 
+def _conflict_marker_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
+    issues: list[str] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if line.startswith("<<<<<<< ") or line == "=======" or line.startswith(">>>>>>> "):
+            issues.append(
+                f"{path.relative_to(repo_root).as_posix()}:{line_number}: unresolved merge marker"
+            )
+    return issues
+
+
 def _find_conflict_markers() -> list[str]:
-    patterns = ("*.md", "*.py", "*.toml", "*.yaml", "*.yml", "*.control.meta")
+    patterns = ("*.md", "*.txt", "*.py", "*.toml", "*.yaml", "*.yml", "*.control.meta")
     paths = {path for pattern in patterns for path in REPO_ROOT.rglob(pattern)}
+    license_path = REPO_ROOT / "LICENSE"
+    if license_path.exists():
+        paths.add(license_path)
     issues: list[str] = []
 
     for path in sorted(paths):
-        if any(part in {".git", ".pytest_cache", "__pycache__"} for part in path.parts):
+        if _is_ignored_repo_path(path):
             continue
-        for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-            if line.startswith("<<<<<<< ") or line == "=======" or line.startswith(">>>>>>> "):
-                issues.append(f"{_relative(path)}:{line_number}: unresolved merge marker")
+        issues.extend(_conflict_marker_issues(path))
 
     return issues
 
 
+def _markdown_link_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
+    issues: list[str] = []
+    text = path.read_text(encoding="utf-8")
+    for line_number, line in enumerate(text.splitlines(), 1):
+        for match in MARKDOWN_LINK_PATTERN.finditer(line):
+            target = unquote(match.group(1).strip("<>"))
+            parsed = urlparse(target)
+            if parsed.scheme or target.startswith("#"):
+                continue
+
+            relative_target = target.split("#", 1)[0].split("?", 1)[0]
+            if not relative_target:
+                continue
+            if relative_target.startswith("/"):
+                resolved = repo_root / relative_target.lstrip("/")
+            else:
+                resolved = path.parent / relative_target
+            if not resolved.exists():
+                issues.append(
+                    f"{path.relative_to(repo_root).as_posix()}:{line_number}: "
+                    f"broken internal link {target!r}"
+                )
+    return issues
+
+
+def _validate_markdown_links() -> list[str]:
+    issues: list[str] = []
+    for path in sorted(REPO_ROOT.rglob("*.md")):
+        if _is_ignored_repo_path(path):
+            continue
+        issues.extend(_markdown_link_issues(path))
+    return issues
+
+
 def validate_repo_configuration() -> list[str]:
-    issues = _find_conflict_markers()
+    issues = [*_find_conflict_markers(), *_validate_markdown_links()]
 
     pyproject_path = PROJECT_ROOT / "pyproject.toml"
     try:
@@ -162,7 +226,7 @@ def lint_yaml() -> list[str]:
     issues: list[str] = []
 
     for path in sorted(yaml_paths):
-        if any(part in {".git", ".pytest_cache", "__pycache__"} for part in path.parts):
+        if _is_ignored_repo_path(path):
             continue
         text = path.read_text(encoding="utf-8")
         for problem in yaml_linter.run(text, config, filepath=_relative(path)):

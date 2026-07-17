@@ -5,12 +5,20 @@ description: Draft evidence-backed, lore-native prose for Ash Archive Wabbajack 
 
 # Write Ash Archive Wabbajack Copy
 
+## Canonical Policy
+
+Read `.agents/presets/wabbajack-list-writer.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`,
-   `.agents/presets/wabbajack-list-writer.yaml`, `ash-archive/ROADMAP.md`, and both
-   edition README files.
+   `.agents/presets/wabbajack-list-writer.yaml`, `ash-archive/ROADMAP.md`,
+   `ash-archive/editions/openmw/README.md`, and `ash-archive/editions/mwse/README.md`.
 2. Treat the project bible as the preference source. Translate its media lenses into
    Morrowind-native language instead of naming, copying, or crossing them over.
 3. Trace every material feature, status, compatibility, installation, and support claim to

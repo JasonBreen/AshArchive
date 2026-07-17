@@ -10,18 +10,24 @@ scope:
 read_before_editing:
   - AGENT-RULES.md
   - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
   - ash-archive/shared/mod-meta-schema.md
 allowed_actions:
   - run_modlist_generator
   - commit_generated_markdown_when_manifest_changes_require_it
   - report_unexpected_generated_diffs
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
   - hand_edit_generated_sections
   - change_manifest_status_to_make_output_look_clean
   - suppress_generator_failures
 required_checks:
   - working_directory: ash-archive
     command: python tools/generate_modlist_markdown.py
+  - working_directory: ash-archive
+    command: python tools/generate_modlist_markdown.py --check
   - working_directory: ash-archive
     command: python tools/validate_manifests.py
 stop_conditions:
@@ -33,5 +39,8 @@ handoff:
   include_generated_files_changed: true
   state_if_changes_are_generated_only: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - generator_logic_changes
   - manifest_status_changes

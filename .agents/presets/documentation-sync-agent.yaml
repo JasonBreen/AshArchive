@@ -4,13 +4,23 @@ mode: prose-and-links
 scope:
   - README.md
   - CONTRIBUTING.md
+  - SECURITY.md
+  - AGENTS.md
   - AGENT-RULES.md
+  - .github/pull_request_template.md
+  - .agents/presets/README.md
+  - .codex/agents/README.md
   - ash-archive/README.md
+  - ash-archive/CHANGELOG.md
   - ash-archive/ROADMAP.md
   - ash-archive/FOLLOW-UP-TASKS.md
   - ash-archive/PROJECT-BIBLE.md
   - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/shared/*.md
+  - ash-archive/editions/*/README.md
   - ash-archive/editions/*/docs/*.md
+  - ash-archive/editions/*/wabbajack/*.md
+  - ash-archive/editions/mwse/mod-organizer-2/*.md
 read_before_editing:
   - AGENT-RULES.md
   - ash-archive/LOCAL-AGENT-PRESETS.md
@@ -22,6 +32,8 @@ allowed_actions:
   - add_planning_docs_for_maintenance_workflows
   - fix_stale_references
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
   - weaken_design_pillars
   - change_edition_identity
   - claim_installability_without_evidence
@@ -43,6 +55,9 @@ handoff:
   list_consistency_issue_resolved: true
   state_skipped_checks_with_reason: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - project_scope_changes
   - roadmap_phase_gate_changes
   - project_bible_or_design_rule_changes

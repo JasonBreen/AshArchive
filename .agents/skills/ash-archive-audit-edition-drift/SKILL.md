@@ -5,11 +5,20 @@ description: Audit and classify divergence between Ash Archive's Pilgrim OpenMW 
 
 # Audit Ash Archive Edition Drift
 
+## Canonical Policy
+
+Read `.agents/presets/edition-drift-auditor.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`, `.agents/presets/edition-drift-auditor.yaml`,
-   `ash-archive/shared/design-rules.md`, and both edition README files.
+   `ash-archive/shared/design-rules.md`, `ash-archive/editions/openmw/README.md`, and
+   `ash-archive/editions/mwse/README.md` completely.
 2. From `ash-archive/`, run `python tools/compare_editions.py` and
    `python tools/check_duplicate_mods.py`.
 3. Trace each finding to the relevant manifest and edition rationale.

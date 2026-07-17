@@ -11,19 +11,19 @@ multi_package_sources:
         ".meta":
           variant_name: 6th House Robe Normal Mapped
           install_artifact: 6th House Robe Normal Mapped-52567-1-0-1681179314.7z
-          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          edition_notes: Texture-only inventory record; engine compatibility has not been tested.
           plugin_list: []
       - id: sixth-house-glowing-things-normal-mapped
         ".meta":
           variant_name: 6th House - Glowing Things Normal Mapped
           install_artifact: 6th House - Glowing Things Normal Mapped-52567-1-0-1680228098.7z
-          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          edition_notes: Texture-only inventory record; engine compatibility has not been tested.
           plugin_list: []
       - id: a-strange-plant-normal-mapped
         ".meta":
           variant_name: A Strange Plant Normal Mapped
           install_artifact: A Strange Plant Normal Mapped-52567-1-0-1682446048.7z
-          edition_notes: Texture-only package; expected to work in both OpenMW and MWSE.
+          edition_notes: Texture-only inventory record; engine compatibility has not been tested.
           plugin_list: []
       - id: aatl-data-normal-mapped
         ".meta":

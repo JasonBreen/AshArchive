@@ -1,50 +1,34 @@
 # Ash Archive: Pilgrim Edition
 
-**Engine target:** OpenMW  
+**Engine target:** OpenMW
+
 **Tagline:** *The island remembers.*
 
-Pilgrim Edition is the stable, atmospheric, long-play branch of Ash Archive. Its horror should emerge through weather, distance, documents, tomb architecture, pilgrimage, and retrospective dread rather than script-heavy intrusion.
+## Planned identity
+
+Pilgrim targets stable long-play traversal and environmental pilgrimage horror through
+weather, distance, documents, tomb architecture, and retrospective dread. This is a design
+target, not a current stability claim.
 
 ## Current status
 
-| Area | Status |
-|---|---|
-| Development phase | Phase 1 — Sourcing |
-| Installer | Not available |
-| Playable release | No |
-| Final load order | Not defined |
-| Patch plan | Not defined |
-| Candidate evaluation | Incomplete |
+Planning/control scaffold only. There is no installable build, verified OpenMW version,
+final load order, completed test route, or end-to-end install result.
 
-The manifest and generated modlist are planning artifacts. `planned` and `testing` are repository workflow states, not evidence of a supported public build.
+## Edition boundary
 
-## Current artifacts
+Pilgrim favors OpenMW-native, readable, long-play systems and environmental pressure. It
+does not inherit Sleeper's MWSE scripts or acceptance decisions. A shared
+`source_reference` connects candidate provenance only; all OpenMW behavior, patching,
+testing, and ordering still require Pilgrim evidence.
 
-- [Control manifest](manifests/mods.control.meta) — planned edition records and evidence fields
-- [Generated modlist preview](MODLIST.md) — derived from the manifest; do not edit its generated section manually
-- [Installation status](docs/installation.md) — explains why no install procedure is available yet
-- [Post-install status](docs/post-install.md) — future configuration and verification scope
-- [Known limitations](docs/known-issues.md) — planning-stage gaps, not a runtime bug list
-- [Release checklist](wabbajack/release-checklist.md) — evidence gates that remain before distribution
-- [Changelog](CHANGELOG.md)
+## Documentation
 
-## What belongs in Pilgrim Edition
+- [`MODLIST.md`](MODLIST.md) — generated planning view, not an accepted list
+- [`docs/installation.md`](docs/installation.md) — installation blocker
+- [`docs/load-order-policy.md`](docs/load-order-policy.md) — load-order evidence needed
+- [`docs/testing-checklist.md`](docs/testing-checklist.md) — planned test gates
+- [`docs/known-issues.md`](docs/known-issues.md) — issue-recording policy
+- [`wabbajack/release-checklist.md`](wabbajack/release-checklist.md) — unchecked release gates
 
-- OpenMW-compatible foundations and tools supported by recorded evidence.
-- Environmental pressure, long-distance travel, ash and weather, archives, tombs, and restrained sound design.
-- Systems that remain suitable for long play without flattening Vvardenfell into convenience.
-- Edition-specific choices with explicit source, compatibility, and evaluation notes.
-
-## What does not belong
-
-- Direct crossover content from unrelated horror franchises.
-- Generic jump scares or atmosphere-breaking spectacle.
-- Undocumented additions with uncertain source or behavior.
-- Features selected only to mimic Sleeper Edition when OpenMW calls for a different solution.
-- Claims of stability or compatibility without hands-on evidence.
-
-## Next milestone
-
-Complete Phase 1 candidate coverage and provenance cleanup, then evaluate Pilgrim candidates by category and route. Promotion into the edition manifest remains a human-reviewed decision.
-
-See the project [roadmap](../../ROADMAP.md), [follow-up checklist](../../FOLLOW-UP-TASKS.md), and [project bible](../../PROJECT-BIBLE.md).
+Shared design constraints remain authoritative in the [`Project Bible`](../../PROJECT-BIBLE.md).

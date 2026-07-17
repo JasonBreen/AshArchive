@@ -1,6 +1,10 @@
 # Local Agent Presets
 
-This document defines reusable local agent presets for routine Ash Archive maintenance. The presets are intentionally conservative: agents may prepare evidence, apply mechanical updates, and run validation, but they must not invent provenance, compatibility evidence, or release readiness.
+This document explains the reusable local agent presets for routine Ash Archive maintenance.
+The machine-auditable YAML files in `../.agents/presets/` are canonical; the Codex TOML
+agents and repo-scoped skills bind to those presets. All layers are intentionally conservative:
+agents may prepare evidence, apply authorized mechanical updates, and run validation, but
+they must not invent provenance, compatibility evidence, or release readiness.
 
 ## Shared operating rules
 
@@ -20,12 +24,10 @@ Every preset must follow these baseline constraints before doing specialized wor
 |---|---|---|---|---|
 | `source-triage-agent` | Turn open sourcing questions into evidence-backed triage notes. | `shared/source-triage.control.meta`, `shared/sourced-mods.control.meta`, `shared/source-package-meta.control.meta` | Draft and annotate only; do not promote candidates. | `python tools/validate_manifests.py`, `pytest tests/test_sourced_mods.py` |
 | `manifest-lint-agent` | Repair schema, naming, ordering, and convention issues reported by tooling. | `shared/*.control.meta`, `editions/*/manifests/*.control.meta` | May apply mechanical fixes that are directly implied by validation output. | `python tools/validate_manifests.py`, `pytest tests/test_validation.py tests/test_control_meta_conventions.py` |
-| `modlist-regenerator` | Regenerate derived modlist markdown after manifest edits. | `editions/*/MODLIST.md`, manifest files when needed for context | Generated output only; do not hand-edit generated sections. | `python tools/generate_modlist_markdown.py`, `python tools/validate_manifests.py` |
+| `modlist-regenerator` | Regenerate derived modlist markdown after manifest edits. | `editions/*/MODLIST.md`, manifest files when needed for context | Generated output only; do not hand-edit generated sections. | `python tools/generate_modlist_markdown.py`, diff review, `python tools/generate_modlist_markdown.py --check`, `python tools/validate_manifests.py` |
 | `edition-drift-auditor` | Identify unintended divergence between OpenMW and MWSE editions. | `editions/openmw/**`, `editions/mwse/**`, `tools/compare_editions.py` | Report or annotate; do not force parity when divergence is intentional. | `python tools/compare_editions.py`, `python tools/check_duplicate_mods.py` |
 | `documentation-sync-agent` | Keep README, roadmap, checklist, and policy references synchronized. | `README.md`, `ROADMAP.md`, `FOLLOW-UP-TASKS.md`, `editions/*/docs/*.md` | May edit prose and links; must not change project scope without explicit request. | `pytest` when tooling docs change; otherwise markdown review only. |
-| `wabbajack-list-planner` | Prepare taste-aligned, evidence-backed list plans for both editions. | Project bible, roadmap, candidate metadata, edition manifests, Wabbajack docs | Advisory planning only; never accept mods, promote candidates, or finalize load order. | Manifest validation when inventory is used; edition and duplicate checks when relevant. |
-| `wabbajack-list-writer` | Draft restrained, lore-native Wabbajack and installer-facing prose. | Edition READMEs, Wabbajack docs, install docs, known issues, changelogs | May draft from recorded evidence; final public copy remains a human decision. | Manifest validation when copy makes content claims; `pytest` when tooling-backed docs change. |
-| `release-readiness-agent` | Prepare Wabbajack release checklist status summaries. | `editions/*/wabbajack/*.md`, `editions/*/docs/*.md`, manifests | Checklist and gap reporting only until human release review. | `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py`, `pytest` |
+| `release-readiness-agent` | Prepare Wabbajack release checklist status summaries. | `editions/*/wabbajack/*.md`, `editions/*/docs/*.md`, manifests | Checklist and gap reporting only until human release review. | `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py --check`, `pytest` |
 | `wabbajack-list-planner` | Prepare evidence-backed direction for the Pilgrim and Sleeper lists. | `PROJECT-BIBLE.md`, shared and edition manifests, edition Wabbajack docs | Advisory planning only; do not accept, promote, place, or order mods. | `python tools/validate_manifests.py`, `python tools/compare_editions.py`, `python tools/check_duplicate_mods.py` when relevant |
 | `wabbajack-list-writer` | Draft restrained, edition-specific Wabbajack prose. | Root and edition README files, changelogs, Wabbajack and installation docs | Draft copy only; material claims and final public wording require evidence and human review. | `python tools/validate_manifests.py` for inventory claims, `pytest` for tooling-backed docs or tests |
 
@@ -337,13 +339,13 @@ metadata. `tests/test_repo_skills.py` also keeps the checked-in skill set under 
 
 ## Automation rollout plan
 
-1. **Document-first pass** - keep this plan as the canonical description of safe agent behavior. **Complete.**
+1. **Document-first pass** - keep this document as the human-readable policy and preset index. **Complete.**
 2. **Repo-agent configuration** - maintain runner-neutral YAML presets and project-scoped Codex TOML translations with automated consistency checks. **Complete.**
 3. **Repo-skill configuration** - maintain discoverable repo workflows and lint them against their canonical presets. **Complete.**
-4. **Dry-run prompts** - test each preset against a copied branch and require read-only summaries before allowing edits.
-5. **Mechanical-edit enablement** - allow `manifest-lint-agent` and `modlist-regenerator` to write changes after their checks are stable.
-6. **Evidence workflows** - allow `source-triage-agent` to annotate records only when citations and uncertainty logs are included.
-7. **Release workflows** - keep `release-readiness-agent` advisory-only until Phase 4 release preparation.
+4. **Guardrail enforcement** - keep exact preset-to-agent and preset-to-skill bindings, forbidden actions, stop conditions, and human gates under test. **Complete.**
+5. **Mechanical maintenance** - permit only the file-scoped edits authorized by each canonical preset; generated output and validator-implied repairs remain reviewable. **Enabled with validation.**
+6. **Evidence workflows** - permit source annotations only when evidence and uncertainty are retained; promotion and compatibility decisions remain human-gated. **Enabled with human gates.**
+7. **Release workflows** - keep `release-readiness-agent` advisory-only until a human authorizes release work. **Advisory only.**
 
 ## Human review gates
 

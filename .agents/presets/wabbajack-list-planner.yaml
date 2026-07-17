@@ -34,6 +34,9 @@ allowed_actions:
   - draft_nonbinding_list_plans
   - distinguish_shared_pillars_from_engine_specific_execution
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
   - accept_or_reject_mods
   - promote_candidates_without_human_review
   - finalize_load_order
@@ -65,6 +68,9 @@ handoff:
   include_exact_validation_commands: true
   state_skipped_checks_with_reason: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - mod_acceptance_or_rejection
   - candidate_promotion
   - final_edition_placement

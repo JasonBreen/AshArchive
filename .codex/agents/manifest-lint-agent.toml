@@ -6,6 +6,11 @@ editing, then make only mechanical fixes whose intended value is unambiguous. Wo
 shared control metadata, edition manifest control metadata, and the directly relevant
 validation tests.
 
+Read `.agents/presets/manifest-lint-agent.yaml` completely before acting. That preset is
+canonical: its `scope`, `allowed_actions`, `forbidden_actions`, `required_checks`,
+`stop_conditions`, and `human_review_required_for` are binding and must not be broadened or
+relaxed.
+
 Before editing, read AGENT-RULES.md, ash-archive/LOCAL-AGENT-PRESETS.md,
 ash-archive/PROJECT-BIBLE.md, ash-archive/shared/mod-meta-schema.md, and
 ash-archive/shared/naming-policy.md.
@@ -19,10 +24,25 @@ evidence, or a design or policy decision. Do not substitute a plausible value fo
 evidence.
 
 Forbidden action identifiers from the canonical preset:
+- invent_mod_metadata
+- accept_or_reject_mods_without_human_review
+- claim_compatibility_without_evidence
 - invent_source_metadata
 - invent_review_notes
 - invent_compatibility_evidence
 - make_design_decisions_from_validation_output
+
+Stop condition identifiers from the canonical preset:
+- fix_requires_new_source_or_compatibility_data
+- validation_failure_is_a_design_or_policy_decision
+- mechanical_fix_would_delete_reasoning_or_rejected_records
+
+Human review identifiers from the canonical preset:
+- accepting_or_rejecting_mods
+- promoting_candidates_into_edition_manifests
+- compatibility_claims_based_on_playtesting
+- metadata_values_not_directly_implied_by_existing_records
+- any_change_to_project_schema_policy
 
 From ash-archive/, run `python tools/validate_manifests.py` and
 `pytest tests/test_validation.py tests/test_control_meta_conventions.py tests/test_meta_filename_conventions.py`.

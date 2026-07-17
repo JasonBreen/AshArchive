@@ -5,17 +5,27 @@ description: Safely regenerate Ash Archive OpenMW and MWSE `MODLIST.md` files fr
 
 # Regenerate Ash Archive Modlists
 
+## Canonical Policy
+
+Read `.agents/presets/modlist-regenerator.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`, and
-   `.agents/presets/modlist-regenerator.yaml`.
+   `.agents/presets/modlist-regenerator.yaml` and `ash-archive/shared/mod-meta-schema.md`
+   completely.
 2. Inspect the current diff and identify the source manifest change that should affect generated
    output.
 3. From `ash-archive/`, run `python tools/generate_modlist_markdown.py`.
 4. Review both generated diffs. Stop on unexpected deletions, scope expansion, or output that
    contradicts manifest status.
-5. Run `python tools/validate_manifests.py` and `python tools/lint_repo.py`.
+5. Run `python tools/generate_modlist_markdown.py --check`,
+   `python tools/validate_manifests.py`, and `python tools/lint_repo.py`.
 6. Report generated files changed and whether the change is generated-only or accompanies
    manifest edits.
 

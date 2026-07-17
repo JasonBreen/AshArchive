@@ -56,12 +56,12 @@ def find_cross_edition_name_mismatches(
     return warnings
 
 
-def _load_mods_for_path(path: Path) -> list[dict]:
+def _load_mods_for_path(path: Path) -> tuple[list[dict], bool]:
     try:
-        return load_mods(path)
+        return load_mods(path), False
     except ValueError as exc:
         print(f"[ERROR] {exc}")
-        return []
+        return [], True
 
 
 def main() -> int:
@@ -70,7 +70,8 @@ def main() -> int:
 
     for edition in EDITIONS:
         path = manifest_path(edition)
-        mods = _load_mods_for_path(path)
+        mods, load_failed = _load_mods_for_path(path)
+        has_errors = has_errors or load_failed
         mods_by_edition[edition] = mods
         report = find_duplicates(mods)
 

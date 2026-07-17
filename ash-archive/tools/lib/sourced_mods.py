@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import re
+from datetime import date
 from pathlib import Path
 
 from .manifest import load_meta_document
-
-ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+from .validation import ID_RE, _format_error, _is_placeholder, _is_valid_url
 
 REQUIRED_FIELDS = [
     "id",
@@ -56,12 +55,23 @@ COMPATIBILITY_STATUS = {
     "needs-testing",
     "conflicting-reports",
 }
+EVIDENCED_COMPATIBILITY_STATUS = {
+    "openmw-compatible",
+    "mwse-compatible",
+    "both-compatible",
+    "incompatible",
+}
 RISK_LEVELS = {"low", "medium", "high", "unknown"}
 PROMOTION_TARGETS = {"openmw", "mwse", "both", "neither", "undecided"}
-
-
-def _format_error(path: Path, mod_ref: str, detail: str) -> str:
-    return f"[ERROR] {path} :: {mod_ref} :: {detail}"
+STRING_FIELDS = {
+    "name",
+    "engine_notes",
+    "source_url",
+    "evidence_notes",
+    "thematic_reason",
+    "promotion_notes",
+    "last_reviewed",
+}
 
 
 def _mod_ref(candidate: dict) -> str:
@@ -74,10 +84,233 @@ def _mod_ref(candidate: dict) -> str:
     return "<missing-id>"
 
 
-def _validate_string_field(candidate: dict, field_name: str, path: Path, mod_ref: str) -> list[str]:
-    if not isinstance(candidate[field_name], str):
-        return [_format_error(path, mod_ref, f"field '{field_name}' must be a string")]
+def _validate_enum(
+    candidate: dict,
+    field_name: str,
+    allowed: set[str],
+    path: Path,
+    mod_ref: str,
+) -> list[str]:
+    value = candidate[field_name]
+    if not isinstance(value, str) or value not in allowed:
+        return [_format_error(path, mod_ref, f"invalid {field_name} {value!r}")]
     return []
+
+
+def _has_review(candidate: dict) -> bool:
+    reviewers = candidate.get("reviewed_by")
+    return (
+        isinstance(reviewers, list)
+        and any(
+            isinstance(reviewer, str) and not _is_placeholder(reviewer) for reviewer in reviewers
+        )
+        and isinstance(candidate.get("last_reviewed"), str)
+        and bool(candidate["last_reviewed"].strip())
+    )
+
+
+def _validate_review_fields(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
+    reviewed_by = candidate["reviewed_by"]
+    if not isinstance(reviewed_by, list) or any(
+        not isinstance(reviewer, str) or _is_placeholder(reviewer) for reviewer in reviewed_by
+    ):
+        errors.append(
+            _format_error(path, mod_ref, "field 'reviewed_by' must be non-placeholder list[str]")
+        )
+    elif len(reviewed_by) != len(set(reviewed_by)):
+        errors.append(_format_error(path, mod_ref, "field 'reviewed_by' contains duplicates"))
+
+    last_reviewed = candidate["last_reviewed"]
+    if isinstance(last_reviewed, str) and last_reviewed:
+        try:
+            parsed = date.fromisoformat(last_reviewed)
+        except ValueError:
+            parsed = None
+        if parsed is None or parsed.isoformat() != last_reviewed:
+            errors.append(_format_error(path, mod_ref, "field 'last_reviewed' must use YYYY-MM-DD"))
+    return errors
+
+
+def _validate_lists(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
+    intended_editions = candidate["intended_editions"]
+    if not isinstance(intended_editions, list) or not intended_editions:
+        errors.append(
+            _format_error(path, mod_ref, "field 'intended_editions' must be a non-empty list")
+        )
+    elif any(not isinstance(edition, str) for edition in intended_editions):
+        errors.append(_format_error(path, mod_ref, "field 'intended_editions' must be list[str]"))
+    else:
+        invalid_editions = [
+            edition for edition in intended_editions if edition not in INTENDED_EDITIONS
+        ]
+        if invalid_editions:
+            errors.append(
+                _format_error(
+                    path, mod_ref, f"invalid intended_editions values {invalid_editions!r}"
+                )
+            )
+        if len(intended_editions) != len(set(intended_editions)):
+            errors.append(
+                _format_error(path, mod_ref, "field 'intended_editions' contains duplicates")
+            )
+
+    related_manifest_ids = candidate["related_manifest_ids"]
+    if not isinstance(related_manifest_ids, list) or any(
+        not isinstance(manifest_id, str) for manifest_id in related_manifest_ids
+    ):
+        errors.append(
+            _format_error(path, mod_ref, "field 'related_manifest_ids' must be list[str]")
+        )
+    else:
+        if len(related_manifest_ids) != len(set(related_manifest_ids)):
+            errors.append(
+                _format_error(path, mod_ref, "field 'related_manifest_ids' contains duplicates")
+            )
+        for manifest_id in related_manifest_ids:
+            if not ID_RE.fullmatch(manifest_id):
+                errors.append(
+                    _format_error(
+                        path,
+                        mod_ref,
+                        f"field 'related_manifest_ids' has malformed reference {manifest_id!r}",
+                    )
+                )
+    return errors
+
+
+def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
+    source_url = candidate["source_url"]
+    if isinstance(source_url, str) and source_url.strip() and not _is_valid_url(source_url):
+        errors.append(
+            _format_error(
+                path, mod_ref, f"malformed source_url {source_url!r}; expected http(s) URL"
+            )
+        )
+
+    source_confidence = candidate["source_confidence"]
+    if source_confidence == "verified":
+        if (
+            not isinstance(source_url, str)
+            or not source_url.strip()
+            or not _is_valid_url(source_url)
+        ):
+            errors.append(
+                _format_error(
+                    path, mod_ref, "source_confidence 'verified' requires a valid source_url"
+                )
+            )
+        if candidate["source_type"] == "unknown":
+            errors.append(
+                _format_error(
+                    path, mod_ref, "source_confidence 'verified' cannot use source_type 'unknown'"
+                )
+            )
+        if _is_placeholder(candidate["evidence_notes"]):
+            errors.append(
+                _format_error(path, mod_ref, "source_confidence 'verified' requires evidence_notes")
+            )
+
+    compatibility_status = candidate["compatibility_status"]
+    if compatibility_status in EVIDENCED_COMPATIBILITY_STATUS:
+        if _is_placeholder(candidate["evidence_notes"]) or _is_placeholder(
+            candidate["engine_notes"]
+        ):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"compatibility_status {compatibility_status!r} requires evidence and engine notes",
+                )
+            )
+        if not _has_review(candidate):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"compatibility_status {compatibility_status!r} requires review information",
+                )
+            )
+
+    intended_editions = candidate["intended_editions"]
+    if isinstance(intended_editions, list):
+        required_compatibility_editions = {
+            "openmw-compatible": {"openmw"},
+            "mwse-compatible": {"mwse"},
+            "both-compatible": {"openmw", "mwse"},
+        }.get(compatibility_status, set())
+        missing = required_compatibility_editions - set(intended_editions)
+        if missing:
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"compatibility_status {compatibility_status!r} contradicts intended_editions",
+                )
+            )
+
+        promotion_target = candidate["promotion_target"]
+        required_target_editions = {
+            "openmw": {"openmw"},
+            "mwse": {"mwse"},
+            "both": {"openmw", "mwse"},
+        }.get(promotion_target, set())
+        if required_target_editions - set(intended_editions):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"promotion_target {promotion_target!r} contradicts intended_editions",
+                )
+            )
+
+    candidate_status = candidate["candidate_status"]
+    if candidate_status == "promoted":
+        if candidate["promotion_target"] in {"neither", "undecided"}:
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    "candidate_status 'promoted' requires a concrete promotion_target",
+                )
+            )
+        related_ids = candidate["related_manifest_ids"]
+        if not isinstance(related_ids, list) or not related_ids:
+            errors.append(
+                _format_error(
+                    path, mod_ref, "candidate_status 'promoted' requires related_manifest_ids"
+                )
+            )
+        if _is_placeholder(candidate["promotion_notes"]):
+            errors.append(
+                _format_error(path, mod_ref, "candidate_status 'promoted' requires promotion_notes")
+            )
+        if not _has_review(candidate):
+            errors.append(
+                _format_error(
+                    path, mod_ref, "candidate_status 'promoted' requires review information"
+                )
+            )
+    elif candidate_status in {"rejected", "superseded"}:
+        if _is_placeholder(candidate["promotion_notes"]):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"candidate_status {candidate_status!r} requires promotion_notes",
+                )
+            )
+        if not _has_review(candidate):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"candidate_status {candidate_status!r} requires review information",
+                )
+            )
+    return errors
 
 
 def validate_candidate(candidate: dict, path: Path) -> list[str]:
@@ -96,78 +329,27 @@ def validate_candidate(candidate: dict, path: Path) -> list[str]:
             _format_error(path, mod_ref, f"invalid id {mod_id!r}; expected lowercase kebab-case")
         )
 
-    errors.extend(_validate_string_field(candidate, "name", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "engine_notes", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "source_url", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "evidence_notes", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "thematic_reason", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "promotion_notes", path, mod_ref))
-    errors.extend(_validate_string_field(candidate, "last_reviewed", path, mod_ref))
+    for field_name in STRING_FIELDS:
+        if not isinstance(candidate[field_name], str):
+            errors.append(_format_error(path, mod_ref, f"field '{field_name}' must be a string"))
+    if isinstance(candidate["name"], str) and not candidate["name"].strip():
+        errors.append(_format_error(path, mod_ref, "field 'name' must not be blank"))
 
-    if candidate["candidate_status"] not in CANDIDATE_STATUS:
-        errors.append(
-            _format_error(
-                path, mod_ref, f"invalid candidate_status {candidate['candidate_status']!r}"
-            )
-        )
-    if candidate["thematic_bucket"] not in THEMATIC_BUCKETS:
-        errors.append(
-            _format_error(
-                path, mod_ref, f"invalid thematic_bucket {candidate['thematic_bucket']!r}"
-            )
-        )
-    if candidate["source_type"] not in SOURCE_TYPES:
-        errors.append(
-            _format_error(path, mod_ref, f"invalid source_type {candidate['source_type']!r}")
-        )
-    if candidate["source_confidence"] not in SOURCE_CONFIDENCE:
-        errors.append(
-            _format_error(
-                path, mod_ref, f"invalid source_confidence {candidate['source_confidence']!r}"
-            )
-        )
-    if candidate["compatibility_status"] not in COMPATIBILITY_STATUS:
-        errors.append(
-            _format_error(
-                path,
-                mod_ref,
-                f"invalid compatibility_status {candidate['compatibility_status']!r}",
-            )
-        )
-    if candidate["risk_level"] not in RISK_LEVELS:
-        errors.append(
-            _format_error(path, mod_ref, f"invalid risk_level {candidate['risk_level']!r}")
-        )
-    if candidate["promotion_target"] not in PROMOTION_TARGETS:
-        errors.append(
-            _format_error(
-                path, mod_ref, f"invalid promotion_target {candidate['promotion_target']!r}"
-            )
-        )
+    errors.extend(_validate_enum(candidate, "candidate_status", CANDIDATE_STATUS, path, mod_ref))
+    errors.extend(_validate_enum(candidate, "thematic_bucket", THEMATIC_BUCKETS, path, mod_ref))
+    errors.extend(_validate_enum(candidate, "source_type", SOURCE_TYPES, path, mod_ref))
+    errors.extend(_validate_enum(candidate, "source_confidence", SOURCE_CONFIDENCE, path, mod_ref))
+    errors.extend(
+        _validate_enum(candidate, "compatibility_status", COMPATIBILITY_STATUS, path, mod_ref)
+    )
+    errors.extend(_validate_enum(candidate, "risk_level", RISK_LEVELS, path, mod_ref))
+    errors.extend(_validate_enum(candidate, "promotion_target", PROMOTION_TARGETS, path, mod_ref))
+    errors.extend(_validate_lists(candidate, path, mod_ref))
+    errors.extend(_validate_review_fields(candidate, path, mod_ref))
 
-    intended_editions = candidate["intended_editions"]
-    if not isinstance(intended_editions, list) or not intended_editions:
-        errors.append(
-            _format_error(path, mod_ref, "field 'intended_editions' must be a non-empty list")
-        )
-    elif any(not isinstance(edition, str) for edition in intended_editions):
-        errors.append(_format_error(path, mod_ref, "field 'intended_editions' must be list[str]"))
-    else:
-        invalid_editions = [
-            edition for edition in intended_editions if edition not in INTENDED_EDITIONS
-        ]
-        if invalid_editions:
-            errors.append(
-                _format_error(
-                    path, mod_ref, f"invalid intended_editions values {invalid_editions!r}"
-                )
-            )
-
-    for field_name in ("reviewed_by", "related_manifest_ids"):
-        value = candidate[field_name]
-        if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
-            errors.append(_format_error(path, mod_ref, f"field '{field_name}' must be list[str]"))
-
+    # Consistency checks assume the relevant scalar enum and string fields are well-typed.
+    if not any("must be a string" in error or "invalid " in error for error in errors):
+        errors.extend(_validate_candidate_consistency(candidate, path, mod_ref))
     return errors
 
 
@@ -186,9 +368,18 @@ def validate_sourced_mods(path: Path) -> tuple[list[dict], list[str]]:
         return [], [f"[ERROR] {exc}"]
 
     errors: list[str] = []
+    seen_ids: set[str] = set()
+    duplicate_ids: set[str] = set()
     for candidate in candidates:
         if not isinstance(candidate, dict):
             errors.append(f"[ERROR] {path} :: <entry> :: non-object entry in sourced_candidates")
             continue
+        candidate_id = candidate.get("id")
+        if isinstance(candidate_id, str):
+            if candidate_id in seen_ids:
+                duplicate_ids.add(candidate_id)
+            seen_ids.add(candidate_id)
         errors.extend(validate_candidate(candidate, path))
+    for candidate_id in sorted(duplicate_ids):
+        errors.append(_format_error(path, candidate_id, "duplicate id in sourced candidates"))
     return candidates, errors

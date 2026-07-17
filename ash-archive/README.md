@@ -1,60 +1,77 @@
-# Ash Archive control project
+# Ash Archive Control Project
 
-This directory contains the planning, metadata, documentation, and validation tooling for the dual-edition Ash Archive Morrowind Wabbajack project.
+This directory contains the Python tooling, control metadata, generated planning views, and
+edition documentation for Ash Archive. The repository plans two sibling Wabbajack editions:
 
-## Editions
-
-- **Pilgrim Edition** — OpenMW; atmospheric, long-play pilgrimage horror. *The island remembers.*
-- **Sleeper Edition** — classic Morrowind with MCP, MGE XE, and MWSE; reactive dream horror. *The dream notices you.*
-
-The editions share design pillars and evidence standards, but they do not share a forced load order or artificial feature parity.
+- **Pilgrim Edition** targets OpenMW.
+- **Sleeper Edition** targets classic Morrowind + MCP + MGE XE + MWSE.
 
 ## Current state
 
-The project is in **Phase 1 — Sourcing**. The control repository is operational, but neither edition is an installable or playable release. Manifests contain planned and evaluation-stage records, generated modlists are previews, and end-to-end installation evidence does not yet exist.
+Neither edition is installable or playable, no final load order exists, and no end-to-end
+install result is recorded. Repository validation proves structural consistency only; it
+does not prove mod compatibility or release readiness.
 
-Immediate work is tracked in [FOLLOW-UP-TASKS.md](FOLLOW-UP-TASKS.md). Phase gates and release criteria are defined in [ROADMAP.md](ROADMAP.md).
+## Control-data model
 
-## Setup
+The repository separates shared provenance from edition decisions:
 
-From this directory:
+1. `shared/sourced-mods.control.meta` records candidate identity, source facts, evidence,
+   uncertainty, and candidate-review state.
+2. An edition manifest entry may point to a canonical candidate with `source_reference`.
+3. Edition manifests retain engine, plugin, dependency, conflict, patch, testing, and
+   load-order fields.
+4. `editions/*/MODLIST.md` renders a planning view from edition manifests.
+
+A source reference is not promotion, acceptance, compatibility evidence, or an instruction
+to copy unknown version/archive data. See
+[`shared/sourced-mod-workflow.md`](shared/sourced-mod-workflow.md) and
+[`shared/mod-meta-schema.md`](shared/mod-meta-schema.md).
+
+## Automated checks
+
+From this directory, install Python 3.11 development dependencies and run the CI-equivalent
+suite:
 
 ```bash
-python -m pip install --editable ".[dev]"
-```
+python -m pip install -e ".[dev]"
 
-## Common commands
-
-```bash
 python tools/lint_repo.py
 python tools/validate_manifests.py
-python tools/generate_modlist_markdown.py
-python tools/compare_editions.py
 python tools/check_duplicate_mods.py
-python tools/summarize_sourced_mods.py
+python tools/compare_editions.py
+python tools/generate_modlist_markdown.py --check
 pytest
 ```
 
-`MODLIST.md` generated sections must be updated through `tools/generate_modlist_markdown.py`, not edited manually.
+Continuous integration runs those checks on pull requests and pushes to `main`.
+`python tools/summarize_sourced_mods.py` is an optional read-only intake report.
 
-## Working model
+## Generated files
 
-- `editions/openmw/` and `editions/mwse/` hold edition-specific manifests and docs.
-- `shared/` holds categories, candidate intake, source triage, multi-package provenance, and cross-edition policy.
-- `.control.meta` files are YAML-formatted internal metadata, not MO2 download sidecars.
-- `tools/` and `tests/` enforce schemas, naming, derived output, and repository automation consistency.
-- `../.agents/presets/` is the canonical policy layer for recurring automation.
-- `../.codex/agents/` and `../.agents/skills/` provide runnable translations and workflows governed by those presets.
-- Pull requests to `main` run repository and archive-integrity workflows before merge.
+Only the sections between `GENERATED-CONTENT` markers in the two edition `MODLIST.md` files
+are generated. After a manifest change, run:
 
-## Start here
+```bash
+python tools/generate_modlist_markdown.py
+python tools/generate_modlist_markdown.py --check
+```
 
-- [Project Bible](PROJECT-BIBLE.md)
-- [Roadmap](ROADMAP.md)
-- [Follow-up Tasks](FOLLOW-UP-TASKS.md)
-- [Repository Changelog](CHANGELOG.md)
-- [Pilgrim Edition](editions/openmw/README.md)
-- [Sleeper Edition](editions/mwse/README.md)
-- [Local Agent Presets](LOCAL-AGENT-PRESETS.md)
-- [Contributing guide](../CONTRIBUTING.md)
-- [Agent rules](../AGENT-RULES.md)
+Review both diffs. Do not edit generated sections manually.
+
+## Manual and human-review work
+
+Automation cannot decide whether to accept or reject a mod, establish compatibility from
+playtesting, choose cross-edition parity, set a final load order, approve a design-bible
+exception, or declare a release ready. Unknown source, package, version, archive, licensing,
+and game-behavior facts remain blocked until evidence is recorded.
+
+## Navigation
+
+- [`PROJECT-BIBLE.md`](PROJECT-BIBLE.md) — design constraints
+- [`ROADMAP.md`](ROADMAP.md) — phase gates
+- [`FOLLOW-UP-TASKS.md`](FOLLOW-UP-TASKS.md) — active blockers and next work
+- [`shared/sourced-mod-workflow.md`](shared/sourced-mod-workflow.md) — candidate and promotion lifecycle
+- [`editions/openmw/README.md`](editions/openmw/README.md) — Pilgrim scope
+- [`editions/mwse/README.md`](editions/mwse/README.md) — Sleeper scope
+- [`../CONTRIBUTING.md`](../CONTRIBUTING.md) — contribution and validation rules

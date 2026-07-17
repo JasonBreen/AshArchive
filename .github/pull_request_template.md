@@ -1,44 +1,47 @@
 ## Summary
 
-Describe what changed and why.
+Describe what changed, why, and what intentionally did not change.
 
-## Edition affected
-- [ ] Shared
+## Area affected
+
+- [ ] Shared sourcing or policy
 - [ ] Pilgrim / OpenMW
 - [ ] Sleeper / MWSE
-- [ ] Tooling
-- [ ] Documentation only
-
-## Type of change
+- [ ] Tooling or schema
 - [ ] Documentation
-- [ ] Manifest/schema
-- [ ] Tooling
-- [ ] Mod sourcing
+- [ ] Continuous integration
 - [ ] Wabbajack planning
-- [ ] Testing
-- [ ] CI
-- [ ] Other
+
+## Evidence and uncertainty
+
+Separate repository/tooling results from source facts and in-game evidence. List unresolved
+source identity, version, archive, plugin, licensing, compatibility, and testing questions.
 
 ## Validation
 
+Run from `ash-archive/` or explain each skipped command:
+
 ```bash
-cd ash-archive
 python tools/lint_repo.py
 python tools/validate_manifests.py
-python tools/generate_modlist_markdown.py
-python tools/compare_editions.py
 python tools/check_duplicate_mods.py
+python tools/compare_editions.py
+python tools/generate_modlist_markdown.py --check
 pytest
 ```
 
-## Notes on uncertainty / evidence
+- Commands run and exact results:
+- Commands skipped and reasons:
+- Generated modlists refreshed with `python tools/generate_modlist_markdown.py` when needed:
+- Generated diffs reviewed:
 
-Document unknowns, assumptions, and missing evidence explicitly.
+## Human review gates
 
-## Design constraints check
-
-- [ ] I did not collapse OpenMW and MWSE into one load order.
-- [ ] I did not invent mod URLs, versions, archive names, or test results.
-- [ ] I did not claim compatibility testing without documented evidence.
-- [ ] I preserved project design constraints and did not weaken `ash-archive/PROJECT-BIBLE.md`.
-- [ ] I did not manually overwrite generated sections.
+- [ ] No unverified mod was promoted to `testing` or `accepted`.
+- [ ] Any `source_reference` added is provenance-only and was not treated as promotion, acceptance, or compatibility evidence.
+- [ ] Candidate and edition status changes are explained separately.
+- [ ] No final load order, installability, compatibility, or release-readiness claim was added without evidence.
+- [ ] OpenMW and MWSE remain sibling editions; intentional engine-specific differences were preserved.
+- [ ] Generated sections were not hand-edited.
+- [ ] Rejected-mod reasoning and unresolved research questions were retained.
+- [ ] Project-bible exceptions, source promotion, compatibility decisions, and release decisions received human review where required.

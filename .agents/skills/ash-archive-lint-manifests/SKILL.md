@@ -5,11 +5,19 @@ description: Reproduce and mechanically repair Ash Archive manifest, schema, YAM
 
 # Lint Ash Archive Manifests
 
+## Canonical Policy
+
+Read `.agents/presets/manifest-lint-agent.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`, `.agents/presets/manifest-lint-agent.yaml`,
-   `ash-archive/shared/mod-meta-schema.md`, and `ash-archive/shared/naming-policy.md`.
+   `ash-archive/shared/mod-meta-schema.md`, and `ash-archive/shared/naming-policy.md` completely.
 2. From `ash-archive/`, reproduce the failure with `python tools/validate_manifests.py` or the
    exact failing test before editing.
 3. Make the smallest mechanical correction directly implied by repository evidence. Preserve

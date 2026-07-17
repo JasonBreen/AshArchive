@@ -1,125 +1,136 @@
 # Contributing to Ash Archive
 
-Ash Archive is a planning and control repository for two sibling Morrowind Wabbajack editions:
+Ash Archive is a planning/control repository for two sibling Morrowind editions:
 
-- **Pilgrim Edition** — OpenMW
-- **Sleeper Edition** — classic Morrowind with MCP, MGE XE, and MWSE
+- **Pilgrim Edition** targets OpenMW.
+- **Sleeper Edition** targets classic Morrowind + MCP + MGE XE + MWSE.
 
-The project is in Phase 1 sourcing. Keep compatibility, installability, and release claims evidence-based; neither edition is currently a playable release.
+Neither edition is currently installable or playable. Do not present planned entries,
+repository validation, upstream documentation, or a source link as in-game test evidence.
 
-## Required reading
+## Before changing files
 
-Before editing:
-
-1. Read [AGENT-RULES.md](AGENT-RULES.md) if an AI assistant is involved.
-2. Read [ash-archive/PROJECT-BIBLE.md](ash-archive/PROJECT-BIBLE.md) for design constraints.
-3. Read the relevant edition or shared-subsystem documentation.
-4. For recurring automated work, select the narrowest preset in [ash-archive/LOCAL-AGENT-PRESETS.md](ash-archive/LOCAL-AGENT-PRESETS.md).
-
-## Developer setup
-
-Use Python 3.11 or newer. From `ash-archive/`:
-
-```bash
-python -m pip install --editable ".[dev]"
-```
-
-## Repository layout
-
-- `ash-archive/editions/openmw/` — Pilgrim Edition manifests, generated preview, and docs
-- `ash-archive/editions/mwse/` — Sleeper Edition manifests, generated preview, MO2 planning, and docs
-- `ash-archive/shared/` — categories, sourcing metadata, provenance, and shared policy
-- `ash-archive/tools/` — validation, generation, comparison, and lint tooling
-- `ash-archive/tests/` — schema, tooling, agent, skill, and convention tests
-- `.agents/presets/` — canonical runner-neutral automation policy
-- `.codex/agents/` — project-scoped Codex translations
-- `.agents/skills/` — reusable repository workflows
+Read [`AGENT-RULES.md`](AGENT-RULES.md), the
+[`PROJECT-BIBLE.md`](ash-archive/PROJECT-BIBLE.md), and the documentation for the affected
+edition or shared subsystem. Work on a focused branch, keep the pull request reviewable,
+and preserve intentional differences between the editions.
 
 ## Branch and commit conventions
 
-Use a focused branch with one of these prefixes:
+Use a descriptive branch with an appropriate prefix such as `codex/`, `docs/`, `tooling/`,
+`manifests/`, `wabbajack/`, or `ci/`.
 
-- `agent/`
-- `codex/`
-- `copilot/`
-- `docs/`
-- `tooling/`
-- `manifests/`
-- `wabbajack/`
-- `ci/`
+Use concise commit prefixes where helpful: `docs:`, `tools:`, `manifests:`, `shared:`,
+`openmw:`, `mwse:`, `tests:`, or `ci:`.
 
-Examples:
+## Install development dependencies
 
-- `docs/sync-phase-one-status`
-- `tooling/improve-manifest-errors`
-- `manifests/mwse-evaluation-notes`
+From `ash-archive/`:
 
-Use a concise, descriptive commit message. Prefixes such as `docs:`, `tools:`, `manifests:`, `shared:`, `openmw:`, `mwse:`, `tests:`, and `ci:` are encouraged.
+```bash
+python -m pip install -e ".[dev]"
+```
 
-## Pull request expectations
+Python 3.11 or newer is required.
 
-1. Keep the PR focused and reviewable.
-2. Explain what changed, why it changed, and what was deliberately left unchanged.
-3. Identify edition impact: shared, Pilgrim, Sleeper, tooling, automation, or docs-only.
-4. Separate recorded facts from recommendations and unresolved assumptions.
-5. Include exact validation results and explain skipped checks.
-6. Update the appropriate changelog when the change is meaningful to maintainers or future release notes.
-7. Do not combine content promotion, tooling refactors, and unrelated documentation cleanup in one PR.
+## Local validation
 
-Pull requests to `main` run two automated workflows:
-
-- Repository checks install development dependencies, lint repository configuration, and run the test suite.
-- Archive-integrity checks validate manifests, verify generated modlists, compare editions, and scan for duplicates.
-
-These checks protect repository consistency; they do not prove game compatibility or release readiness.
-
-## Validation commands
-
-Run relevant checks from `ash-archive/`:
+The full CI-equivalent suite is:
 
 ```bash
 python tools/lint_repo.py
 python tools/validate_manifests.py
-python tools/generate_modlist_markdown.py
-python tools/compare_editions.py
 python tools/check_duplicate_mods.py
-python tools/summarize_sourced_mods.py
+python tools/compare_editions.py
+python tools/generate_modlist_markdown.py --check
 pytest
 ```
 
-After generating modlists, inspect the diff and confirm that only expected generated sections changed.
+Run commands from `ash-archive/`. A genuinely scope-limited change may justify a subset,
+but the pull request must list every skipped check and the reason. The optional
+`python tools/summarize_sourced_mods.py` command prints a candidate overview and is not a
+validation or release-readiness result.
 
-## Manifest and generated-file rules
+Continuous integration runs the full suite on pull requests and pushes to `main`. These
+checks establish structural consistency, not gameplay compatibility, installability, or
+release readiness.
 
-Internal control metadata uses YAML-formatted `.control.meta` files. These are not Mod Organizer 2 download sidecars and must not be represented as native sidecars.
+## Generated modlists
 
-When editing manifests:
+`editions/openmw/MODLIST.md` and `editions/mwse/MODLIST.md` contain manual introductions
+and generated sections delimited by `GENERATED-CONTENT` markers. Never hand-edit content
+between those markers.
 
-1. Preserve Pilgrim and Sleeper as sibling implementations, not forced copies.
-2. Preserve category integrity against `shared/categories.control.meta`.
-3. Preserve explicit cross-edition status and rationale.
-4. Do not invent source, version, archive, hash, requirement, or compatibility data.
-5. Do not mark compatibility as tested without recorded evidence.
-6. Regenerate `MODLIST.md` through the generator; never hand-edit generated sections.
+After a manifest change that affects public output:
 
-## Sourced-mod workflow
+1. Run `python tools/generate_modlist_markdown.py`.
+2. Review both edition diffs, including unexpected removals or status changes.
+3. Run `python tools/generate_modlist_markdown.py --check` to confirm the committed view is current.
 
-Use [ash-archive/shared/sourced-mod-workflow.md](ash-archive/shared/sourced-mod-workflow.md) when triaging or promoting candidates. Treat `shared/sourced-mods.control.meta` as intake metadata, not an accepted-mod manifest.
+## Metadata ownership
 
-- Record evidence and confidence explicitly.
-- Distinguish candidate, accepted, rejected, and deferred states.
-- Preserve rejected records and their reasoning.
-- Do not promote a candidate without review and compatibility evidence.
-- Keep multi-package source records synchronized when child archives differ from the parent source version.
+Internal `.control.meta` files are YAML project metadata, not Mod Organizer 2 download
+sidecars. The main metadata layers have different responsibilities:
 
-## Documentation rules
+| Layer | Canonical responsibility |
+|---|---|
+| `shared/sourced-mods.control.meta` | Candidate identity, source type, source URL, provenance evidence, source confidence, and candidate review state. |
+| `editions/*/manifests/mods.control.meta` | Edition choice, engine behavior, plugins, dependencies, conflicts, patches, testing evidence, and load-order relationships. |
+| `editions/*/MODLIST.md` | Generated public planning view; never the source of truth. |
 
-- Keep the README, roadmap, follow-up checklist, edition docs, and changelogs aligned.
-- State the current planning phase and avoid implying an installer exists before Phase 4 criteria are met.
-- Label unknown information as `unverified`, `needs-testing`, `planned`, `blocked`, or `TBD` as appropriate.
-- Explain what evidence or test would resolve an uncertainty.
-- Preserve Morrowind-native psychological horror, evidence-before-explanation, and the two-edition model.
+See the [`control metadata schema`](ash-archive/shared/mod-meta-schema.md) for field rules.
+
+## Source references and the two state systems
+
+An edition manifest entry may set `source_reference` to the ID of a canonical candidate in
+`shared/sourced-mods.control.meta`. A link may be added to an existing `planned` edition
+placeholder when identity and provenance match. The link does not fill unknown version or
+archive data and does not change either status automatically.
+
+Candidate intake uses `candidate_status` (`candidate`, `under-review`, `promoted`,
+`rejected`, or `superseded`). Edition manifests separately use `status` (`planned`,
+`testing`, `accepted`, `rejected`, `needs-patch`, or `deprecated`). Promotion and edition
+acceptance remain human-review decisions, and `testing`/`accepted` require recorded evidence.
+Follow the [`Sourced Mod Workflow`](ash-archive/shared/sourced-mod-workflow.md).
+
+## Manifest changes
+
+When editing an edition manifest:
+
+1. Keep OpenMW and MWSE as sibling implementations, not forced parity.
+2. Use a category from `shared/categories.control.meta`.
+3. Keep IDs lowercase kebab-case and priorities unique within a category.
+4. Use only engine values supported by that edition.
+5. Reference existing IDs in requirements, conflicts, and load-order fields.
+6. Leave unknown source, version, archive, plugin, and compatibility facts explicitly unknown.
+7. Do not set `testing` or `accepted` without the evidence required by validation and human review.
+8. Preserve rejection reasoning.
+
+## Source research
+
+When updating a canonical source record:
+
+1. Prefer current primary sources and record what the evidence actually establishes.
+2. Distinguish source confidence from compatibility evidence.
+3. Do not invent URLs, IDs, versions, archive names, plugin names, or redistribution terms.
+4. Keep unresolved identity, licensing, or package questions blocked or unverified.
+5. Do not promote or accept a candidate merely because its source URL is verified.
+
+## Documentation changes
+
+Keep status language tied to repository evidence. Placeholder pages must say what is blocked
+and what evidence is needed; an empty known-issues page must not imply that no issues exist.
+Preserve the dual-edition model and the design constraints in the project bible.
 
 ## Design-bible exceptions
 
-If a proposal conflicts with `ash-archive/PROJECT-BIBLE.md`, add a clearly labeled **Design-Bible Exception Request** to the PR. Identify the affected rule, rationale, alternatives, and risk. Human maintainer approval is required before merge.
+If a proposal conflicts with the project bible, add a clearly labeled **Design-Bible
+Exception Request** to the pull request. Identify the exact rule, rationale, alternatives,
+and risk. A maintainer must review the exception; do not silently weaken the rule in prose or
+metadata.
+
+## Pull request expectations
+
+Describe what changed, why it changed, affected editions, validation results, skipped checks,
+and remaining uncertainty. Explicitly separate repository/tooling results from source facts
+and from in-game evidence. Do not mix unrelated work.

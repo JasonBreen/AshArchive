@@ -1,6 +1,8 @@
 # Local Agent Presets
 
-This directory contains auditable local agent preset definitions for recurring Ash Archive maintenance tasks. The canonical policy and rationale live in [`ash-archive/LOCAL-AGENT-PRESETS.md`](../../ash-archive/LOCAL-AGENT-PRESETS.md).
+This directory contains the canonical, auditable local agent preset definitions for recurring
+Ash Archive maintenance tasks. Explanatory policy and rationale live in
+[`ash-archive/LOCAL-AGENT-PRESETS.md`](../../ash-archive/LOCAL-AGENT-PRESETS.md).
 
 These files are intentionally descriptive and runner-neutral. Runnable project-scoped
 Codex translations live in [`.codex/agents/`](../../.codex/agents/), and reusable workflows

@@ -19,6 +19,9 @@ allowed_actions:
   - add_notes_for_unexplained_drift
   - apply_clear_mechanical_fixes
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
   - force_feature_parity_between_editions
   - remove_engine_specific_differences
   - promote_or_remove_mods_to_balance_counts
@@ -36,6 +39,9 @@ handoff:
   classify_each_finding: true
   preserve_edition_specific_rationale: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - parity_decisions
   - engine_specific_behavior_claims
   - load_order_or_patch_strategy_changes
