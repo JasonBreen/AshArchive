@@ -11,6 +11,7 @@ scope:
 read_before_editing:
   - AGENT-RULES.md
   - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
   - ash-archive/ROADMAP.md
   - ash-archive/editions/openmw/wabbajack/release-checklist.md
   - ash-archive/editions/mwse/wabbajack/release-checklist.md
@@ -20,6 +21,9 @@ allowed_actions:
   - run_required_validation_commands
   - summarize_readiness_by_edition
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
   - mark_release_ready_without_human_review
   - imply_installable_build_before_phase_4_criteria
   - invent_end_to_end_install_test_results
@@ -28,7 +32,7 @@ required_checks:
   - working_directory: ash-archive
     command: python tools/validate_manifests.py
   - working_directory: ash-archive
-    command: python tools/generate_modlist_markdown.py
+    command: python tools/generate_modlist_markdown.py --check
   - working_directory: ash-archive
     command: pytest
 stop_conditions:
@@ -41,6 +45,9 @@ handoff:
   list_blockers_by_severity: true
   include_exact_validation_commands: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - release_readiness_decisions
   - end_to_end_install_claims
   - final_wabbajack_packaging

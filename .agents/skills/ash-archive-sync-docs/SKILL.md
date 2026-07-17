@@ -5,11 +5,19 @@ description: Synchronize Ash Archive documentation, links, commands, status lang
 
 # Synchronize Ash Archive Documentation
 
+## Canonical Policy
+
+Read `.agents/presets/documentation-sync-agent.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`, and
-   `.agents/presets/documentation-sync-agent.yaml`.
+   `.agents/presets/documentation-sync-agent.yaml` completely.
 2. Identify the authoritative document for each disputed command, status, or policy statement.
 3. Make the smallest set of prose and link changes that restores consistency. Preserve the
    two-edition model and evidence-before-explanation principle.

@@ -15,6 +15,8 @@ Available agents:
 - `edition-drift-auditor`
 - `documentation-sync-agent`
 - `release-readiness-agent`
+- `wabbajack-list-planner`
+- `wabbajack-list-writer`
 
 Use these agents for focused delegation. They do not replace the repository-wide rules in
 `AGENTS.md`, `AGENT-RULES.md`, or `ash-archive/PROJECT-BIBLE.md`.

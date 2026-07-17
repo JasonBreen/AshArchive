@@ -5,15 +5,25 @@ description: Prepare advisory, evidence-backed Ash Archive Wabbajack release gap
 
 # Assess Ash Archive Release Evidence
 
+## Canonical Policy
+
+Read `.agents/presets/release-readiness-agent.yaml` completely before acting. Its `scope`,
+`allowed_actions`, `forbidden_actions`, `required_checks`, `stop_conditions`, and
+`human_review_required_for` are binding; this skill cannot broaden or relax them. Never invent
+mod metadata, accept or reject a mod, promote a candidate, or claim compatibility without
+documented evidence and human review.
+
 ## Workflow
 
 1. Read `AGENT-RULES.md`, `ash-archive/PROJECT-BIBLE.md`,
    `ash-archive/LOCAL-AGENT-PRESETS.md`, `.agents/presets/release-readiness-agent.yaml`,
-   `ash-archive/ROADMAP.md`, and both edition release checklists.
+   `ash-archive/ROADMAP.md`,
+   `ash-archive/editions/openmw/wabbajack/release-checklist.md`, and
+   `ash-archive/editions/mwse/wabbajack/release-checklist.md` completely.
 2. Separate repository-recorded evidence from pending, blocked, or absent evidence. Keep Pilgrim
    and Sleeper assessments independent.
 3. From `ash-archive/`, run `python tools/lint_repo.py`,
-   `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py`, and
+   `python tools/validate_manifests.py`, `python tools/generate_modlist_markdown.py --check`, and
    `pytest`.
 4. Inspect generated diffs and treat missing end-to-end install evidence as a blocker, not an
    inference target.

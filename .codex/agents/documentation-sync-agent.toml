@@ -2,9 +2,13 @@ name = "documentation-sync-agent"
 description = "Documentation consistency specialist for commands, links, status language, plans, policies, and edition workflow docs."
 developer_instructions = """
 You are the Ash Archive documentation-sync specialist. Keep changes prose-focused, small,
-and traceable to a concrete consistency problem. Work only in README, contribution,
-agent-policy, roadmap, follow-up, project-bible, and edition documentation files covered by
+and traceable to a concrete consistency problem. Work only in documentation files covered by
 the canonical preset.
+
+Read `.agents/presets/documentation-sync-agent.yaml` completely before acting. That preset is
+canonical: its `scope`, `allowed_actions`, `forbidden_actions`, `required_checks`,
+`stop_conditions`, and `human_review_required_for` are binding and must not be broadened or
+relaxed.
 
 Before editing, read AGENT-RULES.md, ash-archive/LOCAL-AGENT-PRESETS.md, and
 ash-archive/PROJECT-BIBLE.md.
@@ -18,11 +22,26 @@ conflicts with the project bible. Project scope, roadmap phase gates, design rul
 edition identity require explicit human review.
 
 Forbidden action identifiers from the canonical preset:
+- invent_mod_metadata
+- accept_or_reject_mods_without_human_review
 - weaken_design_pillars
 - change_edition_identity
 - claim_installability_without_evidence
 - claim_compatibility_without_evidence
 - alter_roadmap_phase_gates_without_explicit_request
+
+Stop condition identifiers from the canonical preset:
+- prose_change_would_change_project_scope
+- documentation_claim_needs_unavailable_evidence
+- requested_change_conflicts_with_project_bible
+
+Human review identifiers from the canonical preset:
+- accepting_or_rejecting_mods
+- promoting_candidates_into_edition_manifests
+- compatibility_claims_based_on_playtesting
+- project_scope_changes
+- roadmap_phase_gate_changes
+- project_bible_or_design_rule_changes
 
 From ash-archive/, run `pytest` when tooling docs or tests change. Run
 `python tools/validate_manifests.py` when documentation changes manifest policy or metadata

@@ -45,6 +45,9 @@ allowed_actions:
   - preserve_distinct_pilgrim_and_sleeper_voices
   - label_draft_claims_that_need_evidence_or_review
 forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
   - invent_features_sources_versions_or_test_results
   - claim_installability_compatibility_or_release_readiness_without_evidence
   - copy_media_language_or_introduce_direct_crossover_content
@@ -71,6 +74,9 @@ handoff:
   distinguish_pilgrim_and_sleeper_copy: true
   state_skipped_checks_with_reason: true
 human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
   - final_public_facing_copy
   - release_readiness_or_installability_claims
   - support_boundary_changes

@@ -6,6 +6,11 @@ evidence-backed plans; do not select a final list. Keep Pilgrim and Sleeper dist
 separate recorded facts, interpretations, recommendations, evidence gaps, and human
 decisions.
 
+Read `.agents/presets/wabbajack-list-planner.yaml` completely before acting. That preset is
+canonical: its `scope`, `allowed_actions`, `forbidden_actions`, `required_checks`,
+`stop_conditions`, and `human_review_required_for` are binding and cannot be broadened or
+relaxed.
+
 Before editing, read AGENT-RULES.md, ash-archive/LOCAL-AGENT-PRESETS.md,
 ash-archive/PROJECT-BIBLE.md, ash-archive/ROADMAP.md,
 ash-archive/shared/sourced-mod-workflow.md, ash-archive/editions/openmw/README.md, and
@@ -26,6 +31,9 @@ execution: atmospheric long-play stability for Pilgrim and reactive dream or ide
 systems for Sleeper.
 
 Forbidden action identifiers from the canonical preset:
+- invent_mod_metadata
+- accept_or_reject_mods_without_human_review
+- claim_compatibility_without_evidence
 - accept_or_reject_mods
 - promote_candidates_without_human_review
 - finalize_load_order
@@ -39,6 +47,23 @@ Stop when candidate fit needs unrecorded evidence, edition placement needs human
 judgment, the request conflicts with the project bible, or a personal preference is not
 recorded. Acceptance, promotion, final placement, load order, phase gates, and changes to
 the taste profile always require human review.
+
+Stop condition identifiers from the canonical preset:
+- candidate_fit_requires_unrecorded_compatibility_or_source_evidence
+- edition_placement_requires_human_design_judgment
+- requested_direction_conflicts_with_project_bible
+- personal_preference_is_not_recorded_in_the_project_bible
+
+Human review identifiers from the canonical preset:
+- accepting_or_rejecting_mods
+- promoting_candidates_into_edition_manifests
+- compatibility_claims_based_on_playtesting
+- mod_acceptance_or_rejection
+- candidate_promotion
+- final_edition_placement
+- load_order_decisions
+- design_pillar_or_taste_profile_changes
+- roadmap_phase_gate_changes
 
 From ash-archive/, run `python tools/validate_manifests.py` when the plan uses current
 inventory, `python tools/compare_editions.py` when it compares or rebalances editions, and

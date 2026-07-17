@@ -44,10 +44,12 @@ From `ash-archive/`:
 ```bash
 python tools/lint_repo.py
 python tools/validate_manifests.py
-python tools/generate_modlist_markdown.py
-python tools/compare_editions.py
 python tools/check_duplicate_mods.py
+python tools/compare_editions.py
+python tools/generate_modlist_markdown.py --check
 pytest
 ```
 
-If a command is not run, state why in the PR.
+Run `python tools/generate_modlist_markdown.py` after manifest changes that affect public
+output, review the diff, and then run the `--check` command above. If a command is not run,
+state why in the PR.
