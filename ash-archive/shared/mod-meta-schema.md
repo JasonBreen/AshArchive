@@ -1,147 +1,82 @@
-# `.control.meta` File Schema for `modlist.txt` Conversion
+# Control Metadata and Manifest Schema
 
-This document defines the canonical schema for per-mod metadata files in this repository.
+Ash Archive uses YAML `.control.meta` files as internal control data. They are not native
+MO2 download sidecars. This document describes field ownership and the contracts enforced by
+repository tools; the Python validators remain the executable specification.
 
-## Purpose
+## Metadata layers
 
-Internal control metadata `.control.meta` files provide deterministic, machine-readable metadata converted from `modlist.txt` rows and augmented with project triage fields. These internal control records are **not MO2 download sidecars** and must not be treated as native MO2/Wabbajack download metadata.
-
-## File format and naming
-
-- Files use the `.meta` extension (this schema specifically uses `.control.meta`).
-- Content remains YAML-structured metadata.
-- Naming pattern: `<slug>-<source_id>.control.meta`
-  - For Nexus-backed rows, `source_id` is the numeric `nexus_id`.
-  - For non-Nexus rows (`Unmanaged:*`, `DLC:*`, and rows without a Nexus ID), use `local`.
-
-Examples:
-
-- `the-dream-is-the-door-47423.control.meta`
-- `beware-the-sixth-house-46036.control.meta`
-- `unmanaged-siege-at-firemoth-local.control.meta`
-- `dlc-tribunal-local.control.meta`
-
-## Slug normalization rules
-
-Build `<slug>` from `mod_name` using the following deterministic normalization:
-
-1. Trim leading/trailing whitespace.
-2. Convert to lowercase.
-3. Convert apostrophes (`'`, `’`) to nothing.
-4. Convert underscores (`_`) and all whitespace runs to a single hyphen (`-`).
-5. Convert any punctuation other than hyphen to a separator, then collapse repeated separators to one hyphen.
-6. Remove leading/trailing hyphens.
-
-### Normalization examples
-
-- `Skies .IV` -> `skies-iv`
-- `Starfire's npc Additions - Danae's Edits and Fixes` -> `starfires-npc-additions-danaes-edits-and-fixes`
-- `Better_Clothes` -> `better-clothes`
-
-## Canonical schema
-
-Each file must contain the following top-level keys:
-
-```yaml
-schema_version: 1
-slug: string
-kind: nexus | unmanaged | dlc | local
-source:
-  mod_name: string
-  nexus_id: integer | null
-  nexus_url: string
-  archive_filename: string
-  version: string
-  install_date: string   # ISO-8601 UTC preferred, e.g. 2025-03-25T19:19:53Z
-  status: enabled | disabled
-project:
-  edition_target: openmw | mwse | both | undecided
-  category: string
-  confidence: low | medium | high
-  notes: string
-```
-
-## `kind` semantics and unmanaged representation
-
-Use `kind` to distinguish rows with different source guarantees:
-
-- `nexus`: Standard Nexus-backed row (`nexus_id > 0` and non-empty Nexus URL).
-- `unmanaged`: Row where `mod_name` starts with `Unmanaged:`.
-- `dlc`: Row where `mod_name` starts with `DLC:`.
-- `local`: Any non-Nexus row that is neither `Unmanaged:` nor `DLC:`.
-
-### Differences from Nexus-backed entries
-
-For `unmanaged`, `dlc`, and `local` rows:
-
-- `source.nexus_id` must be `null`.
-- `source.nexus_url` is `""`.
-- `source.archive_filename` may be empty when not available.
-- `source.version` should preserve `modlist.txt` value; if absent, use `""`.
-
-For `nexus` rows:
-
-- `source.nexus_id` must be the numeric ID from `modlist.txt`.
-- `source.nexus_url` should be the direct Nexus mod URL from `modlist.txt`.
-
-## Field mapping table (`modlist.txt` -> `.control.meta`)
-
-| `modlist.txt` column | `.control.meta` target | Mapping rule |
+| File family | Top-level shape | Responsibility |
 |---|---|---|
-| `#Mod_Name` | `source.mod_name` | Copy as-is. |
-| `#Nexus_ID` | `source.nexus_id` | If value > 0, copy integer; otherwise `null`. |
-| `#Mod_Nexus_URL` | `source.nexus_url` | Copy as-is; empty for non-Nexus rows. |
-| `#Download_File_Name` | `source.archive_filename` | Copy as-is (full path allowed). |
-| `#Mod_Version` | `source.version` | Copy as-is. |
-| `#Install_Date` | `source.install_date` | Convert `YYYY/MM/DD HH:MM:SS` to ISO-8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`) when possible. |
-| `#Mod_Status` | `source.status` | `+` -> `enabled`; `-` -> `disabled`. |
-| `#Primary_Category` | `project.category` | Copy category text; if empty, use `uncategorized`. |
-| *(derived)* | `slug` | Normalize from `source.mod_name` using slug rules above. |
-| *(derived)* | `kind` | `Unmanaged:*` -> `unmanaged`; `DLC:*` -> `dlc`; Nexus-backed -> `nexus`; else `local`. |
-| *(project input)* | `project.edition_target` | Required manual/project classification. |
-| *(project input)* | `project.confidence` | Required manual/project confidence (`low|medium|high`). |
-| *(project input)* | `project.notes` | Required manual/project notes. |
+| `shared/sourced-mods.control.meta` | `sourced_candidates:` list | Canonical candidate identity, provenance, source evidence, uncertainty, and candidate-review state. |
+| `editions/*/manifests/mods.control.meta` | `mods:` list | Edition-specific selection, engine, plugin, patch, test, conflict, dependency, and ordering data. |
+| `shared/source-triage.control.meta` | `source_triage:` mapping | Blocking identity, package, and distribution questions from imported inventory. |
+| `shared/source-package-meta.control.meta` | `multi_package_sources:` list | Parent source pages and child package evidence. |
+| `editions/*/MODLIST.md` | generated Markdown section | Derived planning view; not canonical metadata. |
 
-## Minimal examples
+The repository-root [`modlist.txt`](../../modlist.txt) is an inventory snapshot, not an
+edition manifest or a complete MO2 download-sidecar source.
 
-### Nexus-backed entry
+## Canonical source records
 
-```yaml
-schema_version: 1
-slug: the-dream-is-the-door
-kind: nexus
-source:
-  mod_name: The Dream is the Door
-  nexus_id: 47423
-  nexus_url: https://www.nexusmods.com/morrowind/mods/47423
-  archive_filename: The Dream is the Door-47423-1-3-1655842474.7z
-  version: 1.3.0.0
-  install_date: 2025-03-29T12:59:31Z
-  status: enabled
-project:
-  edition_target: both
-  category: Immersion
-  confidence: medium
-  notes: Candidate aligns with dream pillar; pending in-engine verification.
-```
+Each sourced candidate has a stable lowercase kebab-case `id`. The source layer owns:
 
-### Unmanaged entry
+- `source_type`, `source_url`, `source_confidence`, and `evidence_notes`;
+- candidate identity and thematic/risk notes;
+- `candidate_status`, review fields, intended editions, compatibility status, and promotion target;
+- `related_manifest_ids`, the reverse links to edition entries.
 
-```yaml
-schema_version: 1
-slug: unmanaged-siege-at-firemoth
-kind: unmanaged
-source:
-  mod_name: "Unmanaged: Siege at Firemoth"
-  nexus_id: null
-  nexus_url: ""
-  archive_filename: ""
-  version: ""
-  install_date: 2026-01-13T23:38:37Z
-  status: enabled
-project:
-  edition_target: undecided
-  category: uncategorized
-  confidence: low
-  notes: Base content not sourced from Nexus row metadata.
-```
+Candidate status values are `candidate`, `under-review`, `promoted`, `rejected`, and
+`superseded`. Source confidence and compatibility are separate: a source can be verified
+while game compatibility still needs testing.
+
+## Edition manifest records
+
+Edition entries require an ID, name, category, edition, cross-edition status, manifest
+status, non-empty engine list, source/package fields, plugin/dependency/conflict/order lists,
+patch and testing notes, decision reason, and positive integer priority.
+
+- IDs use lowercase kebab-case.
+- `edition` is `openmw` or `mwse` and must match the containing edition.
+- Engine values must be supported by that edition.
+- Priorities are unique within each category.
+- `requires`, `conflicts`, `load_after`, and `load_before` reference IDs in the same manifest.
+- Planned records may retain blank or explicit placeholder source, URL, version, archive,
+  plugin, patch, and testing facts.
+- `testing` and `accepted` require positive, non-placeholder test evidence, a non-placeholder
+  `reviewed_by` list, and an ISO `last_reviewed` date in `YYYY-MM-DD` form. When linked, the
+  canonical candidate must use `source_confidence: verified`.
+- `accepted` also requires `source_reference`, a promoted canonical candidate whose
+  `promotion_target` includes the entry's edition, and compatible evidence for that edition.
+- `rejected`, `needs-patch`, and `deprecated` require non-placeholder decision rationale;
+  rejection additionally requires named human review and a review date.
+
+Edition manifest status values are `planned`, `testing`, `accepted`, `rejected`,
+`needs-patch`, and `deprecated`. They are independent of candidate status.
+
+## `source_reference`
+
+An edition entry may set optional `source_reference` to a canonical sourced-candidate ID.
+Validation checks that the source exists, names and intended editions agree, the candidate is
+not rejected or superseded, and `related_manifest_ids` links back.
+
+Planning and testing provenance links are independent of `promotion_target`. That field is
+enforced for acceptance, when a promoted candidate must target the accepting edition.
+
+The source record is canonical for source type, source URL, and source evidence. If a linked
+manifest repeats a non-placeholder source type or URL, it must agree with the canonical
+record. Linking does not:
+
+- change `candidate_status` or edition `status`;
+- prove compatibility or testing;
+- accept or promote the mod;
+- copy unknown versions, archives, plugins, or edition-specific behavior.
+
+See [`sourced-mod-workflow.md`](sourced-mod-workflow.md) for the lifecycle.
+
+## Generated Markdown
+
+`tools/generate_modlist_markdown.py` replaces only content between the
+`GENERATED-CONTENT` markers in each edition `MODLIST.md`. Use the normal command to refresh
+output and `--check` to compare without writing. Manual introductions remain outside the
+markers.

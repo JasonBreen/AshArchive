@@ -1,17 +1,22 @@
 # MO2 Download `.meta` Sidecars vs Internal Control Metadata
 
-## Separation of artifact types
+## Separate artifact classes
 
-- MO2/Wabbajack download `.meta` sidecars are a **separate artifact class** from internal project metadata.
-- Internal `.control.meta` files are YAML-formatted **internal control metadata** used by repository tooling and are **not MO2 download sidecars**.
+- Native MO2/Wabbajack download `.meta` sidecars belong to downloaded archives and use the
+  format expected by Mod Organizer 2.
+- Repository `.control.meta` files are YAML internal control data used by Ash Archive tools;
+  they are not MO2 download sidecars.
+- Renaming or serializing internal YAML as `.meta` does not make it a native MO2 sidecar.
 
-## Source of native sidecars
+## Native sidecar evidence
 
-- Native MO2 download sidecar `.meta` files should be imported from a real Mod Organizer 2 downloads directory when available.
-- Do **not** synthesize native MO2 `.meta` files unless the exact required fields are known and verified.
+Import native sidecars from a real MO2 downloads directory only when the exact artifact and
+fields are available. Do not synthesize Nexus file IDs, hashes, file sizes, archive names, or
+other download metadata.
 
-## Data integrity guardrails
+The repository-root [`modlist.txt`](../../modlist.txt) is an imported inventory snapshot. It
+is not a complete source of native sidecar data, and disabled rows remain evidence rather
+than deletion candidates. Local paths recorded in imported metadata describe the snapshot;
+they are not portable acquisition instructions or verified archive identities.
 
-- Do **not** invent Nexus file IDs, archive hashes, file sizes, or other download metadata.
-- `modlist.txt` is a source inventory, **not** a complete source of MO2 download sidecar metadata.
-- Disabled rows in `modlist.txt` are evidence and must remain preserved.
+See [`mod-meta-schema.md`](mod-meta-schema.md) for internal field ownership.
