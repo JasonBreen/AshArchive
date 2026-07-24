@@ -69,17 +69,37 @@ def _load_skill(path: Path) -> tuple[dict, str]:
     return metadata, "\n".join(lines[closing_index + 1 :])
 
 
-def _conflict_marker_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
+def _check_text_file(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
     issues: list[str] = []
-    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+    text = path.read_text(encoding="utf-8")
+    is_markdown = path.suffix.lower() == ".md"
+    relative_path_str = path.relative_to(repo_root).as_posix()
+    for line_number, line in enumerate(text.splitlines(), 1):
         if line.startswith("<<<<<<< ") or line == "=======" or line.startswith(">>>>>>> "):
-            issues.append(
-                f"{path.relative_to(repo_root).as_posix()}:{line_number}: unresolved merge marker"
-            )
+            issues.append(f"{relative_path_str}:{line_number}: unresolved merge marker")
+
+        if is_markdown:
+            for match in MARKDOWN_LINK_PATTERN.finditer(line):
+                target = unquote(match.group(1).strip("<>"))
+                parsed = urlparse(target)
+                if parsed.scheme or target.startswith("#"):
+                    continue
+
+                relative_target = target.split("#", 1)[0].split("?", 1)[0]
+                if not relative_target:
+                    continue
+                if relative_target.startswith("/"):
+                    resolved = repo_root / relative_target.lstrip("/")
+                else:
+                    resolved = path.parent / relative_target
+                if not resolved.exists():
+                    issues.append(
+                        f"{relative_path_str}:{line_number}: broken internal link {target!r}"
+                    )
     return issues
 
 
-def _find_conflict_markers() -> list[str]:
+def _validate_text_files() -> list[str]:
     patterns = ("*.md", "*.txt", "*.py", "*.toml", "*.yaml", "*.yml", "*.control.meta")
     paths = {path for pattern in patterns for path in REPO_ROOT.rglob(pattern)}
     license_path = REPO_ROOT / "LICENSE"
@@ -90,47 +110,13 @@ def _find_conflict_markers() -> list[str]:
     for path in sorted(paths):
         if _is_ignored_repo_path(path):
             continue
-        issues.extend(_conflict_marker_issues(path))
+        issues.extend(_check_text_file(path))
 
-    return issues
-
-
-def _markdown_link_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
-    issues: list[str] = []
-    text = path.read_text(encoding="utf-8")
-    for line_number, line in enumerate(text.splitlines(), 1):
-        for match in MARKDOWN_LINK_PATTERN.finditer(line):
-            target = unquote(match.group(1).strip("<>"))
-            parsed = urlparse(target)
-            if parsed.scheme or target.startswith("#"):
-                continue
-
-            relative_target = target.split("#", 1)[0].split("?", 1)[0]
-            if not relative_target:
-                continue
-            if relative_target.startswith("/"):
-                resolved = repo_root / relative_target.lstrip("/")
-            else:
-                resolved = path.parent / relative_target
-            if not resolved.exists():
-                issues.append(
-                    f"{path.relative_to(repo_root).as_posix()}:{line_number}: "
-                    f"broken internal link {target!r}"
-                )
-    return issues
-
-
-def _validate_markdown_links() -> list[str]:
-    issues: list[str] = []
-    for path in sorted(REPO_ROOT.rglob("*.md")):
-        if _is_ignored_repo_path(path):
-            continue
-        issues.extend(_markdown_link_issues(path))
     return issues
 
 
 def validate_repo_configuration() -> list[str]:
-    issues = [*_find_conflict_markers(), *_validate_markdown_links()]
+    issues = [*_validate_text_files()]
 
     pyproject_path = PROJECT_ROOT / "pyproject.toml"
     try:
