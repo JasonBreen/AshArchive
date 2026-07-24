@@ -24,16 +24,29 @@ def find_cross_name_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -
 
 def main() -> int:
     errs = []
-    errs.extend(validate_manifest(manifest_path("openmw"), "openmw"))
-    errs.extend(validate_manifest(manifest_path("mwse"), "mwse"))
+    try:
+        openmw_mods = load_mods(manifest_path("openmw"))
+    except ValueError as exc:
+        openmw_mods = []
+        errs.append(f"[ERROR] {exc}")
+
+    try:
+        mwse_mods = load_mods(manifest_path("mwse"))
+    except ValueError as exc:
+        mwse_mods = []
+        errs.append(f"[ERROR] {exc}")
+
+    errs.extend(validate_manifest(manifest_path("openmw"), "openmw", mods=openmw_mods))
+    errs.extend(validate_manifest(manifest_path("mwse"), "mwse", mods=mwse_mods))
+
     if errs:
         print("Cannot compare editions due to manifest errors:")
         for err in errs:
             print(f"- {err}")
         return 1
 
-    openmw = {m["id"]: m for m in load_mods(manifest_path("openmw"))}
-    mwse = {m["id"]: m for m in load_mods(manifest_path("mwse"))}
+    openmw = {m["id"]: m for m in openmw_mods if isinstance(m, dict) and "id" in m}
+    mwse = {m["id"]: m for m in mwse_mods if isinstance(m, dict) and "id" in m}
 
     open_ids, mwse_ids = set(openmw), set(mwse)
     shared = sorted(open_ids & mwse_ids)
