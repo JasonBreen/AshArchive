@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pytest
-
 from tools.lib.markdown import _sanitize_inline, render_mod_sections
 
 
@@ -100,7 +98,7 @@ def test_render_mod_sections_missing_optional_keys() -> None:
             "decision_reason": "pending",
             "priority": 1,
             # missing "engine"
-        }
+        },
     ]
     # Another Core Mod (priority 1) should be before Core Mod (missing priority = 9999).
     expected = (
