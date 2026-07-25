@@ -447,13 +447,14 @@ def _validate_references(mods: list[dict], path: Path) -> list[str]:
     return errors
 
 
-def validate_manifest(path: Path, edition: str) -> list[str]:
+def validate_manifest(path: Path, edition: str, mods: list[dict] | None = None) -> list[str]:
     if edition not in ENGINE_BY_EDITION:
         return [f"[ERROR] {path} :: <manifest> :: unsupported edition {edition!r}"]
-    try:
-        mods = load_mods(path)
-    except ValueError as exc:
-        return [f"[ERROR] {exc}"]
+    if mods is None:
+        try:
+            mods = load_mods(path)
+        except ValueError as exc:
+            return [f"[ERROR] {exc}"]
     if not mods:
         return [f"[ERROR] {path} :: <manifest> :: no mods defined"]
     errors: list[str] = []

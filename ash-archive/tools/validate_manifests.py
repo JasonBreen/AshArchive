@@ -39,7 +39,9 @@ def validate_repository(editions: list[str], source_path: Path = SOURCED_MODS_PA
     for edition in editions:
         # Avoid repeating a load error already captured above.
         if edition in loaded_editions:
-            errors.extend(validate_manifest(manifest_paths[edition], edition))
+            errors.extend(
+                validate_manifest(manifest_paths[edition], edition, mods=mods_by_edition[edition])
+            )
 
     candidates, source_errors = validate_sourced_mods(source_path)
     errors.extend(source_errors)
