@@ -24,20 +24,22 @@ def find_cross_name_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -
 
 def main() -> int:
     errs = []
+    openmw_mods: list[dict] | None = None
     try:
         openmw_mods = load_mods(manifest_path("openmw"))
     except ValueError as exc:
-        openmw_mods = []
         errs.append(f"[ERROR] {exc}")
 
+    mwse_mods: list[dict] | None = None
     try:
         mwse_mods = load_mods(manifest_path("mwse"))
     except ValueError as exc:
-        mwse_mods = []
         errs.append(f"[ERROR] {exc}")
 
-    errs.extend(validate_manifest(manifest_path("openmw"), "openmw", mods=openmw_mods))
-    errs.extend(validate_manifest(manifest_path("mwse"), "mwse", mods=mwse_mods))
+    if openmw_mods is not None:
+        errs.extend(validate_manifest(manifest_path("openmw"), "openmw", mods=openmw_mods))
+    if mwse_mods is not None:
+        errs.extend(validate_manifest(manifest_path("mwse"), "mwse", mods=mwse_mods))
 
     if errs:
         print("Cannot compare editions due to manifest errors:")
