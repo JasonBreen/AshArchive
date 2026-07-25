@@ -129,15 +129,18 @@ def _validate_markdown_links() -> list[str]:
     return issues
 
 
-def validate_repo_configuration() -> list[str]:
-    issues = [*_find_conflict_markers(), *_validate_markdown_links()]
-
+def _validate_pyproject() -> list[str]:
+    issues: list[str] = []
     pyproject_path = PROJECT_ROOT / "pyproject.toml"
     try:
         tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError) as error:
         issues.append(f"{_relative(pyproject_path)}: invalid TOML: {error}")
+    return issues
 
+
+def _validate_agents() -> list[str]:
+    issues: list[str] = []
     preset_names = {path.stem for path in PRESET_ROOT.glob("*.yaml")}
     agent_names = {path.stem for path in AGENT_ROOT.glob("*.toml")}
     if preset_names != agent_names:
@@ -158,7 +161,11 @@ def validate_repo_configuration() -> list[str]:
             issues.append(f"{_relative(agent_path)}: missing fields {sorted(missing)}")
         if agent.get("name") != agent_path.stem:
             issues.append(f"{_relative(agent_path)}: name must match the filename stem")
+    return issues
 
+
+def _validate_skills() -> list[str]:
+    issues: list[str] = []
     skill_names = {path.parent.name for path in SKILL_ROOT.glob("*/SKILL.md")}
     if skill_names != SKILL_PRESETS.keys():
         issues.append(
@@ -214,6 +221,16 @@ def validate_repo_configuration() -> list[str]:
             issues.append(f"{_relative(interface_path)}: default_prompt must mention ${skill_name}")
 
     return issues
+
+
+def validate_repo_configuration() -> list[str]:
+    return [
+        *_find_conflict_markers(),
+        *_validate_markdown_links(),
+        *_validate_pyproject(),
+        *_validate_agents(),
+        *_validate_skills(),
+    ]
 
 
 def lint_yaml() -> list[str]:
