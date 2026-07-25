@@ -66,6 +66,7 @@ def _load_mods_for_path(path: Path) -> tuple[list[dict], bool]:
 
 def main() -> int:
     has_errors = False
+    has_duplicate_names = False
     mods_by_edition: dict[str, list[dict]] = {}
 
     for edition in EDITIONS:
@@ -78,6 +79,8 @@ def main() -> int:
         for mod_id in report.duplicate_ids:
             has_errors = True
             print(f"[ERROR] {path} :: {mod_id} :: duplicate id in manifest")
+        if report.duplicate_names_with_different_ids:
+            has_duplicate_names = True
         for name in report.duplicate_names_with_different_ids:
             print(
                 f"[WARN] {path} :: {name} :: duplicate name used by different ids in this manifest"
@@ -92,10 +95,7 @@ def main() -> int:
     if has_errors:
         return 1
 
-    if not cross_warnings and all(
-        not find_duplicates(mods).duplicate_names_with_different_ids
-        for mods in mods_by_edition.values()
-    ):
+    if not cross_warnings and not has_duplicate_names:
         print("[OK] No duplicate IDs or likely accidental duplicate names found.")
     else:
         print("[OK] Duplicate scan completed with warnings only.")
