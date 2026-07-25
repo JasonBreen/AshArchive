@@ -108,6 +108,7 @@ consistency only; it is not evidence of an installable list or in-game compatibi
 - [`ash-archive/README.md`](ash-archive/README.md) — control-data model, automation boundaries, and contributor navigation
 - [`Project Bible`](ash-archive/PROJECT-BIBLE.md) — project thesis and design constraints
 - [`Roadmap`](ash-archive/ROADMAP.md) — development phases and release gates
+- [`Changelog`](ash-archive/CHANGELOG.md) — project-level changelog; see also [`Pilgrim`](ash-archive/editions/openmw/CHANGELOG.md) and [`Sleeper`](ash-archive/editions/mwse/CHANGELOG.md) edition changelogs
 - [`Sourced Mod Workflow`](ash-archive/shared/sourced-mod-workflow.md) — candidate intake, source links, evaluation, and promotion
 - [`Control Metadata Schema`](ash-archive/shared/mod-meta-schema.md) — field ownership and validation rules
 - [`Pilgrim Edition`](ash-archive/editions/openmw/README.md) — OpenMW scope and documentation

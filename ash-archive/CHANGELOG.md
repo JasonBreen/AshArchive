@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+- Add `changelog-agent` preset, Codex translation, and `ash-archive-changelog` skill for
+  evidence-backed project and edition changelog maintenance.
+- Add changelog links to root README documentation section.
 - Add Python 3.11 continuous integration for repository lint, validation, comparison,
   deterministic generated-file checks, and tests.
 - Add provenance-only links between canonical sourced candidates and edition planning entries.

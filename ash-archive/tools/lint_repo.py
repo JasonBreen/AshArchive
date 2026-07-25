@@ -28,6 +28,7 @@ IGNORED_DIRECTORY_NAMES = {
 }
 
 SKILL_PRESETS = {
+    "ash-archive-changelog": "changelog-agent.yaml",
     "ash-archive-triage-sources": "source-triage-agent.yaml",
     "ash-archive-lint-manifests": "manifest-lint-agent.yaml",
     "ash-archive-regenerate-modlists": "modlist-regenerator.yaml",

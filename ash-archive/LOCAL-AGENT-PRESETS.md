@@ -22,6 +22,7 @@ Every preset must follow these baseline constraints before doing specialized wor
 
 | Preset | Main purpose | Primary files | Safe automation level | Required checks |
 |---|---|---|---|---|
+| `changelog-agent` | Add, format, and normalize project and edition changelog entries from repository evidence. | `CHANGELOG.md`, `editions/openmw/CHANGELOG.md`, `editions/mwse/CHANGELOG.md` | Entry recording and formatting only; do not invent changes or declare release readiness. | `python tools/lint_repo.py`; `python tools/validate_manifests.py` when entries describe manifest changes |
 | `source-triage-agent` | Turn open sourcing questions into evidence-backed triage notes. | `shared/source-triage.control.meta`, `shared/sourced-mods.control.meta`, `shared/source-package-meta.control.meta` | Draft and annotate only; do not promote candidates. | `python tools/validate_manifests.py`, `pytest tests/test_sourced_mods.py` |
 | `manifest-lint-agent` | Repair schema, naming, ordering, and convention issues reported by tooling. | `shared/*.control.meta`, `editions/*/manifests/*.control.meta` | May apply mechanical fixes that are directly implied by validation output. | `python tools/validate_manifests.py`, `pytest tests/test_validation.py tests/test_control_meta_conventions.py` |
 | `modlist-regenerator` | Regenerate derived modlist markdown after manifest edits. | `editions/*/MODLIST.md`, manifest files when needed for context | Generated output only; do not hand-edit generated sections. | `python tools/generate_modlist_markdown.py`, diff review, `python tools/generate_modlist_markdown.py --check`, `python tools/validate_manifests.py` |
@@ -32,6 +33,30 @@ Every preset must follow these baseline constraints before doing specialized wor
 | `wabbajack-list-writer` | Draft restrained, edition-specific Wabbajack prose. | Root and edition README files, changelogs, Wabbajack and installation docs | Draft copy only; material claims and final public wording require evidence and human review. | `python tools/validate_manifests.py` for inventory claims, `pytest` for tooling-backed docs or tests |
 
 ## Preset definitions
+
+### `changelog-agent`
+
+Use this preset to record, format, and normalize changelog entries across the project root
+and both editions.
+
+**Inputs**
+- Committed diffs, merged pull request descriptions, or content already recorded in other
+  repository documents.
+- `CHANGELOG.md`, `editions/openmw/CHANGELOG.md`, and `editions/mwse/CHANGELOG.md`.
+- `ROADMAP.md` for version date alignment.
+
+**Allowed actions**
+- Add changelog entries derived solely from repository evidence.
+- Format, reorder, and normalize entry style and section headings.
+- Synchronize version tags and dates with roadmap milestones.
+
+**Stop conditions**
+- An entry would claim compatibility, installability, or release readiness without evidence.
+- A version bump or first public release note requires human authorization.
+
+**Completion report**
+- List each file changed and each entry added or normalized.
+- State why any automated check was skipped.
 
 ### `source-triage-agent`
 
@@ -290,6 +315,7 @@ Preset files live outside generated content in `.agents/presets/`, with one runn
 
 The repository currently includes runner-neutral YAML presets under `.agents/presets/`:
 
+- `.agents/presets/changelog-agent.yaml`
 - `.agents/presets/source-triage-agent.yaml`
 - `.agents/presets/manifest-lint-agent.yaml`
 - `.agents/presets/modlist-regenerator.yaml`
@@ -320,6 +346,7 @@ Reusable workflows live under `.agents/skills/` and are available throughout the
 
 | Skill | Canonical preset |
 |---|---|
+| `ash-archive-changelog` | `changelog-agent.yaml` |
 | `ash-archive-triage-sources` | `source-triage-agent.yaml` |
 | `ash-archive-lint-manifests` | `manifest-lint-agent.yaml` |
 | `ash-archive-regenerate-modlists` | `modlist-regenerator.yaml` |

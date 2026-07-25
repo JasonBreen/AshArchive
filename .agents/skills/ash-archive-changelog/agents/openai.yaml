@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Changelog Maintenance"
+  short_description: "Evidence-backed changelog maintenance"
+  default_prompt: "Use $ash-archive-changelog to add or normalize Ash Archive changelog entries from repository evidence."

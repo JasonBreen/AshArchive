@@ -13,6 +13,7 @@ forbidden actions, checks, and human review gates.
 
 | File | Purpose |
 |---|---|
+| [`changelog-agent.yaml`](changelog-agent.yaml) | Maintain evidence-backed project and edition changelog files. |
 | [`source-triage-agent.yaml`](source-triage-agent.yaml) | Evidence-first sourcing and provenance triage. |
 | [`manifest-lint-agent.yaml`](manifest-lint-agent.yaml) | Mechanical fixes for manifest/schema convention failures. |
 | [`modlist-regenerator.yaml`](modlist-regenerator.yaml) | Regenerate derived modlist markdown after manifest changes. |
@@ -21,8 +22,6 @@ forbidden actions, checks, and human review gates.
 | [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare taste-aligned, evidence-backed plans for both editions. |
 | [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft restrained, lore-native Wabbajack prose from verified evidence. |
 | [`release-readiness-agent.yaml`](release-readiness-agent.yaml) | Prepare advisory release-readiness and blocker summaries. |
-| [`wabbajack-list-planner.yaml`](wabbajack-list-planner.yaml) | Prepare nonbinding, evidence-backed dual-edition list plans. |
-| [`wabbajack-list-writer.yaml`](wabbajack-list-writer.yaml) | Draft evidence-backed, edition-specific Wabbajack prose. |
 
 ## Runner expectations
 

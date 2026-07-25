@@ -8,6 +8,7 @@ PRESET_DIR = REPO_ROOT / ".agents" / "presets"
 AGENT_DIR = REPO_ROOT / ".codex" / "agents"
 
 EXPECTED_PRESETS = {
+    "changelog-agent",
     "documentation-sync-agent",
     "edition-drift-auditor",
     "manifest-lint-agent",

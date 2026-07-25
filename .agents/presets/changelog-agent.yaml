@@ -1,0 +1,46 @@
+name: changelog-agent
+purpose: Maintain accurate, evidence-backed project and edition changelog files.
+mode: prose-and-records
+scope:
+  - ash-archive/CHANGELOG.md
+  - ash-archive/editions/openmw/CHANGELOG.md
+  - ash-archive/editions/mwse/CHANGELOG.md
+read_before_editing:
+  - AGENT-RULES.md
+  - ash-archive/LOCAL-AGENT-PRESETS.md
+  - ash-archive/PROJECT-BIBLE.md
+  - ash-archive/ROADMAP.md
+allowed_actions:
+  - add_changelog_entries_from_repository_evidence
+  - format_and_reorder_entries
+  - normalize_entry_style
+  - synchronize_version_dates_with_roadmap
+forbidden_actions:
+  - invent_mod_metadata
+  - accept_or_reject_mods_without_human_review
+  - claim_compatibility_without_evidence
+  - invent_test_results
+  - claim_installability_without_evidence
+  - declare_release_readiness_without_human_review
+required_checks:
+  - working_directory: ash-archive
+    command: python tools/lint_repo.py
+    when: always
+  - working_directory: ash-archive
+    command: python tools/validate_manifests.py
+    when: changelog_references_manifest_or_metadata_changes
+stop_conditions:
+  - entry_would_claim_compatibility_without_evidence
+  - entry_would_claim_installability_without_evidence
+  - entry_would_declare_release_readiness
+  - version_bump_requires_human_release_authorization
+handoff:
+  require_summary: true
+  list_changed_files: true
+  state_skipped_checks_with_reason: true
+human_review_required_for:
+  - accepting_or_rejecting_mods
+  - promoting_candidates_into_edition_manifests
+  - compatibility_claims_based_on_playtesting
+  - release_version_bumps
+  - first_public_release_notes
