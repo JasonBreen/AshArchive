@@ -8,7 +8,7 @@
   human compatibility, acceptance, and release decisions.
 - Replace misleading documentation placeholders with explicit blocked-state guidance.
 
-## [2026-07-26]
+## [2026-07-26] - 2026-07-26
 
 ### Features
 - Validation and edition-comparison workflows now run faster by removing redundant processing in
