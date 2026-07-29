@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ash Archive Changelog Update"
+  short_description: "User-facing changelog entry generation"
+  default_prompt: "Use /changelog (skill: $ash-archive-update-changelog) to generate or update a dated changelog entry from recent commits."
