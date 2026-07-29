@@ -468,27 +468,14 @@ def validate_manifest(path: Path, edition: str, mods: list[dict] | None = None) 
     return errors
 
 
-def validate_source_references(
+def _check_manifest_to_source(
     mods_by_edition: Mapping[str, list[dict]],
     manifest_paths: Mapping[str, Path],
-    candidates: list[dict],
+    candidate_by_id: dict[str, dict],
     source_path: Path,
-    editions: Collection[str] | None = None,
+    selected_editions: set[str],
 ) -> list[str]:
-    """Validate optional links between edition manifests and canonical source records."""
     errors: list[str] = []
-    selected_editions = set(editions or mods_by_edition)
-    candidate_by_id = {
-        candidate["id"]: candidate
-        for candidate in candidates
-        if isinstance(candidate, dict) and isinstance(candidate.get("id"), str)
-    }
-    manifests_by_id: dict[str, list[tuple[str, dict]]] = defaultdict(list)
-    for edition, mods in mods_by_edition.items():
-        for mod in mods:
-            if isinstance(mod, dict) and isinstance(mod.get("id"), str):
-                manifests_by_id[mod["id"]].append((edition, mod))
-
     for edition in selected_editions:
         path = manifest_paths[edition]
         for mod in mods_by_edition.get(edition, []):
@@ -607,7 +594,16 @@ def validate_source_references(
                                 f"status 'accepted' lacks compatible evidence for edition {edition!r}",
                             )
                         )
+    return errors
 
+
+def _check_source_to_manifest(
+    candidates: list[dict],
+    manifests_by_id: dict[str, list[tuple[str, dict]]],
+    source_path: Path,
+    selected_editions: set[str],
+) -> list[str]:
+    errors: list[str] = []
     for candidate in candidates:
         if not isinstance(candidate, dict):
             continue
@@ -660,4 +656,36 @@ def validate_source_references(
                             f"source_reference {candidate_id!r}",
                         )
                     )
+    return errors
+
+
+def validate_source_references(
+    mods_by_edition: Mapping[str, list[dict]],
+    manifest_paths: Mapping[str, Path],
+    candidates: list[dict],
+    source_path: Path,
+    editions: Collection[str] | None = None,
+) -> list[str]:
+    """Validate optional links between edition manifests and canonical source records."""
+    selected_editions = set(editions or mods_by_edition)
+    candidate_by_id = {
+        candidate["id"]: candidate
+        for candidate in candidates
+        if isinstance(candidate, dict) and isinstance(candidate.get("id"), str)
+    }
+    manifests_by_id: dict[str, list[tuple[str, dict]]] = defaultdict(list)
+    for edition, mods in mods_by_edition.items():
+        for mod in mods:
+            if isinstance(mod, dict) and isinstance(mod.get("id"), str):
+                manifests_by_id[mod["id"]].append((edition, mod))
+
+    errors: list[str] = []
+    errors.extend(
+        _check_manifest_to_source(
+            mods_by_edition, manifest_paths, candidate_by_id, source_path, selected_editions
+        )
+    )
+    errors.extend(
+        _check_source_to_manifest(candidates, manifests_by_id, source_path, selected_editions)
+    )
     return errors
