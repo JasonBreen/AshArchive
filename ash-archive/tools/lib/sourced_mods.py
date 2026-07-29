@@ -180,7 +180,7 @@ def _validate_lists(candidate: dict, path: Path, mod_ref: str) -> list[str]:
     return errors
 
 
-def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+def _validate_source_url_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
     errors: list[str] = []
     source_url = candidate["source_url"]
     if isinstance(source_url, str) and source_url.strip() and not _is_valid_url(source_url):
@@ -189,8 +189,13 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
                 path, mod_ref, f"malformed source_url {source_url!r}; expected http(s) URL"
             )
         )
+    return errors
 
+
+def _validate_source_confidence_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
     source_confidence = candidate["source_confidence"]
+    source_url = candidate["source_url"]
     if source_confidence == "verified":
         if (
             not isinstance(source_url, str)
@@ -212,7 +217,13 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
             errors.append(
                 _format_error(path, mod_ref, "source_confidence 'verified' requires evidence_notes")
             )
+    return errors
 
+
+def _validate_compatibility_status_consistency(
+    candidate: dict, path: Path, mod_ref: str
+) -> list[str]:
+    errors: list[str] = []
     compatibility_status = candidate["compatibility_status"]
     if compatibility_status in EVIDENCED_COMPATIBILITY_STATUS:
         if _is_placeholder(candidate["evidence_notes"]) or _is_placeholder(
@@ -250,7 +261,13 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
                     f"compatibility_status {compatibility_status!r} contradicts intended_editions",
                 )
             )
+    return errors
 
+
+def _validate_promotion_target_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
+    intended_editions = candidate["intended_editions"]
+    if isinstance(intended_editions, list):
         promotion_target = candidate["promotion_target"]
         required_target_editions = {
             "openmw": {"openmw"},
@@ -265,7 +282,11 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
                     f"promotion_target {promotion_target!r} contradicts intended_editions",
                 )
             )
+    return errors
 
+
+def _validate_candidate_status_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
     candidate_status = candidate["candidate_status"]
     if candidate_status == "promoted":
         if candidate["promotion_target"] in {"neither", "undecided"}:
@@ -310,6 +331,16 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
                     f"candidate_status {candidate_status!r} requires review information",
                 )
             )
+    return errors
+
+
+def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -> list[str]:
+    errors: list[str] = []
+    errors.extend(_validate_source_url_consistency(candidate, path, mod_ref))
+    errors.extend(_validate_source_confidence_consistency(candidate, path, mod_ref))
+    errors.extend(_validate_compatibility_status_consistency(candidate, path, mod_ref))
+    errors.extend(_validate_promotion_target_consistency(candidate, path, mod_ref))
+    errors.extend(_validate_candidate_status_consistency(candidate, path, mod_ref))
     return errors
 
 
