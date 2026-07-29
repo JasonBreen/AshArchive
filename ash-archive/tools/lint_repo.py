@@ -112,7 +112,24 @@ def _markdown_link_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
                 resolved = repo_root / relative_target.lstrip("/")
             else:
                 resolved = path.parent / relative_target
-            if not resolved.exists():
+
+            try:
+                resolved_absolute = resolved.resolve()
+                repo_root_absolute = repo_root.resolve()
+            except RuntimeError:
+                # Handle cases like recursive symlinks if they ever appear
+                issues.append(
+                    f"{path.relative_to(repo_root).as_posix()}:{line_number}: "
+                    f"link resolution failed for {target!r}"
+                )
+                continue
+
+            if not resolved_absolute.is_relative_to(repo_root_absolute):
+                issues.append(
+                    f"{path.relative_to(repo_root).as_posix()}:{line_number}: "
+                    f"link escapes repository bounds {target!r}"
+                )
+            elif not resolved.exists():
                 issues.append(
                     f"{path.relative_to(repo_root).as_posix()}:{line_number}: "
                     f"broken internal link {target!r}"
