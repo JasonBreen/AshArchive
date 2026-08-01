@@ -328,6 +328,7 @@ def _validate_review_metadata(mod: dict, path: Path, mod_ref: str) -> list[str]:
 
 
 def validate_mod(mod: dict, path: Path, expected_edition: str) -> list[str]:
+    """Validate one manifest entry against schema, evidence, and review rules."""
     errors: list[str] = []
     mod_ref = _mod_ref(mod)
     for field_name in REQ_FIELDS:
@@ -448,6 +449,7 @@ def _validate_references(mods: list[dict], path: Path) -> list[str]:
 
 
 def validate_manifest(path: Path, edition: str, mods: list[dict] | None = None) -> list[str]:
+    """Validate a full edition manifest and return collected error strings."""
     if edition not in ENGINE_BY_EDITION:
         return [f"[ERROR] {path} :: <manifest> :: unsupported edition {edition!r}"]
     if mods is None:
@@ -556,6 +558,7 @@ def _check_manifest_to_source(
 
             status = mod.get("status")
             if status in VERIFIED_MANIFEST_STATUSES:
+                # Verified manifest statuses must trace to a verified, consistent source candidate.
                 if candidate.get("source_confidence") != "verified":
                     errors.append(
                         _format_error(
@@ -630,6 +633,8 @@ def _check_source_to_manifest(
             if not selected_matches:
                 continue
             intended_editions = candidate.get("intended_editions")
+            # A related manifest ID is only valid when at least one selected edition match is
+            # also intended by the candidate record.
             eligible_matches = [
                 (edition, mod)
                 for edition, mod in selected_matches
@@ -668,6 +673,7 @@ def validate_source_references(
 ) -> list[str]:
     """Validate optional links between edition manifests and canonical source records."""
     selected_editions = set(editions or mods_by_edition)
+    # Build quick lookup indexes once so we can enforce both forward and reverse link integrity.
     candidate_by_id = {
         candidate["id"]: candidate
         for candidate in candidates

@@ -345,6 +345,7 @@ def _validate_candidate_consistency(candidate: dict, path: Path, mod_ref: str) -
 
 
 def validate_candidate(candidate: dict, path: Path) -> list[str]:
+    """Validate one sourced-candidate record against schema and consistency rules."""
     errors: list[str] = []
     mod_ref = _mod_ref(candidate)
 
@@ -385,6 +386,7 @@ def validate_candidate(candidate: dict, path: Path) -> list[str]:
 
 
 def load_sourced_candidates(path: Path) -> list[dict]:
+    """Load the canonical `sourced_candidates` list from metadata."""
     data = load_meta_document(path)
     candidates = data.get("sourced_candidates")
     if not isinstance(candidates, list):
@@ -393,6 +395,7 @@ def load_sourced_candidates(path: Path) -> list[dict]:
 
 
 def validate_sourced_mods(path: Path) -> tuple[list[dict], list[str]]:
+    """Load sourced candidates and return `(candidates, validation_errors)`."""
     try:
         candidates = load_sourced_candidates(path)
     except ValueError as exc:
