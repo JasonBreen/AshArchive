@@ -7,6 +7,7 @@ from lib.validation import validate_manifest
 
 
 def find_cross_status_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -> list[str]:
+    """Return shared manifest IDs with differing `cross_edition_status` values."""
     shared = set(openmw) & set(mwse)
     return sorted(
         mod_id
@@ -16,6 +17,7 @@ def find_cross_status_mismatches(openmw: dict[str, dict], mwse: dict[str, dict])
 
 
 def find_cross_name_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -> list[str]:
+    """Return shared manifest IDs whose `name` differs across editions."""
     shared = set(openmw) & set(mwse)
     return sorted(
         mod_id for mod_id in shared if openmw[mod_id].get("name") != mwse[mod_id].get("name")
@@ -23,6 +25,7 @@ def find_cross_name_mismatches(openmw: dict[str, dict], mwse: dict[str, dict]) -
 
 
 def main() -> int:
+    """CLI entry point."""
     errs = []
     openmw_mods: list[dict] | None = None
     try:

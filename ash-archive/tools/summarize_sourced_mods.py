@@ -31,6 +31,7 @@ def _parse_args() -> argparse.Namespace:
 
 
 def generate_summary(candidates: list[dict]) -> str:
+    """Build a bucketed Markdown table summary for sourced candidates."""
     lines = []
     grouped: dict[str, list[dict]] = defaultdict(list)
     for candidate in candidates:
@@ -63,6 +64,7 @@ def generate_summary(candidates: list[dict]) -> str:
 
 
 def main() -> int:
+    """CLI entry point."""
     args = _parse_args()
     candidates, errors = validate_sourced_mods(args.file)
 

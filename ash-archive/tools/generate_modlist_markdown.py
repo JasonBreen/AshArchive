@@ -14,6 +14,7 @@ END = "<!-- GENERATED-CONTENT:END -->"
 
 
 def render_modlist_document(text: str, content: str) -> str:
+    """Insert or replace the generated MODLIST section bounded by marker comments."""
     start_count = text.count(START)
     end_count = text.count(END)
     if start_count != end_count or start_count > 1:
@@ -32,11 +33,13 @@ def render_modlist_document(text: str, content: str) -> str:
 
 
 def expected_modlist(path: Path, content: str) -> tuple[str, str]:
+    """Return `(current_text, expected_text)` for a MODLIST file."""
     current = path.read_text(encoding="utf-8") if path.exists() else "# Modlist\n\n"
     return current, render_modlist_document(current, content)
 
 
 def report_diff(path: Path, current: str, expected: str) -> None:
+    """Print a unified diff between committed and generated MODLIST content."""
     diff = difflib.unified_diff(
         current.splitlines(keepends=True),
         expected.splitlines(keepends=True),
@@ -47,6 +50,7 @@ def report_diff(path: Path, current: str, expected: str) -> None:
 
 
 def main() -> int:
+    """CLI entry point."""
     parser = argparse.ArgumentParser(description="Generate MODLIST markdown from manifests.")
     parser.add_argument("--edition", choices=EDITIONS)
     parser.add_argument(

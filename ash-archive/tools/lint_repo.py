@@ -242,6 +242,7 @@ def _validate_skills() -> list[str]:
 
 
 def validate_repo_configuration() -> list[str]:
+    """Run repository policy checks that do not require external linters."""
     return [
         *_find_conflict_markers(),
         *_validate_markdown_links(),
@@ -252,6 +253,7 @@ def validate_repo_configuration() -> list[str]:
 
 
 def lint_yaml() -> list[str]:
+    """Lint YAML, YML, and control-metadata files with the repository config."""
     config = YamlLintConfig((REPO_ROOT / ".yamllint.yml").read_text(encoding="utf-8"))
     yaml_paths = {
         *REPO_ROOT.rglob("*.yaml"),
@@ -277,6 +279,7 @@ def _run_ruff(arguments: list[str]) -> int:
 
 
 def main() -> int:
+    """CLI entry point."""
     issues = [*validate_repo_configuration(), *lint_yaml()]
     for issue in issues:
         print(f"[ERROR] {issue}")

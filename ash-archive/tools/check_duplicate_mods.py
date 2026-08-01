@@ -16,6 +16,7 @@ class DuplicateReport:
 
 
 def find_duplicates(mods: list[dict]) -> DuplicateReport:
+    """Find duplicate IDs and same-name/different-ID collisions in one manifest."""
     id_counts = defaultdict(int)
     name_to_ids = defaultdict(set)
     for mod in mods:
@@ -34,6 +35,7 @@ def find_duplicates(mods: list[dict]) -> DuplicateReport:
 def find_cross_edition_name_mismatches(
     mods_by_edition: dict[str, list[dict]],
 ) -> list[tuple[str, str, str]]:
+    """Find same-name mods that map to different IDs across editions."""
     name_to_edition_ids: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
     for edition, mods in mods_by_edition.items():
         for mod in mods:
@@ -65,6 +67,7 @@ def _load_mods_for_path(path: Path) -> tuple[list[dict], bool]:
 
 
 def main() -> int:
+    """CLI entry point."""
     has_errors = False
     has_duplicate_names = False
     mods_by_edition: dict[str, list[dict]] = {}
