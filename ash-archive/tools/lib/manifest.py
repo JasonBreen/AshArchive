@@ -6,6 +6,7 @@ import yaml
 
 
 def load_meta_document(path: Path) -> dict:
+    """Load a YAML metadata document and enforce a mapping root."""
     try:
         with path.open("r", encoding="utf-8") as handle:
             data = yaml.safe_load(handle) or {}
@@ -20,6 +21,7 @@ def load_meta_document(path: Path) -> dict:
 
 
 def load_mods(path: Path) -> list[dict]:
+    """Return the `mods` list from a metadata document."""
     data = load_meta_document(path)
     mods = data.get("mods", [])
     if not isinstance(mods, list):

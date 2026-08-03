@@ -33,6 +33,7 @@ SKILL_PRESETS = {
     "ash-archive-regenerate-modlists": "modlist-regenerator.yaml",
     "ash-archive-audit-edition-drift": "edition-drift-auditor.yaml",
     "ash-archive-sync-docs": "documentation-sync-agent.yaml",
+    "ash-archive-update-changelog": "documentation-sync-agent.yaml",
     "ash-archive-plan-wabbajack-list": "wabbajack-list-planner.yaml",
     "ash-archive-write-wabbajack-copy": "wabbajack-list-writer.yaml",
     "ash-archive-assess-release": "release-readiness-agent.yaml",
@@ -92,7 +93,24 @@ def _check_text_file(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
                     resolved = repo_root / relative_target.lstrip("/")
                 else:
                     resolved = path.parent / relative_target
-                if not resolved.exists():
+
+                try:
+                    resolved_absolute = resolved.resolve()
+                    repo_root_absolute = repo_root.resolve()
+                except RuntimeError:
+                    # Handle cases like recursive symlinks if they ever appear
+                    issues.append(
+                        f"{relative_path_str}:{line_number}: "
+                        f"link resolution failed for {target!r}"
+                    )
+                    continue
+
+                if not resolved_absolute.is_relative_to(repo_root_absolute):
+                    issues.append(
+                        f"{relative_path_str}:{line_number}: "
+                        f"link escapes repository bounds {target!r}"
+                    )
+                elif not resolved.exists():
                     issues.append(
                         f"{relative_path_str}:{line_number}: broken internal link {target!r}"
                     )
@@ -115,15 +133,18 @@ def _validate_text_files() -> list[str]:
     return issues
 
 
-def validate_repo_configuration() -> list[str]:
-    issues = [*_validate_text_files()]
-
+def _validate_pyproject() -> list[str]:
+    issues: list[str] = []
     pyproject_path = PROJECT_ROOT / "pyproject.toml"
     try:
         tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError) as error:
         issues.append(f"{_relative(pyproject_path)}: invalid TOML: {error}")
+    return issues
 
+
+def _validate_agents() -> list[str]:
+    issues: list[str] = []
     preset_names = {path.stem for path in PRESET_ROOT.glob("*.yaml")}
     agent_names = {path.stem for path in AGENT_ROOT.glob("*.toml")}
     if preset_names != agent_names:
@@ -144,7 +165,11 @@ def validate_repo_configuration() -> list[str]:
             issues.append(f"{_relative(agent_path)}: missing fields {sorted(missing)}")
         if agent.get("name") != agent_path.stem:
             issues.append(f"{_relative(agent_path)}: name must match the filename stem")
+    return issues
 
+
+def _validate_skills() -> list[str]:
+    issues: list[str] = []
     skill_names = {path.parent.name for path in SKILL_ROOT.glob("*/SKILL.md")}
     if skill_names != SKILL_PRESETS.keys():
         issues.append(
@@ -202,7 +227,18 @@ def validate_repo_configuration() -> list[str]:
     return issues
 
 
+def validate_repo_configuration() -> list[str]:
+    """Run repository policy checks that do not require external linters."""
+    return [
+        *_validate_text_files(),
+        *_validate_pyproject(),
+        *_validate_agents(),
+        *_validate_skills(),
+    ]
+
+
 def lint_yaml() -> list[str]:
+    """Lint YAML, YML, and control-metadata files with the repository config."""
     config = YamlLintConfig((REPO_ROOT / ".yamllint.yml").read_text(encoding="utf-8"))
     yaml_paths = {
         *REPO_ROOT.rglob("*.yaml"),
@@ -228,6 +264,7 @@ def _run_ruff(arguments: list[str]) -> int:
 
 
 def main() -> int:
+    """CLI entry point."""
     issues = [*validate_repo_configuration(), *lint_yaml()]
     for issue in issues:
         print(f"[ERROR] {issue}")

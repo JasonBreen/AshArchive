@@ -49,3 +49,12 @@ def test_markdown_link_check_ignores_external_and_page_anchor_links(tmp_path: Pa
     )
 
     assert _check_text_file(source, tmp_path) == []
+
+
+def test_markdown_link_check_reports_out_of_bounds_link(tmp_path: Path) -> None:
+    source = tmp_path / "source.md"
+    source.write_text("[Out of Bounds](../../../../../../../etc/passwd)\n", encoding="utf-8")
+
+    assert _check_text_file(source, tmp_path) == [
+        "source.md:1: link escapes repository bounds '../../../../../../../etc/passwd'"
+    ]

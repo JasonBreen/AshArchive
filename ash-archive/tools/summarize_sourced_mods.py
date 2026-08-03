@@ -30,29 +30,23 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
-    args = _parse_args()
-    candidates, errors = validate_sourced_mods(args.file)
-
-    if errors:
-        for error in errors:
-            print(error)
-        return 1
-
+def generate_summary(candidates: list[dict]) -> str:
+    """Build a bucketed Markdown table summary for sourced candidates."""
+    lines = []
     grouped: dict[str, list[dict]] = defaultdict(list)
     for candidate in candidates:
         grouped[candidate["thematic_bucket"]].append(candidate)
 
-    print("Sourced mod candidates (intake desk)")
-    print(f"Total: {len(candidates)}")
-    print()
+    lines.append("Sourced mod candidates (intake desk)")
+    lines.append(f"Total: {len(candidates)}")
+    lines.append("")
 
     for bucket in sorted(grouped):
-        print(f"[{bucket}]")
-        print(
+        lines.append(f"[{bucket}]")
+        lines.append(
             "id | name | candidate_status | intended_editions | compatibility_status | risk_level | source_confidence"
         )
-        print(
+        lines.append(
             "-- | ---- | ---------------- | ----------------- | -------------------- | ---------- | -----------------"
         )
         for candidate in sorted(grouped[bucket], key=lambda item: item["id"]):
@@ -63,8 +57,23 @@ def main() -> int:
                     row.append(",".join(value))
                 else:
                     row.append(value)
-            print(" | ".join(row))
-        print()
+            lines.append(" | ".join(row))
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+def main() -> int:
+    """CLI entry point."""
+    args = _parse_args()
+    candidates, errors = validate_sourced_mods(args.file)
+
+    if errors:
+        for error in errors:
+            print(error)
+        return 1
+
+    print(generate_summary(candidates))
 
     return 0
 

@@ -8,6 +8,7 @@ def _sanitize_inline(value: str) -> str:
 
 
 def render_mod_sections(mods: list[dict]) -> str:
+    """Render manifest entries as grouped Markdown sections for MODLIST output."""
     grouped: dict[str, list[dict]] = defaultdict(list)
     for mod in mods:
         grouped[mod["category"]].append(mod)

@@ -14,6 +14,7 @@ SOURCED_MODS_PATH = ROOT / "shared" / "sourced-mods.control.meta"
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse CLI arguments for manifest validation."""
     parser = argparse.ArgumentParser(
         description="Validate Ash Archive edition manifests and canonical source links."
     )
@@ -22,6 +23,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def validate_repository(editions: list[str], source_path: Path = SOURCED_MODS_PATH) -> list[str]:
+    """Run manifest, sourced-mod, and source-reference validation for selected editions."""
     errors: list[str] = []
     manifest_paths = {edition: manifest_path(edition) for edition in EDITIONS}
     mods_by_edition: dict[str, list[dict]] = {}
@@ -39,7 +41,9 @@ def validate_repository(editions: list[str], source_path: Path = SOURCED_MODS_PA
     for edition in editions:
         # Avoid repeating a load error already captured above.
         if edition in loaded_editions:
-            errors.extend(validate_manifest(manifest_paths[edition], edition))
+            errors.extend(
+                validate_manifest(manifest_paths[edition], edition, mods=mods_by_edition[edition])
+            )
 
     candidates, source_errors = validate_sourced_mods(source_path)
     errors.extend(source_errors)
@@ -56,6 +60,7 @@ def validate_repository(editions: list[str], source_path: Path = SOURCED_MODS_PA
 
 
 def main() -> int:
+    """CLI entry point."""
     args = parse_args()
     editions = [args.edition] if args.edition else list(EDITIONS)
     errors = validate_repository(editions)
