@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+import copy
+from functools import lru_cache
 from pathlib import Path
 
 import yaml
 
 
-def load_meta_document(path: Path) -> dict:
-    """Load a YAML metadata document and enforce a mapping root."""
+@lru_cache(maxsize=None)
+def _load_meta_document_cached(path: Path) -> dict:
+    """Load and cache a YAML metadata document, enforcing a mapping root."""
     try:
         with path.open("r", encoding="utf-8") as handle:
             data = yaml.safe_load(handle) or {}
@@ -18,6 +21,11 @@ def load_meta_document(path: Path) -> dict:
     if not isinstance(data, dict):
         raise ValueError(f"Top-level metadata document must be a mapping: {path}")
     return data
+
+
+def load_meta_document(path: Path) -> dict:
+    """Load a YAML metadata document and enforce a mapping root."""
+    return copy.deepcopy(_load_meta_document_cached(path))
 
 
 def load_mods(path: Path) -> list[dict]:
