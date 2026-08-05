@@ -17,18 +17,30 @@ class DuplicateReport:
 
 def find_duplicates(mods: list[dict]) -> DuplicateReport:
     """Find duplicate IDs and same-name/different-ID collisions in one manifest."""
-    id_counts = defaultdict(int)
-    name_to_ids = defaultdict(set)
+    seen_ids: set[str] = set()
+    dup_ids_set: set[str] = set()
+    name_to_ids: dict[str, set[str]] = defaultdict(set)
+    dup_names_set: set[str] = set()
+
     for mod in mods:
         mod_id = mod.get("id")
         mod_name = mod.get("name")
-        if isinstance(mod_id, str) and mod_id:
-            id_counts[mod_id] += 1
-        if isinstance(mod_name, str) and mod_name and isinstance(mod_id, str) and mod_id:
-            name_to_ids[mod_name].add(mod_id)
 
-    dup_ids = sorted(mod_id for mod_id, count in id_counts.items() if count > 1)
-    dup_names = sorted(name for name, ids in name_to_ids.items() if len(ids) > 1)
+        has_id = isinstance(mod_id, str) and mod_id
+        if has_id:
+            if mod_id in seen_ids:
+                dup_ids_set.add(mod_id)
+            else:
+                seen_ids.add(mod_id)
+
+        if isinstance(mod_name, str) and mod_name and has_id:
+            ids = name_to_ids[mod_name]
+            ids.add(mod_id)
+            if len(ids) > 1:
+                dup_names_set.add(mod_name)
+
+    dup_ids = sorted(dup_ids_set)
+    dup_names = sorted(dup_names_set)
     return DuplicateReport(duplicate_ids=dup_ids, duplicate_names_with_different_ids=dup_names)
 
 
