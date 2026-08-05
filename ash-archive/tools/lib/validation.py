@@ -470,6 +470,131 @@ def validate_manifest(path: Path, edition: str, mods: list[dict] | None = None) 
     return errors
 
 
+def _validate_mod_against_source(
+    mod: dict,
+    edition: str,
+    path: Path,
+    candidate_by_id: dict[str, dict],
+    source_path: Path,
+) -> list[str]:
+    errors: list[str] = []
+    source_reference = mod.get("source_reference")
+    if not isinstance(source_reference, str) or not ID_RE.fullmatch(source_reference):
+        return errors
+    mod_ref = _mod_ref(mod)
+    candidate = candidate_by_id.get(source_reference)
+    if candidate is None:
+        errors.append(
+            _format_error(
+                path,
+                mod_ref,
+                f"source_reference {source_reference!r} does not exist in {source_path}",
+            )
+        )
+        return errors
+
+    if mod.get("name") != candidate.get("name"):
+        errors.append(
+            _format_error(
+                path,
+                mod_ref,
+                "manifest name does not match canonical source record name "
+                f"{candidate.get('name')!r}",
+            )
+        )
+    intended_editions = candidate.get("intended_editions")
+    if isinstance(intended_editions, list) and edition not in intended_editions:
+        errors.append(
+            _format_error(
+                path,
+                mod_ref,
+                f"source record does not include edition {edition!r} in intended_editions",
+            )
+        )
+    if candidate.get("candidate_status") in {"rejected", "superseded"}:
+        errors.append(
+            _format_error(
+                path,
+                mod_ref,
+                f"source_reference points to {candidate.get('candidate_status')!r} candidate",
+            )
+        )
+    related_manifest_ids = candidate.get("related_manifest_ids")
+    if isinstance(related_manifest_ids, list) and mod.get("id") not in related_manifest_ids:
+        errors.append(
+            _format_error(
+                path,
+                mod_ref,
+                "source record related_manifest_ids does not link back to this manifest id",
+            )
+        )
+
+    manifest_source = mod.get("source")
+    if isinstance(manifest_source, str) and not _is_placeholder(manifest_source):
+        if manifest_source != candidate.get("source_type"):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"manifest source {manifest_source!r} does not match canonical "
+                    f"source_type {candidate.get('source_type')!r}",
+                )
+            )
+    manifest_url = mod.get("url")
+    if isinstance(manifest_url, str) and not _is_placeholder(manifest_url):
+        if manifest_url != candidate.get("source_url"):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    "manifest url does not match canonical source_url",
+                )
+            )
+
+    status = mod.get("status")
+    if status in VERIFIED_MANIFEST_STATUSES:
+        # Verified manifest statuses must trace to a verified, consistent source candidate.
+        if candidate.get("source_confidence") != "verified":
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"status {status!r} requires source_confidence 'verified'",
+                )
+            )
+        if status == "accepted":
+            if candidate.get("candidate_status") != "promoted":
+                errors.append(
+                    _format_error(
+                        path,
+                        mod_ref,
+                        "status 'accepted' requires source candidate_status 'promoted'",
+                    )
+                )
+            if candidate.get("promotion_target") not in {edition, "both"}:
+                errors.append(
+                    _format_error(
+                        path,
+                        mod_ref,
+                        "status 'accepted' requires source promotion_target to include "
+                        f"edition {edition!r}",
+                    )
+                )
+            compatible_statuses = {
+                "openmw": {"openmw-compatible", "both-compatible"},
+                "mwse": {"mwse-compatible", "both-compatible"},
+            }
+            if candidate.get("compatibility_status") not in compatible_statuses[edition]:
+                errors.append(
+                    _format_error(
+                        path,
+                        mod_ref,
+                        f"status 'accepted' lacks compatible evidence for edition {edition!r}",
+                    )
+                )
+    return errors
+
+
 def _check_manifest_to_source(
     mods_by_edition: Mapping[str, list[dict]],
     manifest_paths: Mapping[str, Path],
@@ -483,120 +608,9 @@ def _check_manifest_to_source(
         for mod in mods_by_edition.get(edition, []):
             if not isinstance(mod, dict):
                 continue
-            source_reference = mod.get("source_reference")
-            if not isinstance(source_reference, str) or not ID_RE.fullmatch(source_reference):
-                continue
-            mod_ref = _mod_ref(mod)
-            candidate = candidate_by_id.get(source_reference)
-            if candidate is None:
-                errors.append(
-                    _format_error(
-                        path,
-                        mod_ref,
-                        f"source_reference {source_reference!r} does not exist in {source_path}",
-                    )
-                )
-                continue
-
-            if mod.get("name") != candidate.get("name"):
-                errors.append(
-                    _format_error(
-                        path,
-                        mod_ref,
-                        "manifest name does not match canonical source record name "
-                        f"{candidate.get('name')!r}",
-                    )
-                )
-            intended_editions = candidate.get("intended_editions")
-            if isinstance(intended_editions, list) and edition not in intended_editions:
-                errors.append(
-                    _format_error(
-                        path,
-                        mod_ref,
-                        f"source record does not include edition {edition!r} in intended_editions",
-                    )
-                )
-            if candidate.get("candidate_status") in {"rejected", "superseded"}:
-                errors.append(
-                    _format_error(
-                        path,
-                        mod_ref,
-                        f"source_reference points to {candidate.get('candidate_status')!r} candidate",
-                    )
-                )
-            related_manifest_ids = candidate.get("related_manifest_ids")
-            if isinstance(related_manifest_ids, list) and mod.get("id") not in related_manifest_ids:
-                errors.append(
-                    _format_error(
-                        path,
-                        mod_ref,
-                        "source record related_manifest_ids does not link back to this manifest id",
-                    )
-                )
-
-            manifest_source = mod.get("source")
-            if isinstance(manifest_source, str) and not _is_placeholder(manifest_source):
-                if manifest_source != candidate.get("source_type"):
-                    errors.append(
-                        _format_error(
-                            path,
-                            mod_ref,
-                            f"manifest source {manifest_source!r} does not match canonical "
-                            f"source_type {candidate.get('source_type')!r}",
-                        )
-                    )
-            manifest_url = mod.get("url")
-            if isinstance(manifest_url, str) and not _is_placeholder(manifest_url):
-                if manifest_url != candidate.get("source_url"):
-                    errors.append(
-                        _format_error(
-                            path,
-                            mod_ref,
-                            "manifest url does not match canonical source_url",
-                        )
-                    )
-
-            status = mod.get("status")
-            if status in VERIFIED_MANIFEST_STATUSES:
-                # Verified manifest statuses must trace to a verified, consistent source candidate.
-                if candidate.get("source_confidence") != "verified":
-                    errors.append(
-                        _format_error(
-                            path,
-                            mod_ref,
-                            f"status {status!r} requires source_confidence 'verified'",
-                        )
-                    )
-                if status == "accepted":
-                    if candidate.get("candidate_status") != "promoted":
-                        errors.append(
-                            _format_error(
-                                path,
-                                mod_ref,
-                                "status 'accepted' requires source candidate_status 'promoted'",
-                            )
-                        )
-                    if candidate.get("promotion_target") not in {edition, "both"}:
-                        errors.append(
-                            _format_error(
-                                path,
-                                mod_ref,
-                                "status 'accepted' requires source promotion_target to include "
-                                f"edition {edition!r}",
-                            )
-                        )
-                    compatible_statuses = {
-                        "openmw": {"openmw-compatible", "both-compatible"},
-                        "mwse": {"mwse-compatible", "both-compatible"},
-                    }
-                    if candidate.get("compatibility_status") not in compatible_statuses[edition]:
-                        errors.append(
-                            _format_error(
-                                path,
-                                mod_ref,
-                                f"status 'accepted' lacks compatible evidence for edition {edition!r}",
-                            )
-                        )
+            errors.extend(
+                _validate_mod_against_source(mod, edition, path, candidate_by_id, source_path)
+            )
     return errors
 
 
