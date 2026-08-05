@@ -14,6 +14,34 @@ FIXTURE_CANDIDATES = [
 ]
 
 
+def test_parse_args_default() -> None:
+    import sys
+    from unittest.mock import patch
+
+    from lib.paths import ROOT
+
+    from tools.summarize_sourced_mods import _parse_args
+
+    with patch.object(sys, "argv", ["summarize_sourced_mods.py"]):
+        args = _parse_args()
+
+    assert args.file == ROOT / "shared" / "sourced-mods.control.meta"
+
+
+def test_parse_args_with_file() -> None:
+    import sys
+    from pathlib import Path
+    from unittest.mock import patch
+
+    from tools.summarize_sourced_mods import _parse_args
+
+    expected_path = Path("custom/path/file.meta")
+    with patch.object(sys, "argv", ["summarize_sourced_mods.py", "--file", str(expected_path)]):
+        args = _parse_args()
+
+    assert args.file == expected_path
+
+
 def test_generate_summary_output_structure() -> None:
     summary = generate_summary(FIXTURE_CANDIDATES)
 
