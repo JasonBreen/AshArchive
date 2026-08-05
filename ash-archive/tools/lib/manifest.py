@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import copy
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 import yaml
 
 
-@lru_cache(maxsize=None)
+@cache
 def _load_meta_document_cached(path: Path) -> dict:
     """Load and cache a YAML metadata document, enforcing a mapping root."""
     try:
