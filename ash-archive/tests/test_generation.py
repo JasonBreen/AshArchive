@@ -2,7 +2,13 @@ from pathlib import Path
 
 import pytest
 
-from tools.generate_modlist_markdown import END, START, expected_modlist, render_modlist_document, report_diff
+from tools.generate_modlist_markdown import (
+    END,
+    START,
+    expected_modlist,
+    render_modlist_document,
+    report_diff,
+)
 
 
 def test_render_modlist_document_is_idempotent() -> None:
