@@ -81,8 +81,12 @@ def _conflict_marker_issues(path: Path, repo_root: Path = REPO_ROOT) -> list[str
 
 
 def _find_conflict_markers() -> list[str]:
-    patterns = ("*.md", "*.txt", "*.py", "*.toml", "*.yaml", "*.yml", "*.control.meta")
-    paths = {path for pattern in patterns for path in REPO_ROOT.rglob(pattern)}
+    extensions = {".md", ".txt", ".py", ".toml", ".yaml", ".yml"}
+    paths = {
+        path
+        for path in REPO_ROOT.rglob("*")
+        if (path.suffix in extensions or path.name.endswith(".control.meta")) and path.is_file()
+    }
     license_path = REPO_ROOT / "LICENSE"
     if license_path.exists():
         paths.add(license_path)
