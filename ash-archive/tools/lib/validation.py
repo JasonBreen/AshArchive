@@ -377,6 +377,64 @@ def _validate_uniqueness(mods: list[dict], path: Path) -> list[str]:
     return errors
 
 
+def _validate_reference_list(
+    value: list[str],
+    field_name: str,
+    mod_id: str | None,
+    mod_ref: str,
+    path: Path,
+    known_ids: set[str],
+) -> list[str]:
+    errors: list[str] = []
+    if len(value) != len(set(value)):
+        errors.append(
+            _format_error(path, mod_ref, f"field '{field_name}' contains duplicate references")
+        )
+    for reference in value:
+        if not ID_RE.fullmatch(reference):
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"field '{field_name}' has malformed reference {reference!r}",
+                )
+            )
+        elif reference == mod_id:
+            errors.append(
+                _format_error(path, mod_ref, f"field '{field_name}' cannot reference itself")
+            )
+        elif reference not in known_ids:
+            errors.append(
+                _format_error(
+                    path,
+                    mod_ref,
+                    f"field '{field_name}' references nonexistent manifest id {reference!r}",
+                )
+            )
+    return errors
+
+
+def _validate_contradictory_references(
+    valid_lists: dict[str, list[str]],
+    field1: str,
+    field2: str,
+    mod_ref: str,
+    path: Path,
+) -> list[str]:
+    set1 = set(valid_lists.get(field1, []))
+    set2 = set(valid_lists.get(field2, []))
+    contradictory = sorted(set1 & set2)
+    if contradictory:
+        return [
+            _format_error(
+                path,
+                mod_ref,
+                f"same ids cannot appear in both {field1} and {field2}: {contradictory!r}",
+            )
+        ]
+    return []
+
+
 def _validate_references(mods: list[dict], path: Path) -> list[str]:
     errors: list[str] = []
     known_ids = {
@@ -393,58 +451,18 @@ def _validate_references(mods: list[dict], path: Path) -> list[str]:
             if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
                 continue
             valid_lists[field_name] = value
-            if len(value) != len(set(value)):
-                errors.append(
-                    _format_error(
-                        path, mod_ref, f"field '{field_name}' contains duplicate references"
-                    )
-                )
-            for reference in value:
-                if not ID_RE.fullmatch(reference):
-                    errors.append(
-                        _format_error(
-                            path,
-                            mod_ref,
-                            f"field '{field_name}' has malformed reference {reference!r}",
-                        )
-                    )
-                elif reference == mod_id:
-                    errors.append(
-                        _format_error(
-                            path, mod_ref, f"field '{field_name}' cannot reference itself"
-                        )
-                    )
-                elif reference not in known_ids:
-                    errors.append(
-                        _format_error(
-                            path,
-                            mod_ref,
-                            f"field '{field_name}' references nonexistent manifest id {reference!r}",
-                        )
-                    )
+            errors.extend(
+                _validate_reference_list(value, field_name, mod_id, mod_ref, path, known_ids)
+            )
 
-        requires = set(valid_lists.get("requires", []))
-        conflicts = set(valid_lists.get("conflicts", []))
-        contradictory = sorted(requires & conflicts)
-        if contradictory:
-            errors.append(
-                _format_error(
-                    path,
-                    mod_ref,
-                    f"same ids cannot appear in both requires and conflicts: {contradictory!r}",
-                )
+        errors.extend(
+            _validate_contradictory_references(valid_lists, "requires", "conflicts", mod_ref, path)
+        )
+        errors.extend(
+            _validate_contradictory_references(
+                valid_lists, "load_after", "load_before", mod_ref, path
             )
-        load_after = set(valid_lists.get("load_after", []))
-        load_before = set(valid_lists.get("load_before", []))
-        contradictory = sorted(load_after & load_before)
-        if contradictory:
-            errors.append(
-                _format_error(
-                    path,
-                    mod_ref,
-                    f"same ids cannot appear in both load_after and load_before: {contradictory!r}",
-                )
-            )
+        )
     return errors
 
 
