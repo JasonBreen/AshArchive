@@ -267,7 +267,7 @@ def lint_yaml() -> list[str]:
             continue
         text = path.read_text(encoding="utf-8")
         for problem in yaml_linter.run(text, config, filepath=_relative(path)):
-            issues.append(str(problem))
+            issues.append(f"{_relative(path)}:{problem}")
 
     return issues
 
