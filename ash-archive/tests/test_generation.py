@@ -2,7 +2,13 @@ from pathlib import Path
 
 import pytest
 
-from tools.generate_modlist_markdown import END, START, expected_modlist, render_modlist_document
+from tools.generate_modlist_markdown import (
+    END,
+    START,
+    expected_modlist,
+    render_modlist_document,
+    report_diff,
+)
 
 
 def test_render_modlist_document_is_idempotent() -> None:
@@ -36,3 +42,19 @@ def test_expected_modlist_does_not_write(tmp_path: Path) -> None:
     assert current == "# Modlist\n"
     assert expected != current
     assert path.read_text(encoding="utf-8") == current
+
+
+def test_report_diff(capsys: pytest.CaptureFixture[str], tmp_path: Path) -> None:
+    path = tmp_path / "MODLIST.md"
+    current = "# Modlist\n\nOld content\n"
+    expected = "# Modlist\n\nNew content\n"
+
+    report_diff(path, current, expected)
+
+    captured = capsys.readouterr()
+    stdout = captured.out
+
+    assert str(path) in stdout
+    assert f"{path} (generated)" in stdout
+    assert "-Old content\n" in stdout
+    assert "+New content\n" in stdout
