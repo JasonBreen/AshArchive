@@ -100,8 +100,7 @@ def _check_text_file(path: Path, repo_root: Path = REPO_ROOT) -> list[str]:
                 except RuntimeError:
                     # Handle cases like recursive symlinks if they ever appear
                     issues.append(
-                        f"{relative_path_str}:{line_number}: "
-                        f"link resolution failed for {target!r}"
+                        f"{relative_path_str}:{line_number}: link resolution failed for {target!r}"
                     )
                     continue
 
