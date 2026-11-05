@@ -470,7 +470,7 @@ def validate_manifest(path: Path, edition: str, mods: list[dict] | None = None) 
     return errors
 
 
-def _validate_mod_against_source(
+def _check_mod_against_source(
     mod: dict,
     edition: str,
     path: Path,
@@ -609,7 +609,7 @@ def _check_manifest_to_source(
             if not isinstance(mod, dict):
                 continue
             errors.extend(
-                _validate_mod_against_source(mod, edition, path, candidate_by_id, source_path)
+                _check_mod_against_source(mod, edition, path, candidate_by_id, source_path)
             )
     return errors
 

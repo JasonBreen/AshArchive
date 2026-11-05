@@ -1,6 +1,14 @@
 from pathlib import Path
 
-from tools.lint_repo import _conflict_marker_issues, _is_ignored_repo_path, _markdown_link_issues
+import pytest
+
+import tools.lint_repo
+from tools.lint_repo import (
+    _conflict_marker_issues,
+    _is_ignored_repo_path,
+    _markdown_link_issues,
+    lint_yaml,
+)
 
 
 def test_repo_scan_ignores_generated_and_test_artifact_directories() -> None:
@@ -60,3 +68,36 @@ def test_markdown_link_check_reports_out_of_bounds_link(tmp_path: Path) -> None:
     assert _markdown_link_issues(source, tmp_path) == [
         "source.md:1: link escapes repository bounds '../../../../../../../etc/passwd'"
     ]
+
+
+def test_lint_yaml_checks_yaml_files(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(tools.lint_repo, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(tools.lint_repo, "PROJECT_ROOT", tmp_path)
+
+    # Write yamllint config
+    (tmp_path / ".yamllint.yml").write_text(
+        "extends: default\nrules:\n  document-start: disable\n", encoding="utf-8"
+    )
+
+    # Write valid files
+    (tmp_path / "valid.yml").write_text("key: value\n", encoding="utf-8")
+
+    # Write invalid YAML file
+    (tmp_path / "invalid.yaml").write_text("key: value\n  bad: indentation\n", encoding="utf-8")
+
+    # Write invalid control meta file
+    (tmp_path / "invalid.control.meta").write_text(
+        "key: value\n  bad: indentation\n", encoding="utf-8"
+    )
+
+    # Write invalid ignored file
+    ignored_dir = tmp_path / "build"
+    ignored_dir.mkdir()
+    (ignored_dir / "ignored.yaml").write_text("key: value\n  bad: indentation\n", encoding="utf-8")
+
+    issues = lint_yaml()
+
+    assert set(issues) == {
+        "invalid.control.meta:2:6: syntax error: mapping values are not allowed here (syntax)",
+        "invalid.yaml:2:6: syntax error: mapping values are not allowed here (syntax)",
+    }
