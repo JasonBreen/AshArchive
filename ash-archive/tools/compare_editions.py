@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 from lib.manifest import load_mods
 from lib.paths import manifest_path
