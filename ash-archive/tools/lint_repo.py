@@ -256,9 +256,8 @@ def lint_yaml() -> list[str]:
     """Lint YAML, YML, and control-metadata files with the repository config."""
     config = YamlLintConfig((REPO_ROOT / ".yamllint.yml").read_text(encoding="utf-8"))
     yaml_paths = {
-        *REPO_ROOT.rglob("*.yaml"),
-        *REPO_ROOT.rglob("*.yml"),
         *PROJECT_ROOT.rglob("*.control.meta"),
+        *(p for p in REPO_ROOT.rglob("*.y*ml") if p.suffix in {".yaml", ".yml"}),
     }
     issues: list[str] = []
 
